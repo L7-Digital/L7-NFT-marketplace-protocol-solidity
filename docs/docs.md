@@ -170,6 +170,7 @@ event OrderCancelled          (bytes32 indexed hash);
 ```
 
 #### Example
+[4-cancel-order.js](examples/4-cancel-order.js)
 
 ### `atomicMatch_()`
 This function is called to match two orders. It is called when both the `MakerOrder` and `TakerOrder` are ready. Here, **B** denotes the `BuyOrder` while **S** denotes the `SellOrder`.
