@@ -74,7 +74,7 @@ contract ExchangeCore is ReentrancyGuarded, Ownable {
     /* Inverse basis point. */
     uint public constant INVERSE_BASIS_POINT = 10000;
 
-    /* An ECDSA signature. */ 
+    /* An ECDSA signature. */
     struct Sig {
         /* v parameter */
         uint8 v;
@@ -133,7 +133,7 @@ contract ExchangeCore is ReentrancyGuarded, Ownable {
         /* Order salt, used to prevent duplicate hashes. */
         uint salt;
     }
-    
+
     event OrderApprovedPartOne    (bytes32 indexed hash, address exchange, address indexed maker, address taker, uint makerRelayerFee, uint takerRelayerFee, uint makerProtocolFee, uint takerProtocolFee, address indexed feeRecipient, FeeMethod feeMethod, SaleKindInterface.Side side, SaleKindInterface.SaleKind saleKind, address target);
     event OrderApprovedPartTwo    (bytes32 indexed hash, AuthenticatedProxy.HowToCall howToCall, bytes callData, bytes replacementPattern, address staticTarget, bytes staticExtradata, address paymentToken, uint basePrice, uint extra, uint listingTime, uint expirationTime, uint salt, bool orderbookInclusionDesired);
     event OrderCancelled          (bytes32 indexed hash);
@@ -144,8 +144,8 @@ contract ExchangeCore is ReentrancyGuarded, Ownable {
      * @param newMinimumMakerProtocolFee New fee to set in basis points
      */
     function changeMinimumMakerProtocolFee(uint newMinimumMakerProtocolFee)
-        public
-        onlyOwner
+    public
+    onlyOwner
     {
         minimumMakerProtocolFee = newMinimumMakerProtocolFee;
     }
@@ -155,8 +155,8 @@ contract ExchangeCore is ReentrancyGuarded, Ownable {
      * @param newMinimumTakerProtocolFee New fee to set in basis points
      */
     function changeMinimumTakerProtocolFee(uint newMinimumTakerProtocolFee)
-        public
-        onlyOwner
+    public
+    onlyOwner
     {
         minimumTakerProtocolFee = newMinimumTakerProtocolFee;
     }
@@ -166,8 +166,8 @@ contract ExchangeCore is ReentrancyGuarded, Ownable {
      * @param newProtocolFeeRecipient New protocol fee recipient address
      */
     function changeProtocolFeeRecipient(address newProtocolFeeRecipient)
-        public
-        onlyOwner
+    public
+    onlyOwner
     {
         protocolFeeRecipient = newProtocolFeeRecipient;
     }
@@ -180,7 +180,7 @@ contract ExchangeCore is ReentrancyGuarded, Ownable {
      * @param amount Amount of protocol tokens to charge
      */
     function transferTokens(address token, address from, address to, uint amount)
-        internal
+    internal
     {
         if (amount > 0) {
             require(tokenTransferProxy.transferFrom(token, from, to, amount));
@@ -194,7 +194,7 @@ contract ExchangeCore is ReentrancyGuarded, Ownable {
      * @param amount Amount of protocol tokens to charge
      */
     function chargeProtocolFee(address from, address to, uint amount)
-        internal
+    internal
     {
         transferTokens(address(exchangeToken), from, to, amount);
     }
@@ -207,9 +207,9 @@ contract ExchangeCore is ReentrancyGuarded, Ownable {
      * @return result of the call (success or failure)
      */
     function staticCall(address target, bytes memory callData, bytes memory extradata)
-        public
-        view
-        returns (bool result)
+    public
+    view
+    returns (bool result)
     {
         bytes memory combined = new bytes(callData.length + extradata.length);
         uint index;
@@ -231,9 +231,9 @@ contract ExchangeCore is ReentrancyGuarded, Ownable {
      * @return Size in bytes
      */
     function sizeOf(Order memory order)
-        internal
-        pure
-        returns (uint)
+    internal
+    pure
+    returns (uint)
     {
         return ((0x14 * 7) + (0x20 * 9) + 4 + order.callData.length + order.replacementPattern.length + order.staticExtradata.length);
     }
@@ -244,9 +244,9 @@ contract ExchangeCore is ReentrancyGuarded, Ownable {
      * @return hash of order
      */
     function hashOrder(Order memory order)
-        internal
-        pure
-        returns (bytes32 hash)
+    internal
+    pure
+    returns (bytes32 hash)
     {
         /* Unfortunately abi.encodePacked doesn't work here, stack size constraints. */
         uint size = sizeOf(order);
@@ -290,14 +290,14 @@ contract ExchangeCore is ReentrancyGuarded, Ownable {
      * @return Hash of message prefix and order hash per Ethereum format
      */
     function hashToSign(Order memory order)
-        internal
-        pure
-        returns (bytes32)
+    internal
+    pure
+    returns (bytes32)
     {
         return keccak256(abi.encode(
-            "\x19Ethereum Signed Message:\n32", 
-            hashOrder(order)
-        ));
+                "\x19Ethereum Signed Message:\n32",
+                hashOrder(order)
+            ));
     }
 
     /**
@@ -306,12 +306,12 @@ contract ExchangeCore is ReentrancyGuarded, Ownable {
      * @param sig ECDSA signature
      */
     function requireValidOrder(Order memory order, Sig memory sig)
-        internal
-        view
-        returns (bytes32)
+    internal
+    view
+    returns (bytes32)
     {
         bytes32 hash = hashToSign(order);
-        require(validateOrder(hash, order, sig));
+        require(validateOrder(hash, order, sig), "HASH_NOT_VALID");
         return hash;
     }
 
@@ -320,9 +320,9 @@ contract ExchangeCore is ReentrancyGuarded, Ownable {
      * @param order Order to validate
      */
     function validateOrderParameters(Order memory order)
-        internal
-        view
-        returns (bool)
+    internal
+    view
+    returns (bool)
     {
         /* Order must be targeted at this protocol version (this Exchange contract). */
         if (order.exchange != address(this)) {
@@ -348,10 +348,10 @@ contract ExchangeCore is ReentrancyGuarded, Ownable {
      * @param order Order to validate
      * @param sig ECDSA signature
      */
-    function validateOrder(bytes32 hash, Order memory order, Sig memory sig) 
-        internal
-        view
-        returns (bool)
+    function validateOrder(bytes32 hash, Order memory order, Sig memory sig)
+    internal
+    view
+    returns (bool)
     {
         /* Not done in an if-conditional to prevent unnecessary ecrecover evaluation, which seems to happen even though it should short-circuit. */
 
@@ -364,7 +364,7 @@ contract ExchangeCore is ReentrancyGuarded, Ownable {
         if (cancelledOrFinalized[hash]) {
             return false;
         }
-        
+
         /* Order authentication. Order must be either:
         /* (a) previously approved */
         if (approvedOrders[hash]) {
@@ -385,7 +385,7 @@ contract ExchangeCore is ReentrancyGuarded, Ownable {
      * @param orderbookInclusionDesired Whether orderbook providers should include the order in their orderbooks
      */
     function approveOrder(Order memory order, bool orderbookInclusionDesired)
-        internal
+    internal
     {
         /* CHECKS */
 
@@ -399,15 +399,15 @@ contract ExchangeCore is ReentrancyGuarded, Ownable {
         require(!approvedOrders[hash]);
 
         /* EFFECTS */
-    
+
         /* Mark order as approved. */
         approvedOrders[hash] = true;
-  
+
         /* Log approval event. Must be split in two due to Solidity stack size limitations. */
         {
             emit OrderApprovedPartOne(hash, order.exchange, order.maker, order.taker, order.makerRelayerFee, order.takerRelayerFee, order.makerProtocolFee, order.takerProtocolFee, order.feeRecipient, order.feeMethod, order.side, order.saleKind, order.target);
         }
-        {   
+        {
             emit OrderApprovedPartTwo(hash, order.howToCall, order.callData, order.replacementPattern, order.staticTarget, order.staticExtradata, order.paymentToken, order.basePrice, order.extra, order.listingTime, order.expirationTime, order.salt, orderbookInclusionDesired);
         }
     }
@@ -417,8 +417,8 @@ contract ExchangeCore is ReentrancyGuarded, Ownable {
      * @param order Order to cancel
      * @param sig ECDSA signature
      */
-    function cancelOrder(Order memory order, Sig memory sig) 
-        internal
+    function cancelOrder(Order memory order, Sig memory sig)
+    internal
     {
         /* CHECKS */
 
@@ -426,10 +426,10 @@ contract ExchangeCore is ReentrancyGuarded, Ownable {
         bytes32 hash = requireValidOrder(order, sig);
 
         /* Assert sender is authorized to cancel order. */
-        require(msg.sender == order.maker);
-  
+        require(msg.sender == order.maker, "MAKE_NOT_VALID");
+
         /* EFFECTS */
-      
+
         /* Mark order as cancelled, preventing it from being matched. */
         cancelledOrFinalized[hash] = true;
 
@@ -443,9 +443,9 @@ contract ExchangeCore is ReentrancyGuarded, Ownable {
      * @return The current price of the order
      */
     function calculateCurrentPrice (Order memory order)
-        internal  
-        view
-        returns (uint)
+    internal
+    view
+    returns (uint)
     {
         return SaleKindInterface.calculateFinalPrice(order.side, order.saleKind, order.basePrice, order.extra, order.listingTime, order.expirationTime);
     }
@@ -457,9 +457,9 @@ contract ExchangeCore is ReentrancyGuarded, Ownable {
      * @return Match price
      */
     function calculateMatchPrice(Order memory buy, Order memory sell)
-        view
-        internal
-        returns (uint)
+    view
+    internal
+    returns (uint)
     {
         /* Calculate sell price. */
         uint sellPrice = SaleKindInterface.calculateFinalPrice(sell.side, sell.saleKind, sell.basePrice, sell.extra, sell.listingTime, sell.expirationTime);
@@ -469,7 +469,7 @@ contract ExchangeCore is ReentrancyGuarded, Ownable {
 
         /* Require price cross. */
         require(buyPrice >= sellPrice);
-        
+
         /* Maker/taker priority. */
         return sell.feeRecipient != address(0) ? sellPrice : buyPrice;
     }
@@ -480,8 +480,8 @@ contract ExchangeCore is ReentrancyGuarded, Ownable {
      * @param sell Sell-side order
      */
     function executeFundsTransfer(Order memory buy, Order memory sell)
-        internal
-        returns (uint)
+    internal
+    returns (uint)
     {
         /* Only payable in the special case of unwrapped Ether. */
         if (sell.paymentToken != address(0)) {
@@ -505,7 +505,7 @@ contract ExchangeCore is ReentrancyGuarded, Ownable {
         /* Determine maker/taker and charge fees accordingly. */
         if (sell.feeRecipient != address(0)) {
             /* Sell-side order is maker. */
-      
+
             /* Assert taker fee is less than or equal to maximum fee specified by buyer. */
             require(sell.takerRelayerFee <= buy.takerRelayerFee);
 
@@ -598,7 +598,7 @@ contract ExchangeCore is ReentrancyGuarded, Ownable {
             } else {
                 /* Charge maker fee to buyer. */
                 chargeProtocolFee(buy.maker, buy.feeRecipient, buy.makerRelayerFee);
-      
+
                 /* Charge taker fee to seller. */
                 chargeProtocolFee(sell.maker, buy.feeRecipient, buy.takerRelayerFee);
             }
@@ -627,30 +627,30 @@ contract ExchangeCore is ReentrancyGuarded, Ownable {
      * @return Whether or not the two orders can be matched
      */
     function ordersCanMatch(Order memory buy, Order memory sell)
-        internal
-        view
-        returns (bool)
+    internal
+    view
+    returns (bool)
     {
         return (
-            /* Must be opposite-side. */
-            (buy.side == SaleKindInterface.Side.Buy && sell.side == SaleKindInterface.Side.Sell) &&     
-            /* Must use same fee method. */
-            (buy.feeMethod == sell.feeMethod) &&
-            /* Must use same payment token. */
-            (buy.paymentToken == sell.paymentToken) &&
-            /* Must match maker/taker addresses. */
-            (sell.taker == address(0) || sell.taker == buy.maker) &&
-            (buy.taker == address(0) || buy.taker == sell.maker) &&
-            /* One must be maker and the other must be taker (no bool XOR in Solidity). */
-            ((sell.feeRecipient == address(0) && buy.feeRecipient != address(0)) || (sell.feeRecipient != address(0) && buy.feeRecipient == address(0))) &&
-            /* Must match target. */
-            (buy.target == sell.target) &&
-            /* Must match howToCall. */
-            (buy.howToCall == sell.howToCall) &&
-            /* Buy-side order must be settleable. */
-            SaleKindInterface.canSettleOrder(buy.listingTime, buy.expirationTime) &&
-            /* Sell-side order must be settleable. */
-            SaleKindInterface.canSettleOrder(sell.listingTime, sell.expirationTime)
+        /* Must be opposite-side. */
+        (buy.side == SaleKindInterface.Side.Buy && sell.side == SaleKindInterface.Side.Sell) &&
+        /* Must use same fee method. */
+        (buy.feeMethod == sell.feeMethod) &&
+        /* Must use same payment token. */
+        (buy.paymentToken == sell.paymentToken) &&
+        /* Must match maker/taker addresses. */
+        (sell.taker == address(0) || sell.taker == buy.maker) &&
+        (buy.taker == address(0) || buy.taker == sell.maker) &&
+        /* One must be maker and the other must be taker (no bool XOR in Solidity). */
+        ((sell.feeRecipient == address(0) && buy.feeRecipient != address(0)) || (sell.feeRecipient != address(0) && buy.feeRecipient == address(0))) &&
+        /* Must match target. */
+        (buy.target == sell.target) &&
+        /* Must match howToCall. */
+        (buy.howToCall == sell.howToCall) &&
+        /* Buy-side order must be settleable. */
+        SaleKindInterface.canSettleOrder(buy.listingTime, buy.expirationTime) &&
+        /* Sell-side order must be settleable. */
+        SaleKindInterface.canSettleOrder(sell.listingTime, sell.expirationTime)
         );
     }
 
@@ -662,15 +662,15 @@ contract ExchangeCore is ReentrancyGuarded, Ownable {
      * @param sellSig Sell-side order signature
      */
     function atomicMatch(Order memory buy, Sig memory buySig, Order memory sell, Sig memory sellSig, bytes32 metadata)
-        internal
-        reentrancyGuard
+    internal
+    reentrancyGuard
     {
         /* CHECKS */
-      
+
         /* Ensure buy order validity and calculate hash if necessary. */
         bytes32 buyHash;
         if (buy.maker == msg.sender) {
-            require(validateOrderParameters(buy));
+            require(validateOrderParameters(buy), "Buy order is invalid.");
         } else {
             buyHash = requireValidOrder(buy, buySig);
         }
@@ -678,13 +678,13 @@ contract ExchangeCore is ReentrancyGuarded, Ownable {
         /* Ensure sell order validity and calculate hash if necessary. */
         bytes32 sellHash;
         if (sell.maker == msg.sender) {
-            require(validateOrderParameters(sell));
+            require(validateOrderParameters(sell), "Sell order is invalid.");
         } else {
             sellHash = requireValidOrder(sell, sellSig);
         }
-        
+
         /* Must be matchable. */
-        require(ordersCanMatch(buy, sell));
+        require(ordersCanMatch(buy, sell), "Orders is not matchable.");
 
         /* Target must exist (prevent malicious selfdestructs just prior to order settlement). */
         uint size;
@@ -692,9 +692,9 @@ contract ExchangeCore is ReentrancyGuarded, Ownable {
         assembly {
             size := extcodesize(target)
         }
-        require(size > 0);
+        require(size > 0, "Target not exist");
 
-        /* Must match callData after replacement, if specified. */ 
+        /* Must match callData after replacement, if specified. */
         if (buy.replacementPattern.length > 0) {
             ArrayUtils.guardedArrayReplace(buy.callData, sell.callData, buy.replacementPattern);
         }
@@ -707,10 +707,10 @@ contract ExchangeCore is ReentrancyGuarded, Ownable {
         OwnableDelegateProxy delegateProxy = registry.proxies(sell.maker);
 
         /* Proxy must exist. */
-        require(delegateProxy != OwnableDelegateProxy(payable(address(uint160(0)))));
+        require(delegateProxy != OwnableDelegateProxy(payable(address(uint160(0)))), "Proxy not exist");
 
         /* Assert implementation. */
-        require(delegateProxy.implementation() == registry.delegateProxyImplementation());
+        require(delegateProxy.implementation() == registry.delegateProxyImplementation(), "Proxy is not implemented");
 
         /* Access the passthrough AuthenticatedProxy. */
         AuthenticatedProxy proxy = AuthenticatedProxy(payable(address(delegateProxy)));
@@ -731,18 +731,18 @@ contract ExchangeCore is ReentrancyGuarded, Ownable {
         uint price = executeFundsTransfer(buy, sell);
 
         /* Execute specified call through proxy. */
-        require(proxy.proxy(sell.target, sell.howToCall, sell.callData));
+        require(proxy.proxy(sell.target, sell.howToCall, sell.callData), "Cannot call through proxy");
 
         /* Static calls are intentionally done after the effectful call so they can check resulting state. */
 
         /* Handle buy-side static call if specified. */
         if (buy.staticTarget != address(0)) {
-            require(staticCall(buy.staticTarget, sell.callData, buy.staticExtradata));
+            require(staticCall(buy.staticTarget, sell.callData, buy.staticExtradata), "Cannot execute buy-side static call");
         }
 
         /* Handle sell-side static call if specified. */
         if (sell.staticTarget != address(0)) {
-            require(staticCall(sell.staticTarget, sell.callData, sell.staticExtradata));
+            require(staticCall(sell.staticTarget, sell.callData, sell.staticExtradata), "Cannot execute sell-side static call");
         }
 
         /* Log match event. */
