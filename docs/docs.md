@@ -210,6 +210,44 @@ event OrdersMatched           (bytes32 buyHash, bytes32 sellHash, address indexe
 #### Example
 
 ### Matching orders
+Two orders can match if they satisfy the conditions defined in the function `ordersCanMatch`.
+```solidity
+function ordersCanMatch(Order memory buy, Order memory sell)
+        internal
+        view
+        returns (bool)
+{
+    return (
+        /* Must be opposite-side. */
+        (buy.side == SaleKindInterface.Side.Buy && sell.side == SaleKindInterface.Side.Sell) &&     
+        /* Must use same fee method. */
+        (buy.feeMethod == sell.feeMethod) &&
+        /* Must use same payment token. */
+        (buy.paymentToken == sell.paymentToken) &&
+        /* Must match maker/taker addresses. */
+        (sell.taker == address(0) || sell.taker == buy.maker) &&
+        (buy.taker == address(0) || buy.taker == sell.maker) &&
+        /* One must be maker and the other must be taker (no bool XOR in Solidity). */
+        ((sell.feeRecipient == address(0) && buy.feeRecipient != address(0)) || (sell.feeRecipient != address(0) && buy.feeRecipient == address(0))) &&
+        /* Must match target. */
+        (buy.target == sell.target) &&
+        /* Must match howToCall. */
+        (buy.howToCall == sell.howToCall) &&
+        /* Buy-side order must be settleable. */
+        SaleKindInterface.canSettleOrder(buy.listingTime, buy.expirationTime) &&
+        /* Sell-side order must be settleable. */
+        SaleKindInterface.canSettleOrder(sell.listingTime, sell.expirationTime)
+    );
+}
+```
+* They are on different sides (one Buy, one Sell).
+* They use the same `feeMethod`.
+* They use the same `paymentToken`.
+* One must be the `Maker`, the other must be the `Taker`.
+* They use the same `target`.
+* They use the same `howToCall`.
+* They are both not expired.
+
 Orders can be matched in two different ways.
 #### Pre-signed order 
 In this method, the `Maker` creates his order, signs and sends this order to an `OrderBookKeeper` (or `Keeper` for short) off-chain. This method is completely free. The steps are as follows.
