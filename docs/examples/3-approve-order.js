@@ -3,7 +3,7 @@ const provider = new Web3.providers.HttpProvider('https://data-seed-prebsc-1-s1.
 const web3 = new Web3(provider)
 
 const walletAddress = require('./config.json').walletAddress
-const {makeOrder} = require('./utils')
+const {makeOrder} = require('./utils/order')
 
 const fs = require('fs');
 

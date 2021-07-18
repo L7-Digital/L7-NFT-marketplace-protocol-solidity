@@ -11,6 +11,8 @@ web3.eth.accounts.wallet.add({
     address: walletAddress
 });
 
+const {getProxies} = require("./utils/proxy")
+
 const TaureumProxyRegistryABI = require('../../abi/TaureumProxyRegistry.json').abi
 const TaureumProxyRegistryAddress = require('../../config.json').deployed.testnet.TaureumProxyRegistry
 
@@ -25,6 +27,12 @@ var TaureumProxyRegistry = new web3.eth.Contract(TaureumProxyRegistryABI, Taureu
  */
 (async () => {
     try {
+        let proxyAddress = await getProxies(walletAddress)
+        if (proxyAddress !== '0x0000000000000000000000000000000000000000') {
+            console.log("proxy has been registered at", proxyAddress)
+            return
+        }
+
         const gasEstimate = await TaureumProxyRegistry.methods.registerProxy().estimateGas({ from: walletAddress });
         console.log(`estimatedGas: ${gasEstimate}`)
 

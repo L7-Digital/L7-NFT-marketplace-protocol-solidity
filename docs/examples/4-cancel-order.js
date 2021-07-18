@@ -4,7 +4,7 @@ const web3 = new Web3(provider)
 const BN = require("bignumber.js");
 
 const walletAddress = require('./config.json').walletAddress
-const {makeOrder, hashToSign} = require('./utils')
+const {makeOrder, hashToSign, hashOrder} = require('./utils/order')
 
 const fs = require('fs');
 
@@ -24,7 +24,7 @@ let TaureumExchange = new web3.eth.Contract(exchangeABI, exchangeAddress);
 /**
  * This function will have the Exchange approve an Order created by the `walletAddress`. The `msg.sender` must be the order creator.
  *
- * The following example actually invoke method `approveOrder_()` in the `TaureumExchange` contract.
+ * The following example actually invoke method `cancelOrder_()` in the `TaureumExchange` contract.
  */
 (async () => {
     try {
@@ -38,9 +38,9 @@ let TaureumExchange = new web3.eth.Contract(exchangeABI, exchangeAddress);
 
         const r = '0x' + sig.slice(2, 66)
         const s = '0x' + sig.slice(66, 130)
-        const v = parseInt('0x' + sig.slice(130, 132), 16)
+        const v = 27 + parseInt('0x' + sig.slice(130, 132), 16)
 
-        TaureumExchange.methods.hashOrder_(
+        await TaureumExchange.methods.hashToSign_(
             [order.exchange, order.maker, order.taker, order.feeRecipient, order.target, order.staticTarget, order.paymentToken],
             [order.makerRelayerFee, order.takerRelayerFee, order.makerProtocolFee, order.takerProtocolFee, order.basePrice, order.extra, order.listingTime, order.expirationTime, order.salt],
             order.feeMethod,
@@ -50,29 +50,40 @@ let TaureumExchange = new web3.eth.Contract(exchangeABI, exchangeAddress);
             order.calldata,
             order.replacementPattern,
             order.staticExtradata,
-        ).send({
+        ).call({
             from: walletAddress,
-            gas: 1000000,
-        }).on('receipt', function(receipt){
-            console.log(`Cancel order receipt`, receipt);
-        }).on('error', function(error, receipt) { // If the transaction was rejected by the network with a receipt, the second parameter will be the receipt.
-            console.log("error", error, receipt)
-        });
+            gas: 50000,
+        }).then(console.log)
 
-        // const gasEstimate = await TaureumExchange.methods.cancelOrder_(
-        //     [order.exchange, order.maker, order.taker, order.feeRecipient, order.target, order.staticTarget, order.paymentToken],
-        //     [order.makerRelayerFee, order.takerRelayerFee, order.makerProtocolFee, order.takerProtocolFee, order.basePrice, order.extra, order.listingTime, order.expirationTime, order.salt],
-        //     order.feeMethod,
-        //     order.side,
-        //     order.saleKind,
-        //     order.howToCall,
-        //     order.calldata,
-        //     order.replacementPattern,
-        //     order.staticExtradata,
-        //     v, r, s
-        // ).estimateGas({ from: walletAddress });
-        //
-        // console.log(`estimatedGas: ${gasEstimate}`)
+        await TaureumExchange.methods.hashOrder_(
+            [order.exchange, order.maker, order.taker, order.feeRecipient, order.target, order.staticTarget, order.paymentToken],
+            [order.makerRelayerFee, order.takerRelayerFee, order.makerProtocolFee, order.takerProtocolFee, order.basePrice, order.extra, order.listingTime, order.expirationTime, order.salt],
+            order.feeMethod,
+            order.side,
+            order.saleKind,
+            order.howToCall,
+            order.calldata,
+            order.replacementPattern,
+            order.staticExtradata,
+        ).call({
+            from: walletAddress,
+            gas: 50000,
+        }).then(console.log)
+
+        const gasEstimate = await TaureumExchange.methods.cancelOrder_(
+            [order.exchange, order.maker, order.taker, order.feeRecipient, order.target, order.staticTarget, order.paymentToken],
+            [order.makerRelayerFee, order.takerRelayerFee, order.makerProtocolFee, order.takerProtocolFee, order.basePrice, order.extra, order.listingTime, order.expirationTime, order.salt],
+            order.feeMethod,
+            order.side,
+            order.saleKind,
+            order.howToCall,
+            order.calldata,
+            order.replacementPattern,
+            order.staticExtradata,
+            v, r, s
+        ).estimateGas({ from: walletAddress });
+
+        console.log(`estimatedGas: ${gasEstimate}`)
 
         TaureumExchange.methods.cancelOrder_(
             [order.exchange, order.maker, order.taker, order.feeRecipient, order.target, order.staticTarget, order.paymentToken],
@@ -87,7 +98,7 @@ let TaureumExchange = new web3.eth.Contract(exchangeABI, exchangeAddress);
             v, r, s
         ).send({
             from: walletAddress,
-            gas: 100000,
+            gas: gasEstimate,
         }).on('receipt', function(receipt){
             console.log(`Cancel order receipt`, receipt);
         }).on('error', function(error, receipt) { // If the transaction was rejected by the network with a receipt, the second parameter will be the receipt.

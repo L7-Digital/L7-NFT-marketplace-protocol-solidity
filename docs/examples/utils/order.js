@@ -24,7 +24,7 @@ const makeOrder = (exchange, maker, taker, feeRecipient, target) => ({
     staticTarget: '0x0000000000000000000000000000000000000000',
     staticExtradata: '0x',
     paymentToken: '0x0000000000000000000000000000000000000000',
-    basePrice: 0,
+    basePrice: 1000,
     extra: 0,
     listingTime: 0,
     expirationTime: 0,
@@ -85,10 +85,27 @@ const hashToSign = (order) => {
         {type: 'uint', value: new BigNumber(order.expirationTime)},
         {type: 'uint', value: order.salt}
     ).toString('hex')
+    console.log("packed", packed)
     return web3.utils.soliditySha3(
         {type: 'string', value: '\x19Ethereum Signed Message:\n32'},
         {type: 'bytes32', value: packed}
     ).toString('hex')
 }
 
-module.exports = {makeOrder, hashOrder, hashToSign}
+const signOrder = async (order, walletAddress) => {
+    let orderHash = hashOrder(order);
+    return web3.eth.sign(orderHash, walletAddress).then(signature => {
+        signature = signature.substr(2)
+        const r = '0x' + signature.slice(0, 64)
+        const s = '0x' + signature.slice(64, 128)
+        const v = 27 + parseInt('0x' + signature.slice(128, 130), 16)
+
+        return {
+            r: r,
+            s: s,
+            v: v
+        }
+    });
+}
+
+module.exports = {makeOrder, hashOrder, hashToSign, signOrder}

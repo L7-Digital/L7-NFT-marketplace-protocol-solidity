@@ -3,8 +3,8 @@ const provider = new Web3.providers.HttpProvider('https://data-seed-prebsc-1-s1.
 const web3 = new Web3(provider)
 
 const walletAddress = require('./config.json').walletAddress
-const {makeOrder, hashOrder} = require('./utils')
-const {mintNFT, setApprovalForAll} = require('./nft_utils')
+const {makeOrder, hashOrder} = require('./utils/order')
+const {mintNFT, setApprovalForAll} = require('./utils/nft')
 
 const fs = require('fs');
 
@@ -67,7 +67,7 @@ const signOrder = async (order) => {
                 type: 'uint256',
                 name: 'tokenId'
             }]
-        }, [walletAddress, walletAddress, id])
+        }, [walletAddress, '0x0000000000000000000000000000000000000000', id])
         console.log("callData", callData)
 
         /**
@@ -103,8 +103,8 @@ const signOrder = async (order) => {
             sell.staticExtradata,
             [buy.sig.v, sell.sig.v],
             [buy.sig.r, buy.sig.s, sell.sig.r, sell.sig.s, '0x0000000000000000000000000000000000000000000000000000000000000000']
-        ).estimateGas({ from: walletAddress });
-        console.log(`estimatedGas: ${gasEstimate}`)
+        ).estimateGas({ from: walletAddress, value: sell.basePrice });
+        console.log(`estimatedGas for orderMatch: ${gasEstimate}`)
 
         await exchange.methods.atomicMatch_(
             [buy.exchange, buy.maker, buy.taker, buy.feeRecipient, buy.target, buy.staticTarget, buy.paymentToken, sell.exchange, sell.maker, sell.taker, sell.feeRecipient, sell.target, sell.staticTarget, sell.paymentToken],
@@ -120,7 +120,8 @@ const signOrder = async (order) => {
             [buy.sig.r, buy.sig.s, sell.sig.r, sell.sig.s, '0x0000000000000000000000000000000000000000000000000000000000000000']
         ).send({
             from: walletAddress,
-            gas: gasEstimate
+            gas: gasEstimate,
+            value: sell.basePrice
         }).on('receipt', function(receipt){
             console.log("Orders have been atomic matched!", receipt);
         })

@@ -4,11 +4,11 @@ const web3 = new Web3(provider)
 
 const crypto = require('crypto')
 
-const nftABI = require('./abi/TaureumNFT.json').abi
+const nftABI = require('../abi/TaureumNFT.json').abi
 const nftContractAddress = "0xCa007BcC979B8Ca76D9CF327287e7ad3F269DA6B"
 const nftContract = new web3.eth.Contract(nftABI, nftContractAddress);
 
-const walletAddress = require('./config.json').walletAddress
+const walletAddress = require('../config.json').walletAddress
 const fs = require('fs');
 const privateKey = fs.readFileSync("../../.secret").toString().trim(); // read the secret key of the account.
 web3.eth.accounts.wallet.add({
