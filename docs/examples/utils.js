@@ -1,7 +1,9 @@
 const Web3 = require('web3')
+const crypto = require('crypto')
+const ethers = require('ethers')
+const BigNumber = require('bignumber.js')
 const provider = new Web3.providers.HttpProvider('http://localhost:7545')
 const web3 = new Web3(provider)
-const BigNumber = require('bignumber.js')
 
 const makeOrder = (exchange, maker, taker, feeRecipient, target) => ({
     exchange: exchange,
@@ -26,7 +28,7 @@ const makeOrder = (exchange, maker, taker, feeRecipient, target) => ({
     extra: 0,
     listingTime: 0,
     expirationTime: 0,
-    salt: 0
+    salt: crypto.randomInt(0, 2000000)
 })
 
 const hashOrder = (order) => {

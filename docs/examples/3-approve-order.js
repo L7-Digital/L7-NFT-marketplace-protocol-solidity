@@ -27,7 +27,8 @@ let TaureumExchange = new web3.eth.Contract(exchangeABI, exchangeAddress);
  */
 (async () => {
     try {
-        let order = makeOrder(exchangeAddress, walletAddress, '0x0000000000000000000000000000000000000000', '0x0000000000000000000000000000000000000000', proxyAddress)
+        let target = "0xCa007BcC979B8Ca76D9CF327287e7ad3F269DA6B"
+        let order = makeOrder(exchangeAddress, walletAddress, '0x0000000000000000000000000000000000000001', '0x0000000000000000000000000000000000000000', target)
 
         const gasEstimate = await TaureumExchange.methods.approveOrder_(
             [order.exchange, order.maker, order.taker, order.feeRecipient, order.target, order.staticTarget, order.paymentToken],

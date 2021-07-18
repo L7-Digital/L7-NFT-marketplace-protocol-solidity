@@ -1,10 +1,10 @@
 # Contracts
 ```json
 "testnet": {
-    "Migrations": "0x1e1f73B7155E09f2daF1f56Ede16fcFB3808DE84",
-    "TaureumProxyRegistry": "0x69B160cb0f853937954d2461DD14958083D744A6",
-    "TaureumTokenTransferProxy": "0xE92b8a6cA716EF80d0C2DAeD5a953E7031FA82a4",
-    "TaureumExchange": "0x9Bb5798e6D5c62C95a67f5587358c43131AD2681"
+    "Migrations": "0x5F73Cd39C11a896E99004EF3147007A636f97b89",
+    "TaureumProxyRegistry": "0xCBd59238a2B3A762a934015c4e74A4DaF68664C5",
+    "TaureumTokenTransferProxy": "0x83C52C50710297CDD4D9b30b794B040F2Ee810b3",
+    "TaureumExchange": "0x9fDcC300De20389F2d1d8a9Ec27431D467f089e1"
 }
 ```
 
@@ -98,10 +98,8 @@ expirationTime | uint256 | The order expiration time, after which the order cann
 salt | uint256 | Order salt for hash deduplication.
 
 ### Constructing an order
-* Prepare necessary information: exchange, fee, listing time, expired time, salt, etc,. 
-* Prepare the callData.
-  * Method selector: the first four bytes of the callData represents the function signature of the destination.
-  * Parameters. The rest of the callData is the concatenation of all parameters.
+* Prepare necessary information: exchange, fee, listing time, expired time, salt, etc. 
+* Prepare the callData: at this step, we prepare the callData for the proxy call. The callData should follow the layout defined in this [post](https://docs.soliditylang.org/en/v0.6.7/internals/layout_in_calldata.html).
 * Create the replacement pattern for the callData. Since an order might be signed off-chain with some default values set (because at the time of signing the order, these values have not been determined, e.g, taker). We need a method to replace the default value with meaningful values (e.g, the real taker address).  This is where the rplmPattern comes as a rescue. The rplmPattern allows us to replace some values of the callData with another data at the location specified by the rplmPattern. If the byte value at position i of rplmPattern is non-zero, the value at position of the callData should be replaced. Otherwise, it should not be replaced. In case no value of the callData is allowed to replace, rplmPattern should be left empty.
 
 ### Example
@@ -208,6 +206,7 @@ event OrdersMatched           (bytes32 buyHash, bytes32 sellHash, address indexe
 ```
 
 #### Example
+[5-atomic-match.js](examples/5-atomic-match.js)
 
 ### Matching orders
 Two orders can match if they satisfy the conditions defined in the function `ordersCanMatch`.

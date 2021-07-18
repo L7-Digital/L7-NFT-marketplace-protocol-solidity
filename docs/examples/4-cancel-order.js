@@ -28,16 +28,19 @@ let TaureumExchange = new web3.eth.Contract(exchangeABI, exchangeAddress);
  */
 (async () => {
     try {
-        let order = makeOrder(exchangeAddress, walletAddress, '0x0000000000000000000000000000000000000000', '0x0000000000000000000000000000000000000000', proxyAddress)
+        let target = "0xCa007BcC979B8Ca76D9CF327287e7ad3F269DA6B"
+        let order = makeOrder(exchangeAddress, walletAddress, '0x0000000000000000000000000000000000000000', '0x0000000000000000000000000000000000000000', target)
         let hashedOrder = hashToSign(order)
         let sig = await web3.eth.sign(hashedOrder, walletAddress)
 
+        console.log(`order`, order)
+        console.log(`hash ${hashedOrder}, signature ${sig}`)
+
         const r = '0x' + sig.slice(2, 66)
         const s = '0x' + sig.slice(66, 130)
-        const v = 27 + parseInt('0x' + sig.slice(130, 132), 16)
-        console.log(r,s,v)
+        const v = parseInt('0x' + sig.slice(130, 132), 16)
 
-        const gasEstimate = await TaureumExchange.methods.cancelOrder_(
+        TaureumExchange.methods.hashOrder_(
             [order.exchange, order.maker, order.taker, order.feeRecipient, order.target, order.staticTarget, order.paymentToken],
             [order.makerRelayerFee, order.takerRelayerFee, order.makerProtocolFee, order.takerProtocolFee, order.basePrice, order.extra, order.listingTime, order.expirationTime, order.salt],
             order.feeMethod,
@@ -47,10 +50,29 @@ let TaureumExchange = new web3.eth.Contract(exchangeABI, exchangeAddress);
             order.calldata,
             order.replacementPattern,
             order.staticExtradata,
-            v, r, s
-        ).estimateGas({ from: walletAddress });
+        ).send({
+            from: walletAddress,
+            gas: 1000000,
+        }).on('receipt', function(receipt){
+            console.log(`Cancel order receipt`, receipt);
+        }).on('error', function(error, receipt) { // If the transaction was rejected by the network with a receipt, the second parameter will be the receipt.
+            console.log("error", error, receipt)
+        });
 
-        console.log(`estimatedGas: ${gasEstimate}`)
+        // const gasEstimate = await TaureumExchange.methods.cancelOrder_(
+        //     [order.exchange, order.maker, order.taker, order.feeRecipient, order.target, order.staticTarget, order.paymentToken],
+        //     [order.makerRelayerFee, order.takerRelayerFee, order.makerProtocolFee, order.takerProtocolFee, order.basePrice, order.extra, order.listingTime, order.expirationTime, order.salt],
+        //     order.feeMethod,
+        //     order.side,
+        //     order.saleKind,
+        //     order.howToCall,
+        //     order.calldata,
+        //     order.replacementPattern,
+        //     order.staticExtradata,
+        //     v, r, s
+        // ).estimateGas({ from: walletAddress });
+        //
+        // console.log(`estimatedGas: ${gasEstimate}`)
 
         TaureumExchange.methods.cancelOrder_(
             [order.exchange, order.maker, order.taker, order.feeRecipient, order.target, order.staticTarget, order.paymentToken],
@@ -65,7 +87,7 @@ let TaureumExchange = new web3.eth.Contract(exchangeABI, exchangeAddress);
             v, r, s
         ).send({
             from: walletAddress,
-            gas: gasEstimate
+            gas: 100000,
         }).on('receipt', function(receipt){
             console.log(`Cancel order receipt`, receipt);
         }).on('error', function(error, receipt) { // If the transaction was rejected by the network with a receipt, the second parameter will be the receipt.
