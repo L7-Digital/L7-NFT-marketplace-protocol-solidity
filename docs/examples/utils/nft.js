@@ -5,29 +5,24 @@ const web3 = new Web3(provider)
 const crypto = require('crypto')
 
 const nftABI = require('../abi/TaureumNFT.json').abi
-const nftContractAddress = "0xCa007BcC979B8Ca76D9CF327287e7ad3F269DA6B"
+const nftContractAddress = "0xC4F7f1D1fa837Ba541be490CD4A13467Cc494E01"
 const nftContract = new web3.eth.Contract(nftABI, nftContractAddress);
 
-const walletAddress = require('../config.json').walletAddress
-const fs = require('fs');
-const privateKey = fs.readFileSync("../../.secret").toString().trim(); // read the secret key of the account.
-web3.eth.accounts.wallet.add({
-    privateKey: privateKey,
-    address: walletAddress
-});
+const {walletAddress, loadKeys} = require("./utils")
+
+// load testing keys
+loadKeys(web3)
 
 const mintNFT = async(address) => {
     uri = crypto.randomBytes(20).toString('hex');
     gasEstimate = await nftContract.methods.mint(
         address, uri, 1, 1000000000
-    ).estimateGas({ from: walletAddress });
-
-    console.log(`estimatedGas: ${gasEstimate}`)
+    ).estimateGas({ from: address });
 
     let res = await nftContract.methods.mint(
         address, uri, 1, 1000000000
     ).send({
-        from: walletAddress,
+        from: address,
         gas: gasEstimate
     })
 
@@ -36,32 +31,32 @@ const mintNFT = async(address) => {
 
 const transferNFT = async(from, to, tokenId) => {
     gasEstimate = await nftContract.methods.transferFrom(
-        walletAddress, to, tokenId
-    ).estimateGas({ from: walletAddress });
+        from, to, tokenId
+    ).estimateGas({ from: from });
 
     console.log(`estimatedGas: ${gasEstimate}`)
 
     await nftContract.methods.transferFrom(
-        walletAddress, to, tokenId
+        from, to, tokenId
     ).send({
-        from: walletAddress,
+        from: from,
         gas: gasEstimate
     }).on('receipt', function(receipt){
         console.log("Orders have been atomic matched!");
     })
 }
 
-const setApprovalForAll = async(to, isApproved) => {
+const setApprovalForAll = async(owner, to, isApproved) => {
     let gasEstimate = await nftContract.methods.setApprovalForAll(
         to, isApproved
-    ).estimateGas({ from: walletAddress });
+    ).estimateGas({ from: owner });
 
     console.log(`estimatedGas: ${gasEstimate}`)
 
     await nftContract.methods.setApprovalForAll(
         to, isApproved
     ).send({
-        from: walletAddress,
+        from: owner,
         gas: gasEstimate
     }).on('receipt', function(receipt){
         console.log("Receipt", receipt);

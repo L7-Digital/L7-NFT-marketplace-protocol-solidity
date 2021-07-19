@@ -34,7 +34,7 @@ var TaureumProxyRegistry = new web3.eth.Contract(TaureumProxyRegistryABI, Taureu
         }
 
         const gasEstimate = await TaureumProxyRegistry.methods.registerProxy().estimateGas({ from: walletAddress });
-        console.log(`estimatedGas: ${gasEstimate}`)
+        console.log(`estimatedGas for registerProxy: ${gasEstimate}`)
 
         TaureumProxyRegistry.methods.registerProxy()
             .send({

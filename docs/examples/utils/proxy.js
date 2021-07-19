@@ -16,12 +16,15 @@ const TaureumProxyRegistryAddress = require('../../../config.json').deployed.tes
 
 var TaureumProxyRegistry = new web3.eth.Contract(TaureumProxyRegistryABI, TaureumProxyRegistryAddress);
 
+const TaureumTokenProxyABI = require('../../../abi/TaureumTokenTransferProxy.json').abi
+const TaureumTokenProxyAddress = require('../../../config.json').deployed.testnet.TaureumTokenTransferProxy
+
+var TaureumTokenProxy = new web3.eth.Contract(TaureumTokenProxyABI, TaureumTokenProxyAddress);
+
 const getProxies = async(address) => {
     let gasEstimate = await TaureumProxyRegistry.methods.proxies(
         address
     ).estimateGas({ from: walletAddress });
-
-    console.log(`estimatedGas for proxies: ${gasEstimate}`)
 
     let res = await TaureumProxyRegistry.methods.proxies(
         address

@@ -1,25 +1,16 @@
 const Web3 = require('web3')
 const provider = new Web3.providers.HttpProvider('https://data-seed-prebsc-1-s1.binance.org:8545')
 const web3 = new Web3(provider)
-const BN = require("bignumber.js");
 
-const walletAddress = require('./config.json').walletAddress
-const {makeOrder, hashToSign, hashOrder} = require('./utils/order')
+const {makeOrder, signOrder} = require('./utils/order')
+const {sellerPrivateKey, sellerWalletAddress, loadKeys} = require('./utils/utils')
+loadKeys(web3)
 
-const fs = require('fs');
-
-const privateKey = fs.readFileSync("../../.secret").toString().trim(); // read the secret key of the account.
-web3.eth.accounts.wallet.add({
-    privateKey: privateKey,
-    address: walletAddress
-});
 
 const exchangeABI = require('../../abi/TaureumExchange.json').abi
 const exchangeAddress = require('../../config.json').deployed.testnet.TaureumExchange
-const proxyAddress = require('../../config.json').deployed.testnet.TaureumProxyRegistry
 
 let TaureumExchange = new web3.eth.Contract(exchangeABI, exchangeAddress);
-
 
 /**
  * This function will have the Exchange approve an Order created by the `walletAddress`. The `msg.sender` must be the order creator.
@@ -29,46 +20,9 @@ let TaureumExchange = new web3.eth.Contract(exchangeABI, exchangeAddress);
 (async () => {
     try {
         let target = "0xCa007BcC979B8Ca76D9CF327287e7ad3F269DA6B"
-        let order = makeOrder(exchangeAddress, walletAddress, '0x0000000000000000000000000000000000000000', '0x0000000000000000000000000000000000000000', target)
-        let hashedOrder = hashToSign(order)
-        let sig = await web3.eth.sign(hashedOrder, walletAddress)
-
-        console.log(`order`, order)
-        console.log(`hash ${hashedOrder}, signature ${sig}`)
-
-        const r = '0x' + sig.slice(2, 66)
-        const s = '0x' + sig.slice(66, 130)
-        const v = 27 + parseInt('0x' + sig.slice(130, 132), 16)
-
-        await TaureumExchange.methods.hashToSign_(
-            [order.exchange, order.maker, order.taker, order.feeRecipient, order.target, order.staticTarget, order.paymentToken],
-            [order.makerRelayerFee, order.takerRelayerFee, order.makerProtocolFee, order.takerProtocolFee, order.basePrice, order.extra, order.listingTime, order.expirationTime, order.salt],
-            order.feeMethod,
-            order.side,
-            order.saleKind,
-            order.howToCall,
-            order.calldata,
-            order.replacementPattern,
-            order.staticExtradata,
-        ).call({
-            from: walletAddress,
-            gas: 50000,
-        }).then(console.log)
-
-        await TaureumExchange.methods.hashOrder_(
-            [order.exchange, order.maker, order.taker, order.feeRecipient, order.target, order.staticTarget, order.paymentToken],
-            [order.makerRelayerFee, order.takerRelayerFee, order.makerProtocolFee, order.takerProtocolFee, order.basePrice, order.extra, order.listingTime, order.expirationTime, order.salt],
-            order.feeMethod,
-            order.side,
-            order.saleKind,
-            order.howToCall,
-            order.calldata,
-            order.replacementPattern,
-            order.staticExtradata,
-        ).call({
-            from: walletAddress,
-            gas: 50000,
-        }).then(console.log)
+        let order = makeOrder(exchangeAddress, sellerWalletAddress, '0x0000000000000000000000000000000000000000', '0x0000000000000000000000000000000000000000', target)
+        let sig = await signOrder(order, sellerPrivateKey)
+        console.log("signer", await web3.eth.accounts.recover(sig))
 
         const gasEstimate = await TaureumExchange.methods.cancelOrder_(
             [order.exchange, order.maker, order.taker, order.feeRecipient, order.target, order.staticTarget, order.paymentToken],
@@ -80,8 +34,8 @@ let TaureumExchange = new web3.eth.Contract(exchangeABI, exchangeAddress);
             order.calldata,
             order.replacementPattern,
             order.staticExtradata,
-            v, r, s
-        ).estimateGas({ from: walletAddress });
+            sig.v, sig.r, sig.s
+        ).estimateGas({ from: sellerWalletAddress });
 
         console.log(`estimatedGas: ${gasEstimate}`)
 
@@ -95,9 +49,9 @@ let TaureumExchange = new web3.eth.Contract(exchangeABI, exchangeAddress);
             order.calldata,
             order.replacementPattern,
             order.staticExtradata,
-            v, r, s
+            sig.v, sig.r, sig.s
         ).send({
-            from: walletAddress,
+            from: sellerWalletAddress,
             gas: gasEstimate,
         }).on('receipt', function(receipt){
             console.log(`Cancel order receipt`, receipt);
