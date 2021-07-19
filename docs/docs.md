@@ -1,10 +1,10 @@
 # Contracts
 ```json
 "testnet": {
-    "Migrations": "0x5F73Cd39C11a896E99004EF3147007A636f97b89",
-    "TaureumProxyRegistry": "0xCBd59238a2B3A762a934015c4e74A4DaF68664C5",
-    "TaureumTokenTransferProxy": "0x83C52C50710297CDD4D9b30b794B040F2Ee810b3",
-    "TaureumExchange": "0x9fDcC300De20389F2d1d8a9Ec27431D467f089e1"
+    "Migrations": "0xeC825FF6EA348a1CE58CC02Da29C196584A39258",
+    "TaureumProxyRegistry": "0xAaF7595B77c0de6511fd3EAD537E9034830ea4Cf",
+    "TaureumTokenTransferProxy": "0xaa5C6B9ddF867f4e5e4bf4402a4369f94f071805",
+    "TaureumExchange": "0xF4Cad33054f83D6f05FF1aDbA789864dF8b3FEc2"
 }
 ```
 
