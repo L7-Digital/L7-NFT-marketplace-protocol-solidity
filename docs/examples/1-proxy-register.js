@@ -2,14 +2,7 @@ const Web3 = require('web3')
 const provider = new Web3.providers.HttpProvider('https://data-seed-prebsc-1-s1.binance.org:8545')
 const web3 = new Web3(provider)
 
-const walletAddress = require('./config.json').walletAddress
-
-const fs = require('fs');
-const privateKey = fs.readFileSync("../../.secret").toString().trim(); // read the secret key of the account.
-web3.eth.accounts.wallet.add({
-    privateKey: privateKey,
-    address: walletAddress
-});
+const {sellerWalletAddress} = require("./utils/utils")
 
 const {getProxies} = require("./utils/proxy")
 
@@ -27,21 +20,21 @@ var TaureumProxyRegistry = new web3.eth.Contract(TaureumProxyRegistryABI, Taureu
  */
 (async () => {
     try {
-        let proxyAddress = await getProxies(walletAddress)
+        let proxyAddress = await getProxies(sellerWalletAddress)
         if (proxyAddress !== '0x0000000000000000000000000000000000000000') {
             console.log("proxy has been registered at", proxyAddress)
             return
         }
 
-        const gasEstimate = await TaureumProxyRegistry.methods.registerProxy().estimateGas({ from: walletAddress });
+        const gasEstimate = await TaureumProxyRegistry.methods.registerProxy().estimateGas({ from: sellerWalletAddress });
         console.log(`estimatedGas for registerProxy: ${gasEstimate}`)
 
         TaureumProxyRegistry.methods.registerProxy()
             .send({
-                from: walletAddress,
+                from: sellerWalletAddress,
                 gas: gasEstimate
             }).on('receipt', function(receipt){
-            console.log("Registered user in the proxy. User address:", walletAddress);
+            console.log("Registered user in the proxy. User address:", sellerWalletAddress);
             console.log(receipt);
         }).on('error', function(error, receipt) { // If the transaction was rejected by the network with a receipt, the second parameter will be the receipt.
             console.log("error", error, receipt)

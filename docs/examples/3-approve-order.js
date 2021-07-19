@@ -1,21 +1,13 @@
 const Web3 = require('web3')
 const provider = new Web3.providers.HttpProvider('https://data-seed-prebsc-1-s1.binance.org:8545')
 const web3 = new Web3(provider)
-
-const walletAddress = require('./config.json').walletAddress
 const {makeOrder} = require('./utils/order')
 
-const fs = require('fs');
-
-const privateKey = fs.readFileSync("../../.secret").toString().trim(); // read the secret key of the account.
-web3.eth.accounts.wallet.add({
-    privateKey: privateKey,
-    address: walletAddress
-});
+const {sellerWalletAddress, loadKeys} = require("./utils/utils")
+loadKeys(web3)
 
 const exchangeABI = require('../../abi/TaureumExchange.json').abi
 const exchangeAddress = require('../../config.json').deployed.testnet.TaureumExchange
-const proxyAddress = require('../../config.json').deployed.testnet.TaureumProxyRegistry
 
 let TaureumExchange = new web3.eth.Contract(exchangeABI, exchangeAddress);
 
@@ -28,7 +20,7 @@ let TaureumExchange = new web3.eth.Contract(exchangeABI, exchangeAddress);
 (async () => {
     try {
         let target = "0xCa007BcC979B8Ca76D9CF327287e7ad3F269DA6B"
-        let order = makeOrder(exchangeAddress, walletAddress, '0x0000000000000000000000000000000000000001', '0x0000000000000000000000000000000000000000', target)
+        let order = makeOrder(exchangeAddress, sellerWalletAddress, '0x0000000000000000000000000000000000000001', '0x0000000000000000000000000000000000000000', target)
 
         const gasEstimate = await TaureumExchange.methods.approveOrder_(
             [order.exchange, order.maker, order.taker, order.feeRecipient, order.target, order.staticTarget, order.paymentToken],
@@ -41,7 +33,7 @@ let TaureumExchange = new web3.eth.Contract(exchangeABI, exchangeAddress);
             order.replacementPattern,
             order.staticExtradata,
             true,
-        ).estimateGas({ from: walletAddress });
+        ).estimateGas({ from: sellerWalletAddress });
 
         console.log(`estimatedGas: ${gasEstimate}`)
 
@@ -57,9 +49,9 @@ let TaureumExchange = new web3.eth.Contract(exchangeABI, exchangeAddress);
             order.staticExtradata,
             true,
         ).send({
-                from: walletAddress,
-                gas: gasEstimate
-            }).on('receipt', function(receipt){
+            from: sellerWalletAddress,
+            gas: gasEstimate
+        }).on('receipt', function(receipt){
             console.log(`Approve order receipt`, receipt);
         }).on('error', function(error, receipt) { // If the transaction was rejected by the network with a receipt, the second parameter will be the receipt.
             console.log("error", error, receipt)
