@@ -35,7 +35,7 @@ module.exports = (deployer, network) => {
                 return TestToken.deployed().then(tokenInstance => {
                     return TaureumTokenTransferProxy.deployed()
                         .then(() => {
-                            return deployer.deploy(TaureumExchange, TaureumProxyRegistry.address, TaureumTokenTransferProxy.address, '0x1Ad8359dF979371a9F1A305776562597bd0A7Da0')
+                            return deployer.deploy(TaureumExchange, TaureumProxyRegistry.address, TaureumTokenTransferProxy.address, tokenInstance.address, '0x1Ad8359dF979371a9F1A305776562597bd0A7Da0')
                                 .then(() => {
                                     setConfig('deployed.' + network + '.TaureumExchange', TaureumExchange.address)
                                     return TaureumProxyRegistry.deployed()
