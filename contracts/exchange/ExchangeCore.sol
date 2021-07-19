@@ -294,7 +294,7 @@ contract ExchangeCore is ReentrancyGuarded, Ownable {
     pure
     returns (bytes32)
     {
-        return keccak256(abi.encode(
+        return keccak256(abi.encodePacked(
                 "\x19Ethereum Signed Message:\n32",
                 hashOrder(order)
             ));

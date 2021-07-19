@@ -24,7 +24,7 @@ contract Exchange is ExchangeCore {
 //        ArrayUtils.guardedArrayReplace(array, desired, mask);
 //        return array;
 //    }
-
+//
 //    /**
 //     * Test copy byte array
 //     *
@@ -64,7 +64,7 @@ contract Exchange is ExchangeCore {
 //        ArrayUtils.unsafeWriteAddress(index, addr);
 //        return arr;
 //    }
-
+//
 //    /**
 //     * @dev Call calculateFinalPrice - library function exposed for testing.
 //     */
@@ -262,7 +262,7 @@ contract Exchange is ExchangeCore {
 //          sell
 //        );
 //    }
-//
+
 //    /**
 //     * @dev Return whether or not two orders' callData specifications can match
 //     * @param buyCalldata Buy-side order callData
