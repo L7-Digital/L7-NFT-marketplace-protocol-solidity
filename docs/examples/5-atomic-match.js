@@ -3,7 +3,7 @@ const provider = new Web3.providers.HttpProvider('https://data-seed-prebsc-1-s1.
 const web3 = new Web3(provider)
 
 const {makeOrder, hashOrder, signOrder} = require('./utils/order')
-const {mintNFT, setApprovalForAll} = require('./utils/nft')
+const {mintNFT, setApprovalForAll, nftContractAddress} = require('./utils/nft')
 const {getProxies} = require('./utils/proxy')
 
 const {walletAddress, sellerPrivateKey, sellerWalletAddress, buyerPrivateKey, buyerWalletAddress, loadKeys} = require("./utils/utils")
@@ -13,8 +13,6 @@ loadKeys(web3)
 const exchangeABI = require('../../abi/TaureumExchange.json').abi
 const exchangeAddress = require('../../config.json').deployed.testnet.TaureumExchange
 const exchange = new web3.eth.Contract(exchangeABI, exchangeAddress);
-
-const nftContractAddress = "0xC4F7f1D1fa837Ba541be490CD4A13467Cc494E01";
 
 (async () => {
     try {

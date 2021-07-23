@@ -4,8 +4,8 @@ const web3 = new Web3(provider)
 
 const crypto = require('crypto')
 
-const nftABI = require('../abi/TaureumNFT.json').abi
-const nftContractAddress = "0xC4F7f1D1fa837Ba541be490CD4A13467Cc494E01"
+const nftABI = require('../abi/TaureumERC721Enumerable.json').abi
+const nftContractAddress = "0x4441C8f380379e234268D59853dcBdA8ea2f72b2"
 const nftContract = new web3.eth.Contract(nftABI, nftContractAddress);
 
 const {walletAddress, loadKeys} = require("./utils")
@@ -16,11 +16,13 @@ loadKeys(web3)
 const mintNFT = async(address) => {
     uri = crypto.randomBytes(20).toString('hex');
     gasEstimate = await nftContract.methods.mint(
-        address, uri, 1, 1000000000
+        address, uri
     ).estimateGas({ from: address });
 
+    console.log("Estimate Gas:", gasEstimate)
+
     let res = await nftContract.methods.mint(
-        address, uri, 1, 1000000000
+        address, uri
     ).send({
         from: address,
         gas: gasEstimate
@@ -63,4 +65,4 @@ const setApprovalForAll = async(owner, to, isApproved) => {
     })
 }
 
-module.exports = {mintNFT, transferNFT, setApprovalForAll}
+module.exports = {mintNFT, transferNFT, setApprovalForAll, nftContractAddress}
