@@ -1,25 +1,14 @@
-const Web3 = require('web3')
-const provider = new Web3.providers.HttpProvider('https://data-seed-prebsc-1-s1.binance.org:8545')
-const web3 = new Web3(provider)
-
 const crypto = require('crypto')
 
-const nftABI = require('../abi/TaureumERC721Enumerable.json').abi
-const nftContractAddress = "0x4441C8f380379e234268D59853dcBdA8ea2f72b2"
-const nftContract = new web3.eth.Contract(nftABI, nftContractAddress);
-
-const {walletAddress, loadKeys} = require("./utils")
-
-// load testing keys
-loadKeys(web3)
+const {nftContract} = require("./config")
 
 const mintNFT = async(address) => {
-    uri = crypto.randomBytes(20).toString('hex');
-    gasEstimate = await nftContract.methods.mint(
+    let uri = crypto.randomBytes(20).toString('hex');
+    let gasEstimate = await nftContract.methods.mint(
         address, uri
     ).estimateGas({ from: address });
 
-    console.log("Estimate Gas:", gasEstimate)
+    console.log("estimatedGas for mintNFT:", gasEstimate)
 
     let res = await nftContract.methods.mint(
         address, uri
@@ -32,11 +21,11 @@ const mintNFT = async(address) => {
 }
 
 const transferNFT = async(from, to, tokenId) => {
-    gasEstimate = await nftContract.methods.transferFrom(
+    let gasEstimate = await nftContract.methods.transferFrom(
         from, to, tokenId
     ).estimateGas({ from: from });
 
-    console.log(`estimatedGas: ${gasEstimate}`)
+    console.log(`estimatedGas for transferNFT: ${gasEstimate}`)
 
     await nftContract.methods.transferFrom(
         from, to, tokenId
@@ -53,7 +42,7 @@ const setApprovalForAll = async(owner, to, isApproved) => {
         to, isApproved
     ).estimateGas({ from: owner });
 
-    console.log(`estimatedGas: ${gasEstimate}`)
+    console.log(`estimatedGas for setApprovalForAll: ${gasEstimate}`)
 
     await nftContract.methods.setApprovalForAll(
         to, isApproved
@@ -65,4 +54,4 @@ const setApprovalForAll = async(owner, to, isApproved) => {
     })
 }
 
-module.exports = {mintNFT, transferNFT, setApprovalForAll, nftContractAddress}
+module.exports = {mintNFT, transferNFT, setApprovalForAll}

@@ -1,21 +1,10 @@
 const crypto = require('crypto')
-const ethers = require('ethers')
 const BigNumber = require('bignumber.js')
 
-const Web3 = require('web3')
-const provider = new Web3.providers.HttpProvider('https://data-seed-prebsc-1-s1.binance.org:8545')
-const web3 = new Web3(provider)
-
-const {walletAddress, loadKeys} = require("./utils")
-//load keys to web3
-loadKeys(web3)
-
-const exchangeABI = require('../../../abi/TaureumExchange.json').abi
-const exchangeAddress = require('../../../config.json').deployed.testnet.TaureumExchange
+const {web3, exchange, keys} = require("./config");
 
 const exchangeHash = async (order) => {
-    const exchange = new web3.eth.Contract(exchangeABI, exchangeAddress);
-    let res = await exchange.methods.hashOrder_(
+    return await exchange.methods.hashOrder_(
         [order.exchange, order.maker, order.taker, order.feeRecipient, order.target, order.staticTarget, order.paymentToken],
         [order.makerRelayerFee, order.takerRelayerFee, order.makerProtocolFee, order.takerProtocolFee, order.basePrice, order.extra, order.listingTime, order.expirationTime, order.salt],
         order.feeMethod,
@@ -25,14 +14,11 @@ const exchangeHash = async (order) => {
         order.calldata,
         order.replacementPattern,
         order.staticExtradata,
-    ).call({from : walletAddress})
-
-    return res
+    ).call({from : keys.walletAddress})
 }
 
 const exchangeHashToSign = async (order) => {
-    const exchange = new web3.eth.Contract(exchangeABI, exchangeAddress);
-    let res = await exchange.methods.hashToSign_(
+    return await exchange.methods.hashToSign_(
         [order.exchange, order.maker, order.taker, order.feeRecipient, order.target, order.staticTarget, order.paymentToken],
         [order.makerRelayerFee, order.takerRelayerFee, order.makerProtocolFee, order.takerProtocolFee, order.basePrice, order.extra, order.listingTime, order.expirationTime, order.salt],
         order.feeMethod,
@@ -42,13 +28,11 @@ const exchangeHashToSign = async (order) => {
         order.calldata,
         order.replacementPattern,
         order.staticExtradata,
-    ).call({from : walletAddress})
-
-    return res
+    ).call({from : keys.walletAddress})
 }
 
-const makeOrder = (exchange, maker, taker, feeRecipient, target, makerRelayerFee = 0, paymentToken = '0x0000000000000000000000000000000000000000') => ({
-    exchange: exchange,
+const makeOrder = (exchangeAddress, maker, taker, feeRecipient, target, makerRelayerFee = 0, paymentToken = '0x0000000000000000000000000000000000000000') => ({
+    exchange: exchangeAddress,
     maker: maker,
     taker: taker,
     /* Maker fees are deducted from the token amount that the maker receives. Taker fees are extra tokens that must be paid by the taker. */

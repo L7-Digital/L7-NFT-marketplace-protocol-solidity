@@ -1,15 +1,5 @@
-const Web3 = require('web3')
-const provider = new Web3.providers.HttpProvider('https://data-seed-prebsc-1-s1.binance.org:8545')
-const web3 = new Web3(provider)
-const {makeOrder} = require('./utils/order')
-
-const {sellerWalletAddress, loadKeys} = require("./utils/utils")
-loadKeys(web3)
-
-const exchangeABI = require('../../abi/TaureumExchange.json').abi
-const exchangeAddress = require('../../config.json').deployed.testnet.TaureumExchange
-
-let TaureumExchange = new web3.eth.Contract(exchangeABI, exchangeAddress);
+const {exchange, exchangeAddress, nftContractAddress, keys} = require("./utils/config");
+const {makeOrder} = require('./utils/order');
 
 
 /**
@@ -19,10 +9,9 @@ let TaureumExchange = new web3.eth.Contract(exchangeABI, exchangeAddress);
  */
 (async () => {
     try {
-        let target = "0xCa007BcC979B8Ca76D9CF327287e7ad3F269DA6B"
-        let order = makeOrder(exchangeAddress, sellerWalletAddress, '0x0000000000000000000000000000000000000001', '0x0000000000000000000000000000000000000000', target)
+        let order = makeOrder(exchangeAddress, keys.walletAddress, '0x0000000000000000000000000000000000000001', '0x0000000000000000000000000000000000000000', nftContractAddress)
 
-        const gasEstimate = await TaureumExchange.methods.approveOrder_(
+        const gasEstimate = await exchange.methods.approveOrder_(
             [order.exchange, order.maker, order.taker, order.feeRecipient, order.target, order.staticTarget, order.paymentToken],
             [order.makerRelayerFee, order.takerRelayerFee, order.makerProtocolFee, order.takerProtocolFee, order.basePrice, order.extra, order.listingTime, order.expirationTime, order.salt],
             order.feeMethod,
@@ -33,11 +22,11 @@ let TaureumExchange = new web3.eth.Contract(exchangeABI, exchangeAddress);
             order.replacementPattern,
             order.staticExtradata,
             true,
-        ).estimateGas({ from: sellerWalletAddress });
+        ).estimateGas({ from: keys.walletAddress });
 
-        console.log(`estimatedGas: ${gasEstimate}`)
+        console.log(`estimatedGas for order-approving: ${gasEstimate}`)
 
-        TaureumExchange.methods.approveOrder_(
+        exchange.methods.approveOrder_(
             [order.exchange, order.maker, order.taker, order.feeRecipient, order.target, order.staticTarget, order.paymentToken],
             [order.makerRelayerFee, order.takerRelayerFee, order.makerProtocolFee, order.takerProtocolFee, order.basePrice, order.extra, order.listingTime, order.expirationTime, order.salt],
             order.feeMethod,
@@ -49,7 +38,7 @@ let TaureumExchange = new web3.eth.Contract(exchangeABI, exchangeAddress);
             order.staticExtradata,
             true,
         ).send({
-            from: sellerWalletAddress,
+            from: keys.walletAddress,
             gas: gasEstimate
         }).on('receipt', function(receipt){
             console.log(`Approve order receipt`, receipt);
