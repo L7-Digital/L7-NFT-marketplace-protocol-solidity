@@ -140,5 +140,9 @@ const signOrder = async (order, signer) => {
     return sig
 };
 
-
-module.exports = {makeOrder, hashOrder, hashToSign, signOrder, exchangeHash, exchangeHashToSign, toEncodedMessage}
+//`to` must be greater than from.
+const makeReplacementPattern = (callData, from, to) => {
+    let str = "0x" + new Array(callData.length - 1).join("0")
+    return str.substr(0, from) + new Array(to + 1 - from).join("f") + str.substr(to)
+}
+module.exports = {makeOrder, hashOrder, hashToSign, signOrder, exchangeHash, exchangeHashToSign, toEncodedMessage, makeReplacementPattern}

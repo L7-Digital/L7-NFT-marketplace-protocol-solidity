@@ -5,8 +5,8 @@ const web3 = new Web3(provider)
 const {walletAddress, sellerWalletAddress, sellerPrivateKey, buyerPrivateKey, buyerWalletAddress, loadKeys} = require("./keys")
 loadKeys(web3)
 
-const nftABI = require('../abi/TaureumERC721Enumerable.json').abi
-const nftContractAddress = "0x4441C8f380379e234268D59853dcBdA8ea2f72b2"
+const nftABI = require('../abi/TaureumERC721LazyMint.json').abi
+const nftContractAddress = "0x74B701F478FfdE83e36F23380f72A36ED3DABc26"
 const nftContract = new web3.eth.Contract(nftABI, nftContractAddress);
 
 const exchangeABI = require('../../../abi/TaureumExchange.json').abi

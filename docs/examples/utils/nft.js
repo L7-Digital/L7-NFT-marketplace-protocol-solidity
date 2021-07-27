@@ -54,4 +54,8 @@ const setApprovalForAll = async(owner, to, isApproved) => {
     })
 }
 
-module.exports = {mintNFT, transferNFT, setApprovalForAll}
+function randomURI() {
+    return crypto.randomBytes(32).toString('hex');
+}
+
+module.exports = {mintNFT, transferNFT, setApprovalForAll, randomURI}
