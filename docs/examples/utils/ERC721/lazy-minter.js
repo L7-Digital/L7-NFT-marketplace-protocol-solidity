@@ -1,4 +1,4 @@
-const {web3} = require("./config")
+const {web3} = require("../config")
 
 class LazyMinter {
     constructor({contractAddress, signer}) {

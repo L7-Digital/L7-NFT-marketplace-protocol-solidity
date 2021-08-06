@@ -1,6 +1,6 @@
-const {keys, exchange, exchangeAddress, erc20TokenAddress, web3, nftContractAddress, tokenTransferProxyAddress} = require("./utils/config")
+const {keys, exchange, exchangeAddress, erc20TokenAddress, web3, ERC721ContractAddress, tokenTransferProxyAddress} = require("./utils/config")
 const {makeOrder, signOrder} = require('./utils/order')
-const {mintNFT, setApprovalForAll} = require('./utils/nft')
+const {ERC721_mint, ERC721_setApprovalForAll} = require('./utils/ERC721/nft')
 const {getProxies} = require('./utils/proxy')
 const {approveERC20, getAllowance, getBalance} = require('./utils/erc20');
 
@@ -10,7 +10,7 @@ const {approveERC20, getAllowance, getBalance} = require('./utils/erc20');
          * 1. Mint some token on the NFT contracts.
          * */
         console.log("Step 1. Mint NFT")
-        let id = await mintNFT(keys.sellerWalletAddress)
+        let id = await ERC721_mint(keys.sellerWalletAddress)
         console.log("nftID", id)
 
         /**
@@ -19,7 +19,7 @@ const {approveERC20, getAllowance, getBalance} = require('./utils/erc20');
          * */
         console.log("Step 1.2. Seller approves the proxy to transfer the asset")
         let proxyAddress = await getProxies(keys.sellerWalletAddress)
-        await setApprovalForAll(keys.sellerWalletAddress, proxyAddress, true)
+        await ERC721_setApprovalForAll(keys.sellerWalletAddress, proxyAddress, true)
 
         /**
          * 2. Prepare the callData for the Sell Order
@@ -47,8 +47,8 @@ const {approveERC20, getAllowance, getBalance} = require('./utils/erc20');
          * 3. Create orders
          */
         console.log("Step 3. Create orders")
-        let sell = makeOrder(exchangeAddress, keys.sellerWalletAddress, '0x0000000000000000000000000000000000000000', '0x1Ad8359dF979371a9F1A305776562597bd0A7Da0', nftContractAddress)
-        let buy = makeOrder(exchangeAddress, keys.buyerWalletAddress, '0x0000000000000000000000000000000000000000', '0x0000000000000000000000000000000000000000', nftContractAddress)
+        let sell = makeOrder(exchangeAddress, keys.sellerWalletAddress, '0x0000000000000000000000000000000000000000', '0x1Ad8359dF979371a9F1A305776562597bd0A7Da0', ERC721ContractAddress)
+        let buy = makeOrder(exchangeAddress, keys.buyerWalletAddress, '0x0000000000000000000000000000000000000000', '0x0000000000000000000000000000000000000000', ERC721ContractAddress)
         sell.side = 1
         sell.calldata = callData
         sell.paymentToken = erc20TokenAddress

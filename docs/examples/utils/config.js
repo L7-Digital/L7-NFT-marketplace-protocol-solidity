@@ -5,9 +5,13 @@ const web3 = new Web3(provider)
 const {walletAddress, sellerWalletAddress, sellerPrivateKey, buyerPrivateKey, buyerWalletAddress, loadKeys} = require("./keys")
 loadKeys(web3)
 
-const nftABI = require('../abi/TaureumERC721LazyMint.json').abi
-const nftContractAddress = "0x74B701F478FfdE83e36F23380f72A36ED3DABc26"
-const nftContract = new web3.eth.Contract(nftABI, nftContractAddress);
+const erc721ABI = require('../abi/TaureumERC721LazyMint.json').abi
+const ERC721ContractAddress = "0x74B701F478FfdE83e36F23380f72A36ED3DABc26"
+const ERC721Contract = new web3.eth.Contract(erc721ABI, ERC721ContractAddress);
+
+const erc1155ABI = require('../abi/TaureumERC1155.json').abi
+const ERC1155ContractAddress = "0x74B701F478FfdE83e36F23380f72A36ED3DABc26"
+const ERC1155Contract = new web3.eth.Contract(erc1155ABI, ERC1155ContractAddress);
 
 const exchangeABI = require('../../../abi/TaureumExchange.json').abi
 const exchangeAddress = require('../../../config.json').deployed.testnet.TaureumExchange
@@ -18,7 +22,7 @@ const TaureumProxyRegistryAddress = require('../../../config.json').deployed.tes
 const TaureumProxyRegistry = new web3.eth.Contract(TaureumProxyRegistryABI, TaureumProxyRegistryAddress);
 
 const erc20ABI = require('../../../abi/ERC20.json').abi
-const erc20TokenAddress = '0xA11c8D9DC9b66E209Ef60F0C8D969D3CD988782c'; // ERC tokenID for USDT for testing
+const erc20TokenAddress = '0x337610d27c682e347c9cd60bd4b3b107c9d34ddd'; // ERC tokenID for USDT for testing
 
 const tokenTransferProxyAddress = require('../../../config.json').deployed.testnet.TaureumTokenTransferProxy;
 
@@ -28,8 +32,10 @@ const keys = {
 }
 
 module.exports = {
-    nftContract,
-    nftContractAddress,
+    ERC721Contract,
+    ERC721ContractAddress,
+    ERC1155Contract,
+    ERC1155ContractAddress,
     web3,
     exchange,
     exchangeAddress,

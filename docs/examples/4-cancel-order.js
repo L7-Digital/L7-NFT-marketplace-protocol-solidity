@@ -1,5 +1,5 @@
 const {makeOrder, signOrder} = require('./utils/order');
-const {keys, exchange, exchangeAddress, nftContractAddress, web3} = require('./utils/config');
+const {keys, exchange, exchangeAddress, ERC721ContractAddress, web3} = require('./utils/config');
 
 /**
  * This function will have the Exchange approve an Order created by the `walletAddress`. The `msg.sender` must be the order creator.
@@ -8,7 +8,7 @@ const {keys, exchange, exchangeAddress, nftContractAddress, web3} = require('./u
  */
 (async () => {
     try {
-        let order = makeOrder(exchangeAddress, keys.sellerWalletAddress, '0x0000000000000000000000000000000000000000', '0x0000000000000000000000000000000000000000', nftContractAddress)
+        let order = makeOrder(exchangeAddress, keys.sellerWalletAddress, '0x0000000000000000000000000000000000000000', '0x0000000000000000000000000000000000000000', ERC721ContractAddress)
         let sig = await signOrder(order, keys.sellerPrivateKey)
         console.log("signer", await web3.eth.accounts.recover(sig))
 

@@ -2,6 +2,7 @@ const crypto = require('crypto')
 const BigNumber = require('bignumber.js')
 
 const {web3, exchange, keys} = require("./config");
+const {sign} = require("ethereumjs-util/dist/secp256k1v3-adapter");
 
 const exchangeHash = async (order) => {
     return await exchange.methods.hashOrder_(
@@ -14,7 +15,7 @@ const exchangeHash = async (order) => {
         order.calldata,
         order.replacementPattern,
         order.staticExtradata,
-    ).call({from : keys.walletAddress})
+    ).call({from: keys.walletAddress})
 }
 
 const exchangeHashToSign = async (order) => {
@@ -28,7 +29,7 @@ const exchangeHashToSign = async (order) => {
         order.calldata,
         order.replacementPattern,
         order.staticExtradata,
-    ).call({from : keys.walletAddress})
+    ).call({from: keys.walletAddress})
 }
 
 const makeOrder = (exchangeAddress, maker, taker, feeRecipient, target, makerRelayerFee = 0, paymentToken = '0x0000000000000000000000000000000000000000') => ({
@@ -127,8 +128,13 @@ const hashToSign = (order) => {
         {type: 'uint256', value: order.salt}
     )
     console.log("packed", packed, typeof packed)
+    console.log("packedEncode", web3.eth.abi.encodeParameters(['string', 'bytes32'], ['\x19Ethereum Signed Message:\n32', packed]))
+    // return web3.utils.soliditySha3(
+    //     web3.eth.abi.encodeParameters(['string', 'bytes32'], ['\x19Ethereum Signed Message:\n32', packed])
+    // ).toString('hex')
     return web3.utils.soliditySha3(
-        web3.eth.abi.encodeParameters(['string', 'bytes32'], ['\x19Ethereum Signed Message:\n32', packed])
+        {type: "string", value: '\x19Ethereum Signed Message:\n32'},
+        {type: "bytes32", value: packed}
     ).toString('hex')
 }
 
@@ -140,9 +146,53 @@ const signOrder = async (order, signer) => {
     return sig
 };
 
+const ethSignOrder = async (order, signer) => {
+    // console.log()
+    let orderHash = hashToSign(order)
+
+    console.log("messageHash", orderHash)
+
+    let sig = await web3.eth.sign(orderHash, signer)
+
+    sig = sig.substr(2)
+    console.log("sig")
+    let r = "0x" + sig.substring(0, 64)
+    let s = "0x" + sig.substring(64, 128)
+    let v = "0x" + sig.substring(128, 130)
+
+    sig = "0x" + sig
+    return {sig, r, s, v}
+};
+
+const personalSignOrder = async (order, signer) => {
+    let orderHash = hashOrder(order)
+    let sig = await web3.eth.personal.sign(orderHash, signer, "")
+
+    return sig
+}
+
+const recoverSigner = async (msg, sig) => {
+    let signer = web3.eth.accounts.recover(msg, sig)
+    console.log("signer", signer)
+    return signer
+}
+
+
 //`to` must be greater than from.
 const makeReplacementPattern = (callData, from, to) => {
     let str = "0x" + new Array(callData.length - 1).join("0")
     return str.substr(0, from) + new Array(to + 1 - from).join("f") + str.substr(to)
 }
-module.exports = {makeOrder, hashOrder, hashToSign, signOrder, exchangeHash, exchangeHashToSign, toEncodedMessage, makeReplacementPattern}
+module.exports = {
+    makeOrder,
+    hashOrder,
+    hashToSign,
+    signOrder,
+    ethSignOrder,
+    personalSignOrder,
+    exchangeHash,
+    exchangeHashToSign,
+    toEncodedMessage,
+    makeReplacementPattern,
+    recoverSigner,
+}

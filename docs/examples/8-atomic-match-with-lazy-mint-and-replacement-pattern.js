@@ -1,8 +1,8 @@
-const {keys, exchange, exchangeAddress, web3, nftContractAddress} = require("./utils/config")
+const {keys, exchange, exchangeAddress, web3, ERC721ContractAddress} = require("./utils/config")
 const {makeOrder, signOrder, makeReplacementPattern} = require('./utils/order')
-const {setApprovalForAll, randomURI} = require('./utils/nft')
+const {ERC721_setApprovalForAll, randomURI} = require('./utils/ERC721/nft')
 const {getProxies} = require('./utils/proxy')
-const {LazyMinter} = require("./utils/lazy-minter");
+const {LazyMinter} = require("./utils/ERC721/lazy-minter");
 
 (async () => {
     try {
@@ -10,7 +10,7 @@ const {LazyMinter} = require("./utils/lazy-minter");
          * 1. Instead of minting an NFT before doing the `atomicMatch`, we create a piece of lazy minting data,
          * and have the first buyer pay the minting fee upon matching orders.
          * */
-        let lm = new LazyMinter({contractAddress: nftContractAddress, signer: keys.sellerWalletAddress})
+        let lm = new LazyMinter({contractAddress: ERC721ContractAddress, signer: keys.sellerWalletAddress})
         let uri = randomURI()
         let lazyData = await lm.createLazyMintingData(uri)
         console.log("lazyData", lazyData)
@@ -20,13 +20,13 @@ const {LazyMinter} = require("./utils/lazy-minter");
          * proxy has been created.
          * */
         let proxyAddress = await getProxies(keys.sellerWalletAddress)
-        await setApprovalForAll(keys.sellerWalletAddress, proxyAddress, true)
+        await ERC721_setApprovalForAll(keys.sellerWalletAddress, proxyAddress, true)
 
         /**
          * 2. Create orders
          */
-        let sell = makeOrder(exchangeAddress, keys.sellerWalletAddress, '0x0000000000000000000000000000000000000000', '0x1Ad8359dF979371a9F1A305776562597bd0A7Da0', nftContractAddress, 100)
-        let buy = makeOrder(exchangeAddress, keys.buyerWalletAddress, '0x0000000000000000000000000000000000000000', '0x0000000000000000000000000000000000000000', nftContractAddress)
+        let sell = makeOrder(exchangeAddress, keys.sellerWalletAddress, '0x0000000000000000000000000000000000000000', '0x1Ad8359dF979371a9F1A305776562597bd0A7Da0', ERC721ContractAddress, 100)
+        let buy = makeOrder(exchangeAddress, keys.buyerWalletAddress, '0x0000000000000000000000000000000000000000', '0x0000000000000000000000000000000000000000', ERC721ContractAddress)
         sell.side = 1
         buy.makerRelayerFee = 0
 

@@ -1,9 +1,9 @@
 const Web3 = require('web3')
 const provider = new Web3.providers.HttpProvider('https://data-seed-prebsc-1-s1.binance.org:8545')
 const web3 = new Web3(provider)
-const {exchange, keys, exchangeAddress, nftContractAddress} = require("./utils/config");
+const {exchange, keys, exchangeAddress, ERC721ContractAddress} = require("./utils/config");
 const {makeOrder, signOrder} = require('./utils/order');
-const {mintNFT, setApprovalForAll} = require('./utils/nft');
+const {ERC721_mint, ERC721_setApprovalForAll} = require('./utils/ERC721/nft');
 const {getProxies} = require('./utils/proxy');
 
 (async () => {
@@ -11,7 +11,7 @@ const {getProxies} = require('./utils/proxy');
         /**
          * 1. Mint some token on the NFT contracts.
          * */
-        let id = await mintNFT(keys.sellerWalletAddress)
+        let id = await ERC721_mint(keys.sellerWalletAddress)
         console.log("nftID", id)
 
         /**
@@ -19,7 +19,7 @@ const {getProxies} = require('./utils/proxy');
          * proxy has been created.
          * */
         let proxyAddress = await getProxies(keys.sellerWalletAddress)
-        await setApprovalForAll(keys.sellerWalletAddress, proxyAddress, true)
+        await ERC721_setApprovalForAll(keys.sellerWalletAddress, proxyAddress, true)
 
         /**
          * 2. Prepare the callData for the Sell Order
@@ -45,8 +45,8 @@ const {getProxies} = require('./utils/proxy');
         /**
          * 3. Create orders
          */
-        let sell = makeOrder(exchangeAddress, keys.sellerWalletAddress, '0x0000000000000000000000000000000000000000', '0x1Ad8359dF979371a9F1A305776562597bd0A7Da0', nftContractAddress, 100)
-        let buy = makeOrder(exchangeAddress, keys.buyerWalletAddress, '0x0000000000000000000000000000000000000000', '0x0000000000000000000000000000000000000000', nftContractAddress)
+        let sell = makeOrder(exchangeAddress, keys.sellerWalletAddress, '0x0000000000000000000000000000000000000000', '0x1Ad8359dF979371a9F1A305776562597bd0A7Da0', ERC721ContractAddress, 100)
+        let buy = makeOrder(exchangeAddress, keys.buyerWalletAddress, '0x0000000000000000000000000000000000000000', '0x0000000000000000000000000000000000000000', ERC721ContractAddress)
         sell.side = 1
         sell.calldata = callData
         buy.calldata = callData

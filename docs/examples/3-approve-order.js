@@ -1,4 +1,4 @@
-const {exchange, exchangeAddress, nftContractAddress, keys} = require("./utils/config");
+const {exchange, exchangeAddress, ERC721ContractAddress, keys} = require("./utils/config");
 const {makeOrder} = require('./utils/order');
 
 
@@ -9,7 +9,7 @@ const {makeOrder} = require('./utils/order');
  */
 (async () => {
     try {
-        let order = makeOrder(exchangeAddress, keys.walletAddress, '0x0000000000000000000000000000000000000001', '0x0000000000000000000000000000000000000000', nftContractAddress)
+        let order = makeOrder(exchangeAddress, keys.walletAddress, '0x0000000000000000000000000000000000000001', '0x0000000000000000000000000000000000000000', ERC721ContractAddress)
 
         const gasEstimate = await exchange.methods.approveOrder_(
             [order.exchange, order.maker, order.taker, order.feeRecipient, order.target, order.staticTarget, order.paymentToken],
