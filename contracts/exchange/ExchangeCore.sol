@@ -701,7 +701,7 @@ contract ExchangeCore is ReentrancyGuarded, Ownable {
         if (sell.replacementPattern.length > 0) {
             ArrayUtils.guardedArrayReplace(sell.callData, buy.callData, sell.replacementPattern);
         }
-        require(ArrayUtils.arrayEq(buy.callData, sell.callData));
+        require(ArrayUtils.arrayEq(buy.callData, sell.callData), "Call-data mismatch");
 
         /* Retrieve delegateProxy contract. */
         OwnableDelegateProxy delegateProxy = registry.proxies(sell.maker);
