@@ -10,7 +10,7 @@ const ERC721ContractAddress = "0x74B701F478FfdE83e36F23380f72A36ED3DABc26"
 const ERC721Contract = new web3.eth.Contract(erc721ABI, ERC721ContractAddress);
 
 const erc1155ABI = require('../abi/TaureumERC1155.json').abi
-const ERC1155ContractAddress = "0x74B701F478FfdE83e36F23380f72A36ED3DABc26"
+const ERC1155ContractAddress = "0xC56498f90026B56AE48f6d51B280BCCfE0B60Ca4"
 const ERC1155Contract = new web3.eth.Contract(erc1155ABI, ERC1155ContractAddress);
 
 const exchangeABI = require('../../../abi/TaureumExchange.json').abi
@@ -25,6 +25,8 @@ const erc20ABI = require('../../../abi/ERC20.json').abi
 const erc20TokenAddress = '0x337610d27c682e347c9cd60bd4b3b107c9d34ddd'; // ERC tokenID for USDT for testing
 
 const tokenTransferProxyAddress = require('../../../config.json').deployed.testnet.TaureumTokenTransferProxy;
+
+const zeroAddress = "0x0000000000000000000000000000000000000000"
 
 
 const keys = {
@@ -43,5 +45,6 @@ module.exports = {
     TaureumProxyRegistry,
     erc20ABI,
     erc20TokenAddress,
-    tokenTransferProxyAddress
+    tokenTransferProxyAddress,
+    zeroAddress
 }
