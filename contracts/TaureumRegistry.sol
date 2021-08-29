@@ -1,3 +1,4 @@
+// SPDX-License-Identifier: UNLICENSED
 /*
 
   << Taureum Proxy Registry >>
@@ -20,9 +21,7 @@ contract TaureumRegistry is ProxyRegistry {
     /* Whether the initial auth address has been set. */
     bool public initialAddressSet = false;
 
-    constructor ()
-        public
-    {   
+    constructor () {
         AuthenticatedProxy impl = new AuthenticatedProxy();
         impl.initialize(address(this), this);
         impl.setRevoke(true);

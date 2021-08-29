@@ -1,3 +1,4 @@
+// SPDX-License-Identifier: UNLICENSED
 /*
 
   << Taureum Static >>
@@ -18,9 +19,7 @@ contract TaureumStatic is StaticERC20, StaticERC721, StaticERC1155, StaticUtil {
 
     string public constant name = "Taureum Static";
 
-    constructor (address atomicizerAddress)
-        public
-    {
+    constructor (address atomicizerAddress) {
         atomicizer = atomicizerAddress;
     }
 

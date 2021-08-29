@@ -1,3 +1,5 @@
+// SPDX-License-Identifier: UNLICENSED
+
 /*
 
   Token transfer proxy. Uses the authentication table of a ProxyRegistry contract to grant ERC20 `transferFrom` access.

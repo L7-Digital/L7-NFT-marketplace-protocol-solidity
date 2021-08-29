@@ -1,3 +1,4 @@
+// SPDX-License-Identifier: UNLICENSED
 /*
 
 StaticERC1155 - static calls for ERC1155 trades

@@ -1,3 +1,5 @@
+// SPDX-License-Identifier: UNLICENSED
+
 /*
 
   Abstract over fixed-price sales and Dutch auctions, with the intent of easily supporting additional methods of sale later.

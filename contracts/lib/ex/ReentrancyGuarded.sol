@@ -1,3 +1,5 @@
+// SPDX-License-Identifier: UNLICENSED
+
 /*
 
   Simple contract extension to provide a contract-global reentrancy guard on functions.

@@ -1,3 +1,5 @@
+// SPDX-License-Identifier: UNLICENSED
+
 /*
 
   Decentralized digital asset exchange. Supports any digital asset that can be represented on the Ethereum blockchain (i.e. - transferred in an Ethereum transaction or sequence of transactions).
@@ -134,6 +136,7 @@ contract ExchangeCore is ReentrancyGuarded, Ownable {
         uint salt;
     }
 
+    event ProtocolTokenFeeChange (address oldTokenAddress, address newTokenAddress);
     event OrderApprovedPartOne    (bytes32 indexed hash, address exchange, address indexed maker, address taker, uint makerRelayerFee, uint takerRelayerFee, uint makerProtocolFee, uint takerProtocolFee, address indexed feeRecipient, FeeMethod feeMethod, SaleKindInterface.Side side, SaleKindInterface.SaleKind saleKind, address target);
     event OrderApprovedPartTwo    (bytes32 indexed hash, AuthenticatedProxy.HowToCall howToCall, bytes callData, bytes replacementPattern, address staticTarget, bytes staticExtradata, address paymentToken, uint basePrice, uint extra, uint listingTime, uint expirationTime, uint salt, bool orderbookInclusionDesired);
     event OrderCancelled          (bytes32 indexed hash);
@@ -170,6 +173,19 @@ contract ExchangeCore is ReentrancyGuarded, Ownable {
     onlyOwner
     {
         protocolFeeRecipient = newProtocolFeeRecipient;
+    }
+
+    /**
+     * @dev Change the protocol fee token address (owner only)
+     * @param newTokenAddress New protocol fee token address
+     */
+    function changeProtocolFeeTokenAddress(address newTokenAddress)
+    public
+    onlyOwner
+    {
+        address oldExchangeToken = address(exchangeToken);
+        exchangeToken = ERC20(newTokenAddress);
+        emit ProtocolTokenFeeChange(oldExchangeToken, address(exchangeToken));
     }
 
     /**

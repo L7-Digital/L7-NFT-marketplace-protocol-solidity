@@ -1,3 +1,4 @@
+// SPDX-License-Identifier: UNLICENSED
 /*
 
   OwnableDelegateProxy
@@ -14,9 +15,7 @@ import "./proxy/OwnedUpgradeabilityProxy.sol";
  */
 contract OwnableDelegateProxy is OwnedUpgradeabilityProxy {
 
-    constructor(address owner, address initialImplementation, bytes memory data)
-        public
-    {
+    constructor(address owner, address initialImplementation, bytes memory data) {
         setUpgradeabilityOwner(owner);
         _upgradeTo(initialImplementation);
         (bool success,) = initialImplementation.delegatecall(data);

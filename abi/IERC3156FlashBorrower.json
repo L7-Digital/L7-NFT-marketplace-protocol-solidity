@@ -50,23 +50,23 @@
   "sourceMap": "",
   "deployedSourceMap": "",
   "source": "// SPDX-License-Identifier: MIT\n\npragma solidity ^0.8.0;\n\n/**\n * @dev Interface of the ERC3156 FlashBorrower, as defined in\n * https://eips.ethereum.org/EIPS/eip-3156[ERC-3156].\n *\n * _Available since v4.1._\n */\ninterface IERC3156FlashBorrower {\n    /**\n     * @dev Receive a flash loan.\n     * @param initiator The initiator of the loan.\n     * @param token The loan currency.\n     * @param amount The amount of tokens lent.\n     * @param fee The additional amount of tokens to repay.\n     * @param data Arbitrary data structure, intended to contain user-defined parameters.\n     * @return The keccak256 hash of \"ERC3156FlashBorrower.onFlashLoan\"\n     */\n    function onFlashLoan(\n        address initiator,\n        address token,\n        uint256 amount,\n        uint256 fee,\n        bytes calldata data\n    ) external returns (bytes32);\n}\n\n/**\n * @dev Interface of the ERC3156 FlashLender, as defined in\n * https://eips.ethereum.org/EIPS/eip-3156[ERC-3156].\n */\ninterface IERC3156FlashLender {\n    /**\n     * @dev The amount of currency available to be lended.\n     * @param token The loan currency.\n     * @return The amount of `token` that can be borrowed.\n     */\n    function maxFlashLoan(\n        address token\n    ) external view returns (uint256);\n\n    /**\n     * @dev The fee to be charged for a given loan.\n     * @param token The loan currency.\n     * @param amount The amount of tokens lent.\n     * @return The amount of `token` to be charged for the loan, on top of the returned principal.\n     */\n    function flashFee(\n        address token,\n        uint256 amount\n    ) external view returns (uint256);\n\n    /**\n     * @dev Initiate a flash loan.\n     * @param receiver The receiver of the tokens in the loan, and the receiver of the callback.\n     * @param token The loan currency.\n     * @param amount The amount of tokens lent.\n     * @param data Arbitrary data structure, intended to contain user-defined parameters.\n     */\n    function flashLoan(\n        IERC3156FlashBorrower receiver,\n        address token,\n        uint256 amount,\n        bytes calldata data\n    ) external returns (bool);\n }\n",
-  "sourcePath": "/home/toor/nodejs/truffle/nft_demo/taudefi/taudefi-nft-protocol/contracts/lib/interfaces/IERC3156.sol",
+  "sourcePath": "/home/toor/nodejs/truffle/nft_demo/taureum/taureum-nft-protocol-sc/contracts/lib/interfaces/IERC3156.sol",
   "ast": {
     "absolutePath": "project:/contracts/lib/interfaces/IERC3156.sol",
     "exportedSymbols": {
       "IERC3156FlashBorrower": [
-        6781
+        6820
       ],
       "IERC3156FlashLender": [
-        6816
+        6855
       ]
     },
-    "id": 6817,
+    "id": 6856,
     "license": "MIT",
     "nodeType": "SourceUnit",
     "nodes": [
       {
-        "id": 6763,
+        "id": 6802,
         "literals": [
           "solidity",
           "^",
@@ -82,15 +82,15 @@
         "contractDependencies": [],
         "contractKind": "interface",
         "documentation": {
-          "id": 6764,
+          "id": 6803,
           "nodeType": "StructuredDocumentation",
           "src": "58:153:23",
           "text": " @dev Interface of the ERC3156 FlashBorrower, as defined in\n https://eips.ethereum.org/EIPS/eip-3156[ERC-3156].\n _Available since v4.1._"
         },
         "fullyImplemented": false,
-        "id": 6781,
+        "id": 6820,
         "linearizedBaseContracts": [
-          6781
+          6820
         ],
         "name": "IERC3156FlashBorrower",
         "nameLocation": "222:21:23",
@@ -98,13 +98,13 @@
         "nodes": [
           {
             "documentation": {
-              "id": 6765,
+              "id": 6804,
               "nodeType": "StructuredDocumentation",
               "src": "250:405:23",
               "text": " @dev Receive a flash loan.\n @param initiator The initiator of the loan.\n @param token The loan currency.\n @param amount The amount of tokens lent.\n @param fee The additional amount of tokens to repay.\n @param data Arbitrary data structure, intended to contain user-defined parameters.\n @return The keccak256 hash of \"ERC3156FlashBorrower.onFlashLoan\""
             },
             "functionSelector": "23e30c8b",
-            "id": 6780,
+            "id": 6819,
             "implemented": false,
             "kind": "function",
             "modifiers": [],
@@ -112,17 +112,17 @@
             "nameLocation": "669:11:23",
             "nodeType": "FunctionDefinition",
             "parameters": {
-              "id": 6776,
+              "id": 6815,
               "nodeType": "ParameterList",
               "parameters": [
                 {
                   "constant": false,
-                  "id": 6767,
+                  "id": 6806,
                   "mutability": "mutable",
                   "name": "initiator",
                   "nameLocation": "698:9:23",
                   "nodeType": "VariableDeclaration",
-                  "scope": 6780,
+                  "scope": 6819,
                   "src": "690:17:23",
                   "stateVariable": false,
                   "storageLocation": "default",
@@ -131,7 +131,7 @@
                     "typeString": "address"
                   },
                   "typeName": {
-                    "id": 6766,
+                    "id": 6805,
                     "name": "address",
                     "nodeType": "ElementaryTypeName",
                     "src": "690:7:23",
@@ -145,12 +145,12 @@
                 },
                 {
                   "constant": false,
-                  "id": 6769,
+                  "id": 6808,
                   "mutability": "mutable",
                   "name": "token",
                   "nameLocation": "725:5:23",
                   "nodeType": "VariableDeclaration",
-                  "scope": 6780,
+                  "scope": 6819,
                   "src": "717:13:23",
                   "stateVariable": false,
                   "storageLocation": "default",
@@ -159,7 +159,7 @@
                     "typeString": "address"
                   },
                   "typeName": {
-                    "id": 6768,
+                    "id": 6807,
                     "name": "address",
                     "nodeType": "ElementaryTypeName",
                     "src": "717:7:23",
@@ -173,12 +173,12 @@
                 },
                 {
                   "constant": false,
-                  "id": 6771,
+                  "id": 6810,
                   "mutability": "mutable",
                   "name": "amount",
                   "nameLocation": "748:6:23",
                   "nodeType": "VariableDeclaration",
-                  "scope": 6780,
+                  "scope": 6819,
                   "src": "740:14:23",
                   "stateVariable": false,
                   "storageLocation": "default",
@@ -187,7 +187,7 @@
                     "typeString": "uint256"
                   },
                   "typeName": {
-                    "id": 6770,
+                    "id": 6809,
                     "name": "uint256",
                     "nodeType": "ElementaryTypeName",
                     "src": "740:7:23",
@@ -200,12 +200,12 @@
                 },
                 {
                   "constant": false,
-                  "id": 6773,
+                  "id": 6812,
                   "mutability": "mutable",
                   "name": "fee",
                   "nameLocation": "772:3:23",
                   "nodeType": "VariableDeclaration",
-                  "scope": 6780,
+                  "scope": 6819,
                   "src": "764:11:23",
                   "stateVariable": false,
                   "storageLocation": "default",
@@ -214,7 +214,7 @@
                     "typeString": "uint256"
                   },
                   "typeName": {
-                    "id": 6772,
+                    "id": 6811,
                     "name": "uint256",
                     "nodeType": "ElementaryTypeName",
                     "src": "764:7:23",
@@ -227,12 +227,12 @@
                 },
                 {
                   "constant": false,
-                  "id": 6775,
+                  "id": 6814,
                   "mutability": "mutable",
                   "name": "data",
                   "nameLocation": "800:4:23",
                   "nodeType": "VariableDeclaration",
-                  "scope": 6780,
+                  "scope": 6819,
                   "src": "785:19:23",
                   "stateVariable": false,
                   "storageLocation": "calldata",
@@ -241,7 +241,7 @@
                     "typeString": "bytes"
                   },
                   "typeName": {
-                    "id": 6774,
+                    "id": 6813,
                     "name": "bytes",
                     "nodeType": "ElementaryTypeName",
                     "src": "785:5:23",
@@ -256,17 +256,17 @@
               "src": "680:130:23"
             },
             "returnParameters": {
-              "id": 6779,
+              "id": 6818,
               "nodeType": "ParameterList",
               "parameters": [
                 {
                   "constant": false,
-                  "id": 6778,
+                  "id": 6817,
                   "mutability": "mutable",
                   "name": "",
                   "nameLocation": "-1:-1:-1",
                   "nodeType": "VariableDeclaration",
-                  "scope": 6780,
+                  "scope": 6819,
                   "src": "829:7:23",
                   "stateVariable": false,
                   "storageLocation": "default",
@@ -275,7 +275,7 @@
                     "typeString": "bytes32"
                   },
                   "typeName": {
-                    "id": 6777,
+                    "id": 6816,
                     "name": "bytes32",
                     "nodeType": "ElementaryTypeName",
                     "src": "829:7:23",
@@ -289,14 +289,14 @@
               ],
               "src": "828:9:23"
             },
-            "scope": 6781,
+            "scope": 6820,
             "src": "660:178:23",
             "stateMutability": "nonpayable",
             "virtual": false,
             "visibility": "external"
           }
         ],
-        "scope": 6817,
+        "scope": 6856,
         "src": "212:628:23",
         "usedErrors": []
       },
@@ -306,15 +306,15 @@
         "contractDependencies": [],
         "contractKind": "interface",
         "documentation": {
-          "id": 6782,
+          "id": 6821,
           "nodeType": "StructuredDocumentation",
           "src": "842:121:23",
           "text": " @dev Interface of the ERC3156 FlashLender, as defined in\n https://eips.ethereum.org/EIPS/eip-3156[ERC-3156]."
         },
         "fullyImplemented": false,
-        "id": 6816,
+        "id": 6855,
         "linearizedBaseContracts": [
-          6816
+          6855
         ],
         "name": "IERC3156FlashLender",
         "nameLocation": "974:19:23",
@@ -322,13 +322,13 @@
         "nodes": [
           {
             "documentation": {
-              "id": 6783,
+              "id": 6822,
               "nodeType": "StructuredDocumentation",
               "src": "1000:168:23",
               "text": " @dev The amount of currency available to be lended.\n @param token The loan currency.\n @return The amount of `token` that can be borrowed."
             },
             "functionSelector": "613255ab",
-            "id": 6790,
+            "id": 6829,
             "implemented": false,
             "kind": "function",
             "modifiers": [],
@@ -336,17 +336,17 @@
             "nameLocation": "1182:12:23",
             "nodeType": "FunctionDefinition",
             "parameters": {
-              "id": 6786,
+              "id": 6825,
               "nodeType": "ParameterList",
               "parameters": [
                 {
                   "constant": false,
-                  "id": 6785,
+                  "id": 6824,
                   "mutability": "mutable",
                   "name": "token",
                   "nameLocation": "1212:5:23",
                   "nodeType": "VariableDeclaration",
-                  "scope": 6790,
+                  "scope": 6829,
                   "src": "1204:13:23",
                   "stateVariable": false,
                   "storageLocation": "default",
@@ -355,7 +355,7 @@
                     "typeString": "address"
                   },
                   "typeName": {
-                    "id": 6784,
+                    "id": 6823,
                     "name": "address",
                     "nodeType": "ElementaryTypeName",
                     "src": "1204:7:23",
@@ -371,17 +371,17 @@
               "src": "1194:29:23"
             },
             "returnParameters": {
-              "id": 6789,
+              "id": 6828,
               "nodeType": "ParameterList",
               "parameters": [
                 {
                   "constant": false,
-                  "id": 6788,
+                  "id": 6827,
                   "mutability": "mutable",
                   "name": "",
                   "nameLocation": "-1:-1:-1",
                   "nodeType": "VariableDeclaration",
-                  "scope": 6790,
+                  "scope": 6829,
                   "src": "1247:7:23",
                   "stateVariable": false,
                   "storageLocation": "default",
@@ -390,7 +390,7 @@
                     "typeString": "uint256"
                   },
                   "typeName": {
-                    "id": 6787,
+                    "id": 6826,
                     "name": "uint256",
                     "nodeType": "ElementaryTypeName",
                     "src": "1247:7:23",
@@ -404,7 +404,7 @@
               ],
               "src": "1246:9:23"
             },
-            "scope": 6816,
+            "scope": 6855,
             "src": "1173:83:23",
             "stateMutability": "view",
             "virtual": false,
@@ -412,13 +412,13 @@
           },
           {
             "documentation": {
-              "id": 6791,
+              "id": 6830,
               "nodeType": "StructuredDocumentation",
               "src": "1262:249:23",
               "text": " @dev The fee to be charged for a given loan.\n @param token The loan currency.\n @param amount The amount of tokens lent.\n @return The amount of `token` to be charged for the loan, on top of the returned principal."
             },
             "functionSelector": "d9d98ce4",
-            "id": 6800,
+            "id": 6839,
             "implemented": false,
             "kind": "function",
             "modifiers": [],
@@ -426,17 +426,17 @@
             "nameLocation": "1525:8:23",
             "nodeType": "FunctionDefinition",
             "parameters": {
-              "id": 6796,
+              "id": 6835,
               "nodeType": "ParameterList",
               "parameters": [
                 {
                   "constant": false,
-                  "id": 6793,
+                  "id": 6832,
                   "mutability": "mutable",
                   "name": "token",
                   "nameLocation": "1551:5:23",
                   "nodeType": "VariableDeclaration",
-                  "scope": 6800,
+                  "scope": 6839,
                   "src": "1543:13:23",
                   "stateVariable": false,
                   "storageLocation": "default",
@@ -445,7 +445,7 @@
                     "typeString": "address"
                   },
                   "typeName": {
-                    "id": 6792,
+                    "id": 6831,
                     "name": "address",
                     "nodeType": "ElementaryTypeName",
                     "src": "1543:7:23",
@@ -459,12 +459,12 @@
                 },
                 {
                   "constant": false,
-                  "id": 6795,
+                  "id": 6834,
                   "mutability": "mutable",
                   "name": "amount",
                   "nameLocation": "1574:6:23",
                   "nodeType": "VariableDeclaration",
-                  "scope": 6800,
+                  "scope": 6839,
                   "src": "1566:14:23",
                   "stateVariable": false,
                   "storageLocation": "default",
@@ -473,7 +473,7 @@
                     "typeString": "uint256"
                   },
                   "typeName": {
-                    "id": 6794,
+                    "id": 6833,
                     "name": "uint256",
                     "nodeType": "ElementaryTypeName",
                     "src": "1566:7:23",
@@ -488,17 +488,17 @@
               "src": "1533:53:23"
             },
             "returnParameters": {
-              "id": 6799,
+              "id": 6838,
               "nodeType": "ParameterList",
               "parameters": [
                 {
                   "constant": false,
-                  "id": 6798,
+                  "id": 6837,
                   "mutability": "mutable",
                   "name": "",
                   "nameLocation": "-1:-1:-1",
                   "nodeType": "VariableDeclaration",
-                  "scope": 6800,
+                  "scope": 6839,
                   "src": "1610:7:23",
                   "stateVariable": false,
                   "storageLocation": "default",
@@ -507,7 +507,7 @@
                     "typeString": "uint256"
                   },
                   "typeName": {
-                    "id": 6797,
+                    "id": 6836,
                     "name": "uint256",
                     "nodeType": "ElementaryTypeName",
                     "src": "1610:7:23",
@@ -521,7 +521,7 @@
               ],
               "src": "1609:9:23"
             },
-            "scope": 6816,
+            "scope": 6855,
             "src": "1516:103:23",
             "stateMutability": "view",
             "virtual": false,
@@ -529,13 +529,13 @@
           },
           {
             "documentation": {
-              "id": 6801,
+              "id": 6840,
               "nodeType": "StructuredDocumentation",
               "src": "1625:320:23",
               "text": " @dev Initiate a flash loan.\n @param receiver The receiver of the tokens in the loan, and the receiver of the callback.\n @param token The loan currency.\n @param amount The amount of tokens lent.\n @param data Arbitrary data structure, intended to contain user-defined parameters."
             },
             "functionSelector": "5cffe9de",
-            "id": 6815,
+            "id": 6854,
             "implemented": false,
             "kind": "function",
             "modifiers": [],
@@ -543,38 +543,38 @@
             "nameLocation": "1959:9:23",
             "nodeType": "FunctionDefinition",
             "parameters": {
-              "id": 6811,
+              "id": 6850,
               "nodeType": "ParameterList",
               "parameters": [
                 {
                   "constant": false,
-                  "id": 6804,
+                  "id": 6843,
                   "mutability": "mutable",
                   "name": "receiver",
                   "nameLocation": "2000:8:23",
                   "nodeType": "VariableDeclaration",
-                  "scope": 6815,
+                  "scope": 6854,
                   "src": "1978:30:23",
                   "stateVariable": false,
                   "storageLocation": "default",
                   "typeDescriptions": {
-                    "typeIdentifier": "t_contract$_IERC3156FlashBorrower_$6781",
+                    "typeIdentifier": "t_contract$_IERC3156FlashBorrower_$6820",
                     "typeString": "contract IERC3156FlashBorrower"
                   },
                   "typeName": {
-                    "id": 6803,
+                    "id": 6842,
                     "nodeType": "UserDefinedTypeName",
                     "pathNode": {
-                      "id": 6802,
+                      "id": 6841,
                       "name": "IERC3156FlashBorrower",
                       "nodeType": "IdentifierPath",
-                      "referencedDeclaration": 6781,
+                      "referencedDeclaration": 6820,
                       "src": "1978:21:23"
                     },
-                    "referencedDeclaration": 6781,
+                    "referencedDeclaration": 6820,
                     "src": "1978:21:23",
                     "typeDescriptions": {
-                      "typeIdentifier": "t_contract$_IERC3156FlashBorrower_$6781",
+                      "typeIdentifier": "t_contract$_IERC3156FlashBorrower_$6820",
                       "typeString": "contract IERC3156FlashBorrower"
                     }
                   },
@@ -582,12 +582,12 @@
                 },
                 {
                   "constant": false,
-                  "id": 6806,
+                  "id": 6845,
                   "mutability": "mutable",
                   "name": "token",
                   "nameLocation": "2026:5:23",
                   "nodeType": "VariableDeclaration",
-                  "scope": 6815,
+                  "scope": 6854,
                   "src": "2018:13:23",
                   "stateVariable": false,
                   "storageLocation": "default",
@@ -596,7 +596,7 @@
                     "typeString": "address"
                   },
                   "typeName": {
-                    "id": 6805,
+                    "id": 6844,
                     "name": "address",
                     "nodeType": "ElementaryTypeName",
                     "src": "2018:7:23",
@@ -610,12 +610,12 @@
                 },
                 {
                   "constant": false,
-                  "id": 6808,
+                  "id": 6847,
                   "mutability": "mutable",
                   "name": "amount",
                   "nameLocation": "2049:6:23",
                   "nodeType": "VariableDeclaration",
-                  "scope": 6815,
+                  "scope": 6854,
                   "src": "2041:14:23",
                   "stateVariable": false,
                   "storageLocation": "default",
@@ -624,7 +624,7 @@
                     "typeString": "uint256"
                   },
                   "typeName": {
-                    "id": 6807,
+                    "id": 6846,
                     "name": "uint256",
                     "nodeType": "ElementaryTypeName",
                     "src": "2041:7:23",
@@ -637,12 +637,12 @@
                 },
                 {
                   "constant": false,
-                  "id": 6810,
+                  "id": 6849,
                   "mutability": "mutable",
                   "name": "data",
                   "nameLocation": "2080:4:23",
                   "nodeType": "VariableDeclaration",
-                  "scope": 6815,
+                  "scope": 6854,
                   "src": "2065:19:23",
                   "stateVariable": false,
                   "storageLocation": "calldata",
@@ -651,7 +651,7 @@
                     "typeString": "bytes"
                   },
                   "typeName": {
-                    "id": 6809,
+                    "id": 6848,
                     "name": "bytes",
                     "nodeType": "ElementaryTypeName",
                     "src": "2065:5:23",
@@ -666,17 +666,17 @@
               "src": "1968:122:23"
             },
             "returnParameters": {
-              "id": 6814,
+              "id": 6853,
               "nodeType": "ParameterList",
               "parameters": [
                 {
                   "constant": false,
-                  "id": 6813,
+                  "id": 6852,
                   "mutability": "mutable",
                   "name": "",
                   "nameLocation": "-1:-1:-1",
                   "nodeType": "VariableDeclaration",
-                  "scope": 6815,
+                  "scope": 6854,
                   "src": "2109:4:23",
                   "stateVariable": false,
                   "storageLocation": "default",
@@ -685,7 +685,7 @@
                     "typeString": "bool"
                   },
                   "typeName": {
-                    "id": 6812,
+                    "id": 6851,
                     "name": "bool",
                     "nodeType": "ElementaryTypeName",
                     "src": "2109:4:23",
@@ -699,14 +699,14 @@
               ],
               "src": "2108:6:23"
             },
-            "scope": 6816,
+            "scope": 6855,
             "src": "1950:165:23",
             "stateMutability": "nonpayable",
             "virtual": false,
             "visibility": "external"
           }
         ],
-        "scope": 6817,
+        "scope": 6856,
         "src": "964:1154:23",
         "usedErrors": []
       }
@@ -717,18 +717,18 @@
     "absolutePath": "project:/contracts/lib/interfaces/IERC3156.sol",
     "exportedSymbols": {
       "IERC3156FlashBorrower": [
-        6781
+        6820
       ],
       "IERC3156FlashLender": [
-        6816
+        6855
       ]
     },
-    "id": 6817,
+    "id": 6856,
     "license": "MIT",
     "nodeType": "SourceUnit",
     "nodes": [
       {
-        "id": 6763,
+        "id": 6802,
         "literals": [
           "solidity",
           "^",
@@ -744,15 +744,15 @@
         "contractDependencies": [],
         "contractKind": "interface",
         "documentation": {
-          "id": 6764,
+          "id": 6803,
           "nodeType": "StructuredDocumentation",
           "src": "58:153:23",
           "text": " @dev Interface of the ERC3156 FlashBorrower, as defined in\n https://eips.ethereum.org/EIPS/eip-3156[ERC-3156].\n _Available since v4.1._"
         },
         "fullyImplemented": false,
-        "id": 6781,
+        "id": 6820,
         "linearizedBaseContracts": [
-          6781
+          6820
         ],
         "name": "IERC3156FlashBorrower",
         "nameLocation": "222:21:23",
@@ -760,13 +760,13 @@
         "nodes": [
           {
             "documentation": {
-              "id": 6765,
+              "id": 6804,
               "nodeType": "StructuredDocumentation",
               "src": "250:405:23",
               "text": " @dev Receive a flash loan.\n @param initiator The initiator of the loan.\n @param token The loan currency.\n @param amount The amount of tokens lent.\n @param fee The additional amount of tokens to repay.\n @param data Arbitrary data structure, intended to contain user-defined parameters.\n @return The keccak256 hash of \"ERC3156FlashBorrower.onFlashLoan\""
             },
             "functionSelector": "23e30c8b",
-            "id": 6780,
+            "id": 6819,
             "implemented": false,
             "kind": "function",
             "modifiers": [],
@@ -774,17 +774,17 @@
             "nameLocation": "669:11:23",
             "nodeType": "FunctionDefinition",
             "parameters": {
-              "id": 6776,
+              "id": 6815,
               "nodeType": "ParameterList",
               "parameters": [
                 {
                   "constant": false,
-                  "id": 6767,
+                  "id": 6806,
                   "mutability": "mutable",
                   "name": "initiator",
                   "nameLocation": "698:9:23",
                   "nodeType": "VariableDeclaration",
-                  "scope": 6780,
+                  "scope": 6819,
                   "src": "690:17:23",
                   "stateVariable": false,
                   "storageLocation": "default",
@@ -793,7 +793,7 @@
                     "typeString": "address"
                   },
                   "typeName": {
-                    "id": 6766,
+                    "id": 6805,
                     "name": "address",
                     "nodeType": "ElementaryTypeName",
                     "src": "690:7:23",
@@ -807,12 +807,12 @@
                 },
                 {
                   "constant": false,
-                  "id": 6769,
+                  "id": 6808,
                   "mutability": "mutable",
                   "name": "token",
                   "nameLocation": "725:5:23",
                   "nodeType": "VariableDeclaration",
-                  "scope": 6780,
+                  "scope": 6819,
                   "src": "717:13:23",
                   "stateVariable": false,
                   "storageLocation": "default",
@@ -821,7 +821,7 @@
                     "typeString": "address"
                   },
                   "typeName": {
-                    "id": 6768,
+                    "id": 6807,
                     "name": "address",
                     "nodeType": "ElementaryTypeName",
                     "src": "717:7:23",
@@ -835,12 +835,12 @@
                 },
                 {
                   "constant": false,
-                  "id": 6771,
+                  "id": 6810,
                   "mutability": "mutable",
                   "name": "amount",
                   "nameLocation": "748:6:23",
                   "nodeType": "VariableDeclaration",
-                  "scope": 6780,
+                  "scope": 6819,
                   "src": "740:14:23",
                   "stateVariable": false,
                   "storageLocation": "default",
@@ -849,7 +849,7 @@
                     "typeString": "uint256"
                   },
                   "typeName": {
-                    "id": 6770,
+                    "id": 6809,
                     "name": "uint256",
                     "nodeType": "ElementaryTypeName",
                     "src": "740:7:23",
@@ -862,12 +862,12 @@
                 },
                 {
                   "constant": false,
-                  "id": 6773,
+                  "id": 6812,
                   "mutability": "mutable",
                   "name": "fee",
                   "nameLocation": "772:3:23",
                   "nodeType": "VariableDeclaration",
-                  "scope": 6780,
+                  "scope": 6819,
                   "src": "764:11:23",
                   "stateVariable": false,
                   "storageLocation": "default",
@@ -876,7 +876,7 @@
                     "typeString": "uint256"
                   },
                   "typeName": {
-                    "id": 6772,
+                    "id": 6811,
                     "name": "uint256",
                     "nodeType": "ElementaryTypeName",
                     "src": "764:7:23",
@@ -889,12 +889,12 @@
                 },
                 {
                   "constant": false,
-                  "id": 6775,
+                  "id": 6814,
                   "mutability": "mutable",
                   "name": "data",
                   "nameLocation": "800:4:23",
                   "nodeType": "VariableDeclaration",
-                  "scope": 6780,
+                  "scope": 6819,
                   "src": "785:19:23",
                   "stateVariable": false,
                   "storageLocation": "calldata",
@@ -903,7 +903,7 @@
                     "typeString": "bytes"
                   },
                   "typeName": {
-                    "id": 6774,
+                    "id": 6813,
                     "name": "bytes",
                     "nodeType": "ElementaryTypeName",
                     "src": "785:5:23",
@@ -918,17 +918,17 @@
               "src": "680:130:23"
             },
             "returnParameters": {
-              "id": 6779,
+              "id": 6818,
               "nodeType": "ParameterList",
               "parameters": [
                 {
                   "constant": false,
-                  "id": 6778,
+                  "id": 6817,
                   "mutability": "mutable",
                   "name": "",
                   "nameLocation": "-1:-1:-1",
                   "nodeType": "VariableDeclaration",
-                  "scope": 6780,
+                  "scope": 6819,
                   "src": "829:7:23",
                   "stateVariable": false,
                   "storageLocation": "default",
@@ -937,7 +937,7 @@
                     "typeString": "bytes32"
                   },
                   "typeName": {
-                    "id": 6777,
+                    "id": 6816,
                     "name": "bytes32",
                     "nodeType": "ElementaryTypeName",
                     "src": "829:7:23",
@@ -951,14 +951,14 @@
               ],
               "src": "828:9:23"
             },
-            "scope": 6781,
+            "scope": 6820,
             "src": "660:178:23",
             "stateMutability": "nonpayable",
             "virtual": false,
             "visibility": "external"
           }
         ],
-        "scope": 6817,
+        "scope": 6856,
         "src": "212:628:23",
         "usedErrors": []
       },
@@ -968,15 +968,15 @@
         "contractDependencies": [],
         "contractKind": "interface",
         "documentation": {
-          "id": 6782,
+          "id": 6821,
           "nodeType": "StructuredDocumentation",
           "src": "842:121:23",
           "text": " @dev Interface of the ERC3156 FlashLender, as defined in\n https://eips.ethereum.org/EIPS/eip-3156[ERC-3156]."
         },
         "fullyImplemented": false,
-        "id": 6816,
+        "id": 6855,
         "linearizedBaseContracts": [
-          6816
+          6855
         ],
         "name": "IERC3156FlashLender",
         "nameLocation": "974:19:23",
@@ -984,13 +984,13 @@
         "nodes": [
           {
             "documentation": {
-              "id": 6783,
+              "id": 6822,
               "nodeType": "StructuredDocumentation",
               "src": "1000:168:23",
               "text": " @dev The amount of currency available to be lended.\n @param token The loan currency.\n @return The amount of `token` that can be borrowed."
             },
             "functionSelector": "613255ab",
-            "id": 6790,
+            "id": 6829,
             "implemented": false,
             "kind": "function",
             "modifiers": [],
@@ -998,17 +998,17 @@
             "nameLocation": "1182:12:23",
             "nodeType": "FunctionDefinition",
             "parameters": {
-              "id": 6786,
+              "id": 6825,
               "nodeType": "ParameterList",
               "parameters": [
                 {
                   "constant": false,
-                  "id": 6785,
+                  "id": 6824,
                   "mutability": "mutable",
                   "name": "token",
                   "nameLocation": "1212:5:23",
                   "nodeType": "VariableDeclaration",
-                  "scope": 6790,
+                  "scope": 6829,
                   "src": "1204:13:23",
                   "stateVariable": false,
                   "storageLocation": "default",
@@ -1017,7 +1017,7 @@
                     "typeString": "address"
                   },
                   "typeName": {
-                    "id": 6784,
+                    "id": 6823,
                     "name": "address",
                     "nodeType": "ElementaryTypeName",
                     "src": "1204:7:23",
@@ -1033,17 +1033,17 @@
               "src": "1194:29:23"
             },
             "returnParameters": {
-              "id": 6789,
+              "id": 6828,
               "nodeType": "ParameterList",
               "parameters": [
                 {
                   "constant": false,
-                  "id": 6788,
+                  "id": 6827,
                   "mutability": "mutable",
                   "name": "",
                   "nameLocation": "-1:-1:-1",
                   "nodeType": "VariableDeclaration",
-                  "scope": 6790,
+                  "scope": 6829,
                   "src": "1247:7:23",
                   "stateVariable": false,
                   "storageLocation": "default",
@@ -1052,7 +1052,7 @@
                     "typeString": "uint256"
                   },
                   "typeName": {
-                    "id": 6787,
+                    "id": 6826,
                     "name": "uint256",
                     "nodeType": "ElementaryTypeName",
                     "src": "1247:7:23",
@@ -1066,7 +1066,7 @@
               ],
               "src": "1246:9:23"
             },
-            "scope": 6816,
+            "scope": 6855,
             "src": "1173:83:23",
             "stateMutability": "view",
             "virtual": false,
@@ -1074,13 +1074,13 @@
           },
           {
             "documentation": {
-              "id": 6791,
+              "id": 6830,
               "nodeType": "StructuredDocumentation",
               "src": "1262:249:23",
               "text": " @dev The fee to be charged for a given loan.\n @param token The loan currency.\n @param amount The amount of tokens lent.\n @return The amount of `token` to be charged for the loan, on top of the returned principal."
             },
             "functionSelector": "d9d98ce4",
-            "id": 6800,
+            "id": 6839,
             "implemented": false,
             "kind": "function",
             "modifiers": [],
@@ -1088,17 +1088,17 @@
             "nameLocation": "1525:8:23",
             "nodeType": "FunctionDefinition",
             "parameters": {
-              "id": 6796,
+              "id": 6835,
               "nodeType": "ParameterList",
               "parameters": [
                 {
                   "constant": false,
-                  "id": 6793,
+                  "id": 6832,
                   "mutability": "mutable",
                   "name": "token",
                   "nameLocation": "1551:5:23",
                   "nodeType": "VariableDeclaration",
-                  "scope": 6800,
+                  "scope": 6839,
                   "src": "1543:13:23",
                   "stateVariable": false,
                   "storageLocation": "default",
@@ -1107,7 +1107,7 @@
                     "typeString": "address"
                   },
                   "typeName": {
-                    "id": 6792,
+                    "id": 6831,
                     "name": "address",
                     "nodeType": "ElementaryTypeName",
                     "src": "1543:7:23",
@@ -1121,12 +1121,12 @@
                 },
                 {
                   "constant": false,
-                  "id": 6795,
+                  "id": 6834,
                   "mutability": "mutable",
                   "name": "amount",
                   "nameLocation": "1574:6:23",
                   "nodeType": "VariableDeclaration",
-                  "scope": 6800,
+                  "scope": 6839,
                   "src": "1566:14:23",
                   "stateVariable": false,
                   "storageLocation": "default",
@@ -1135,7 +1135,7 @@
                     "typeString": "uint256"
                   },
                   "typeName": {
-                    "id": 6794,
+                    "id": 6833,
                     "name": "uint256",
                     "nodeType": "ElementaryTypeName",
                     "src": "1566:7:23",
@@ -1150,17 +1150,17 @@
               "src": "1533:53:23"
             },
             "returnParameters": {
-              "id": 6799,
+              "id": 6838,
               "nodeType": "ParameterList",
               "parameters": [
                 {
                   "constant": false,
-                  "id": 6798,
+                  "id": 6837,
                   "mutability": "mutable",
                   "name": "",
                   "nameLocation": "-1:-1:-1",
                   "nodeType": "VariableDeclaration",
-                  "scope": 6800,
+                  "scope": 6839,
                   "src": "1610:7:23",
                   "stateVariable": false,
                   "storageLocation": "default",
@@ -1169,7 +1169,7 @@
                     "typeString": "uint256"
                   },
                   "typeName": {
-                    "id": 6797,
+                    "id": 6836,
                     "name": "uint256",
                     "nodeType": "ElementaryTypeName",
                     "src": "1610:7:23",
@@ -1183,7 +1183,7 @@
               ],
               "src": "1609:9:23"
             },
-            "scope": 6816,
+            "scope": 6855,
             "src": "1516:103:23",
             "stateMutability": "view",
             "virtual": false,
@@ -1191,13 +1191,13 @@
           },
           {
             "documentation": {
-              "id": 6801,
+              "id": 6840,
               "nodeType": "StructuredDocumentation",
               "src": "1625:320:23",
               "text": " @dev Initiate a flash loan.\n @param receiver The receiver of the tokens in the loan, and the receiver of the callback.\n @param token The loan currency.\n @param amount The amount of tokens lent.\n @param data Arbitrary data structure, intended to contain user-defined parameters."
             },
             "functionSelector": "5cffe9de",
-            "id": 6815,
+            "id": 6854,
             "implemented": false,
             "kind": "function",
             "modifiers": [],
@@ -1205,38 +1205,38 @@
             "nameLocation": "1959:9:23",
             "nodeType": "FunctionDefinition",
             "parameters": {
-              "id": 6811,
+              "id": 6850,
               "nodeType": "ParameterList",
               "parameters": [
                 {
                   "constant": false,
-                  "id": 6804,
+                  "id": 6843,
                   "mutability": "mutable",
                   "name": "receiver",
                   "nameLocation": "2000:8:23",
                   "nodeType": "VariableDeclaration",
-                  "scope": 6815,
+                  "scope": 6854,
                   "src": "1978:30:23",
                   "stateVariable": false,
                   "storageLocation": "default",
                   "typeDescriptions": {
-                    "typeIdentifier": "t_contract$_IERC3156FlashBorrower_$6781",
+                    "typeIdentifier": "t_contract$_IERC3156FlashBorrower_$6820",
                     "typeString": "contract IERC3156FlashBorrower"
                   },
                   "typeName": {
-                    "id": 6803,
+                    "id": 6842,
                     "nodeType": "UserDefinedTypeName",
                     "pathNode": {
-                      "id": 6802,
+                      "id": 6841,
                       "name": "IERC3156FlashBorrower",
                       "nodeType": "IdentifierPath",
-                      "referencedDeclaration": 6781,
+                      "referencedDeclaration": 6820,
                       "src": "1978:21:23"
                     },
-                    "referencedDeclaration": 6781,
+                    "referencedDeclaration": 6820,
                     "src": "1978:21:23",
                     "typeDescriptions": {
-                      "typeIdentifier": "t_contract$_IERC3156FlashBorrower_$6781",
+                      "typeIdentifier": "t_contract$_IERC3156FlashBorrower_$6820",
                       "typeString": "contract IERC3156FlashBorrower"
                     }
                   },
@@ -1244,12 +1244,12 @@
                 },
                 {
                   "constant": false,
-                  "id": 6806,
+                  "id": 6845,
                   "mutability": "mutable",
                   "name": "token",
                   "nameLocation": "2026:5:23",
                   "nodeType": "VariableDeclaration",
-                  "scope": 6815,
+                  "scope": 6854,
                   "src": "2018:13:23",
                   "stateVariable": false,
                   "storageLocation": "default",
@@ -1258,7 +1258,7 @@
                     "typeString": "address"
                   },
                   "typeName": {
-                    "id": 6805,
+                    "id": 6844,
                     "name": "address",
                     "nodeType": "ElementaryTypeName",
                     "src": "2018:7:23",
@@ -1272,12 +1272,12 @@
                 },
                 {
                   "constant": false,
-                  "id": 6808,
+                  "id": 6847,
                   "mutability": "mutable",
                   "name": "amount",
                   "nameLocation": "2049:6:23",
                   "nodeType": "VariableDeclaration",
-                  "scope": 6815,
+                  "scope": 6854,
                   "src": "2041:14:23",
                   "stateVariable": false,
                   "storageLocation": "default",
@@ -1286,7 +1286,7 @@
                     "typeString": "uint256"
                   },
                   "typeName": {
-                    "id": 6807,
+                    "id": 6846,
                     "name": "uint256",
                     "nodeType": "ElementaryTypeName",
                     "src": "2041:7:23",
@@ -1299,12 +1299,12 @@
                 },
                 {
                   "constant": false,
-                  "id": 6810,
+                  "id": 6849,
                   "mutability": "mutable",
                   "name": "data",
                   "nameLocation": "2080:4:23",
                   "nodeType": "VariableDeclaration",
-                  "scope": 6815,
+                  "scope": 6854,
                   "src": "2065:19:23",
                   "stateVariable": false,
                   "storageLocation": "calldata",
@@ -1313,7 +1313,7 @@
                     "typeString": "bytes"
                   },
                   "typeName": {
-                    "id": 6809,
+                    "id": 6848,
                     "name": "bytes",
                     "nodeType": "ElementaryTypeName",
                     "src": "2065:5:23",
@@ -1328,17 +1328,17 @@
               "src": "1968:122:23"
             },
             "returnParameters": {
-              "id": 6814,
+              "id": 6853,
               "nodeType": "ParameterList",
               "parameters": [
                 {
                   "constant": false,
-                  "id": 6813,
+                  "id": 6852,
                   "mutability": "mutable",
                   "name": "",
                   "nameLocation": "-1:-1:-1",
                   "nodeType": "VariableDeclaration",
-                  "scope": 6815,
+                  "scope": 6854,
                   "src": "2109:4:23",
                   "stateVariable": false,
                   "storageLocation": "default",
@@ -1347,7 +1347,7 @@
                     "typeString": "bool"
                   },
                   "typeName": {
-                    "id": 6812,
+                    "id": 6851,
                     "name": "bool",
                     "nodeType": "ElementaryTypeName",
                     "src": "2109:4:23",
@@ -1361,14 +1361,14 @@
               ],
               "src": "2108:6:23"
             },
-            "scope": 6816,
+            "scope": 6855,
             "src": "1950:165:23",
             "stateMutability": "nonpayable",
             "virtual": false,
             "visibility": "external"
           }
         ],
-        "scope": 6817,
+        "scope": 6856,
         "src": "964:1154:23",
         "usedErrors": []
       }
@@ -1381,7 +1381,7 @@
   },
   "networks": {},
   "schemaVersion": "3.4.1",
-  "updatedAt": "2021-07-20T04:04:06.934Z",
+  "updatedAt": "2021-08-29T07:45:48.692Z",
   "devdoc": {
     "details": "Interface of the ERC3156 FlashBorrower, as defined in https://eips.ethereum.org/EIPS/eip-3156[ERC-3156]. _Available since v4.1._",
     "kind": "dev",

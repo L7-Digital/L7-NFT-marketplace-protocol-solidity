@@ -1,3 +1,5 @@
+// SPDX-License-Identifier: UNLICENSED
+
 /*
 
   Token recipient. Modified very slightly from the example on http://ethereum.org/dao (just to index log parameters).
@@ -28,11 +30,14 @@ contract TokenRecipient {
         require(t.transferFrom(from, address(this), value), "ERC20 token transfer failed");
         emit ReceivedTokens(from, value, token, extraData);
     }
+    
+    fallback () payable external {
+    }
 
     /**
      * @dev Receive Ether and generate a log event
      */
-    fallback () payable external {
+    receive() external payable {
         emit ReceivedEther(msg.sender, msg.value);
     }
 }

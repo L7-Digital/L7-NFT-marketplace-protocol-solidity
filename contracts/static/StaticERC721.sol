@@ -1,3 +1,4 @@
+// SPDX-License-Identifier: UNLICENSED
 /*
 
     StaticERC721 - static calls for ERC721 trades

@@ -1,3 +1,5 @@
+// SPDX-License-Identifier: UNLICENSED
+
 pragma solidity 0.8.4;
 
 /**
@@ -37,4 +39,6 @@ abstract contract Proxy {
             default { return(ptr, size) }
         }
     }
+
+    receive() external payable {}
 }

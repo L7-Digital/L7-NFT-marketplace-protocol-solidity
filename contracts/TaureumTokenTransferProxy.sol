@@ -1,3 +1,4 @@
+// SPDX-License-Identifier: UNLICENSED
 /*
 
   << Project Taureum Token Transfer Proxy >.
@@ -10,9 +11,7 @@ import "./registry/TokenTransferProxy.sol";
 
 contract TaureumTokenTransferProxy is TokenTransferProxy {
 
-    constructor (ProxyRegistry registryAddr)
-        public
-    {
+    constructor (ProxyRegistry registryAddr) {
         registry = registryAddr;
     }
 

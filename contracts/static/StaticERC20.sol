@@ -1,3 +1,4 @@
+// SPDX-License-Identifier: UNLICENSED
 /*
 
     StaticERC20 - static calls for ERC20 trades

@@ -1,4 +1,5 @@
-/* 
+// SPDX-License-Identifier: UNLICENSED
+/*
 
   Proxy contract to hold access to assets on behalf of a user (e.g. ERC20 approve) and execute calls under particular conditions.
 

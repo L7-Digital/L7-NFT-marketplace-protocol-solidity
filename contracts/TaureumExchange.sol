@@ -1,3 +1,4 @@
+// SPDX-License-Identifier: UNLICENSED
 /*
 
   << Taureum Exchange >>
@@ -25,7 +26,7 @@ contract TaureumExchange is Exchange {
      * @param registryAddress Address of the registry instance which this Exchange instance will use
      * @param tokenAddress Address of the token used for protocol fees
      */
-    constructor (ProxyRegistry registryAddress, TokenTransferProxy tokenTransferProxyAddress, ERC20 tokenAddress, address protocolFeeAddress) public {
+    constructor (ProxyRegistry registryAddress, TokenTransferProxy tokenTransferProxyAddress, ERC20 tokenAddress, address protocolFeeAddress) Ownable() {
         registry = registryAddress;
         tokenTransferProxy = tokenTransferProxyAddress;
         exchangeToken = tokenAddress;
