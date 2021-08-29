@@ -50,7 +50,6 @@ const ERC721_setApprovalForAll = async(owner, to, isApproved) => {
         from: owner,
         gas: gasEstimate
     }).on('receipt', function(receipt){
-        console.log("Receipt", receipt);
     })
 }
 
