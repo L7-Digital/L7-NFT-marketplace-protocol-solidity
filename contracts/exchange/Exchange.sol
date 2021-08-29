@@ -124,6 +124,7 @@ contract Exchange is ExchangeCore {
         bytes memory staticExtradata,
         bool orderbookInclusionDesired)
         public
+        whenNotPaused
     {
         Order memory order = Order(addrs[0], addrs[1], addrs[2], uints[0], uints[1], uints[2], uints[3], addrs[3], feeMethod, side, saleKind, addrs[4], howToCall, callData, replacementPattern, addrs[5], staticExtradata, address(ERC20(addrs[6])), uints[4], uints[5], uints[6], uints[7], uints[8]);
         return approveOrder(order, orderbookInclusionDesired);
@@ -146,6 +147,7 @@ contract Exchange is ExchangeCore {
         bytes32 r,
         bytes32 s)
         public
+        whenNotPaused
     {
 
         return cancelOrder(
@@ -217,6 +219,7 @@ contract Exchange is ExchangeCore {
         uint8[2] memory vs,
         bytes32[5] memory rssMetadata)
         public
+        whenNotPaused
         payable
     {
 

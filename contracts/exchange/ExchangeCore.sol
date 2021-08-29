@@ -39,12 +39,13 @@ import "../registry/AuthenticatedProxy.sol";
 import "../lib/ex/ArrayUtils.sol";
 import "../lib/ex/ReentrancyGuarded.sol";
 import "./SaleKindInterface.sol";
+import "../lib/security/Pausable.sol";
 
 /**
  * @title ExchangeCore
  * @author Project Wyvern Developers
  */
-contract ExchangeCore is ReentrancyGuarded, Ownable {
+contract ExchangeCore is ReentrancyGuarded, Ownable, Pausable {
 
     /* The token used to pay exchange fees. */
     ERC20 public exchangeToken;
@@ -143,12 +144,29 @@ contract ExchangeCore is ReentrancyGuarded, Ownable {
     event OrdersMatched           (bytes32 buyHash, bytes32 sellHash, address indexed maker, address indexed taker, uint price, bytes32 indexed metadata);
 
     /**
+     * @dev Pause the contract in case of bugs/attacks.
+     * @notice Only the owner can call this method.
+     */
+    function pause() public onlyOwner {
+        _pause();
+    }
+
+    /**
+     * @dev Resume the contract after being paused.
+     * @notice Only the owner can call this method.
+     */
+    function unPause() public onlyOwner {
+        _unpause();
+    }
+
+    /**
      * @dev Change the minimum maker fee paid to the protocol (owner only)
      * @param newMinimumMakerProtocolFee New fee to set in basis points
      */
     function changeMinimumMakerProtocolFee(uint newMinimumMakerProtocolFee)
     public
     onlyOwner
+    whenNotPaused
     {
         minimumMakerProtocolFee = newMinimumMakerProtocolFee;
     }
@@ -160,6 +178,7 @@ contract ExchangeCore is ReentrancyGuarded, Ownable {
     function changeMinimumTakerProtocolFee(uint newMinimumTakerProtocolFee)
     public
     onlyOwner
+    whenNotPaused
     {
         minimumTakerProtocolFee = newMinimumTakerProtocolFee;
     }
@@ -171,6 +190,7 @@ contract ExchangeCore is ReentrancyGuarded, Ownable {
     function changeProtocolFeeRecipient(address newProtocolFeeRecipient)
     public
     onlyOwner
+    whenNotPaused
     {
         protocolFeeRecipient = newProtocolFeeRecipient;
     }
@@ -182,6 +202,7 @@ contract ExchangeCore is ReentrancyGuarded, Ownable {
     function changeProtocolFeeTokenAddress(address newTokenAddress)
     public
     onlyOwner
+    whenNotPaused
     {
         address oldExchangeToken = address(exchangeToken);
         exchangeToken = ERC20(newTokenAddress);
