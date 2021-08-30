@@ -2,7 +2,7 @@ const Web3 = require('web3')
 const provider = new Web3.providers.HttpProvider('https://data-seed-prebsc-1-s1.binance.org:8545')
 const web3 = new Web3(provider)
 
-const {walletAddress, sellerWalletAddress, sellerPrivateKey, buyerPrivateKey, buyerWalletAddress, loadKeys} = require("./keys")
+const {walletAddress, sellerWalletAddress, sellerPrivateKey, buyerPrivateKey, buyerWalletAddress, backendPrivateKey, backendWalletAddress, loadKeys} = require("./keys")
 loadKeys(web3)
 
 const erc721ABI = require('../abi/TaureumERC721LazyMint.json').abi
@@ -30,7 +30,7 @@ const zeroAddress = "0x0000000000000000000000000000000000000000"
 
 
 const keys = {
-    walletAddress, sellerWalletAddress, sellerPrivateKey, buyerPrivateKey, buyerWalletAddress
+    walletAddress, sellerWalletAddress, sellerPrivateKey, buyerPrivateKey, buyerWalletAddress, backendPrivateKey, backendWalletAddress
 }
 
 module.exports = {

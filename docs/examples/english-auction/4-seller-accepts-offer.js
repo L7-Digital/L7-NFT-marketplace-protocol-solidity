@@ -97,8 +97,7 @@ async function sellerAcceptsOffer() {
         [buy.sig.v, sell.sig.v],
         [buy.sig.r, buy.sig.s, sell.sig.r, sell.sig.s, '0x0000000000000000000000000000000000000000000000000000000000000000']
     ).send({
-        from: keys.sellerWalletAddress, // FIXME: This `atomicMatch_` could be sent by any one, either the seller or the buyer or a third party as long as both orders and signatures are available.
-        // from: keys.buyerWalletAddress, // FIXME: This `atomicMatch_` could be send by any one, either the seller or the buyer or a third party as long as both orders and signatures are available.
+        from: keys.backendWalletAddress, // FIXME: This `atomicMatch_` could be sent by any one, either the seller or the buyer or a third party as long as both orders and signatures are available.
         gas: 1000000,
     }).on('receipt', function(receipt){
         console.log(LOG_INDEX, "Orders have been atomic matched!", receipt, receipt.events);
