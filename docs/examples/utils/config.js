@@ -6,11 +6,11 @@ const {walletAddress, sellerWalletAddress, sellerPrivateKey, buyerPrivateKey, bu
 loadKeys(web3)
 
 const erc721ABI = require('../abi/TaureumERC721LazyMint.json').abi
-const ERC721ContractAddress = "0x74B701F478FfdE83e36F23380f72A36ED3DABc26"
+const ERC721ContractAddress = "0xE07577082Ac981FF3a2F0C403F68893fC25A11a8"
 const ERC721Contract = new web3.eth.Contract(erc721ABI, ERC721ContractAddress);
 
 const erc1155ABI = require('../abi/TaureumERC1155.json').abi
-const ERC1155ContractAddress = "0xC56498f90026B56AE48f6d51B280BCCfE0B60Ca4"
+const ERC1155ContractAddress = "0xdA000B8f8fdfaaeD4142dAfa752fA258B74E7523"
 const ERC1155Contract = new web3.eth.Contract(erc1155ABI, ERC1155ContractAddress);
 
 const exchangeABI = require('../../../abi/TaureumExchange.json').abi
