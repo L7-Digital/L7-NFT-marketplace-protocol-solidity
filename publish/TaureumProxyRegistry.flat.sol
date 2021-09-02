@@ -1,6 +1,6 @@
 // File: contracts/registry/proxy/Proxy.sol
 
-// SPDX-License-Identifier: UNLICENSED
+// SPDX-License-Identifier: MIT
 
 pragma solidity 0.8.4;
 
@@ -47,7 +47,7 @@ abstract contract Proxy {
 
 // File: contracts/registry/proxy/OwnedUpgradeabilityStorage.sol
 
-// SPDX-License-Identifier: UNLICENSED
+// SPDX-License-Identifier: MIT
 
 pragma solidity 0.8.4;
 
@@ -82,7 +82,7 @@ contract OwnedUpgradeabilityStorage {
 
 // File: contracts/registry/proxy/OwnedUpgradeabilityProxy.sol
 
-// SPDX-License-Identifier: UNLICENSED
+// SPDX-License-Identifier: MIT
 
 pragma solidity 0.8.4;
 
@@ -182,7 +182,7 @@ contract OwnedUpgradeabilityProxy is Proxy, OwnedUpgradeabilityStorage {
 
 // File: contracts/registry/OwnableDelegateProxy.sol
 
-// SPDX-License-Identifier: UNLICENSED
+// SPDX-License-Identifier: MIT
 /*
 
   OwnableDelegateProxy
@@ -209,7 +209,7 @@ contract OwnableDelegateProxy is OwnedUpgradeabilityProxy {
 
 // File: contracts/registry/ProxyRegistryInterface.sol
 
-// SPDX-License-Identifier: UNLICENSED
+// SPDX-License-Identifier: MIT
 
 /*
 
@@ -331,7 +331,7 @@ abstract contract Ownable is Context {
 
 // File: contracts/registry/ProxyRegistry.sol
 
-// SPDX-License-Identifier: UNLICENSED
+// SPDX-License-Identifier: MIT
 /*
 
   Proxy registry; keeps a mapping of AuthenticatedProxy contracts and mapping of contracts authorized to access them.  
@@ -892,7 +892,7 @@ contract ERC20 is Context, IERC20, IERC20Metadata {
 
 // File: contracts/registry/TokenRecipient.sol
 
-// SPDX-License-Identifier: UNLICENSED
+// SPDX-License-Identifier: MIT
 
 /*
 
@@ -937,7 +937,7 @@ contract TokenRecipient {
 
 // File: contracts/registry/AuthenticatedProxy.sol
 
-// SPDX-License-Identifier: UNLICENSED
+// SPDX-License-Identifier: MIT
 /*
 
   Proxy contract to hold access to assets on behalf of a user (e.g. ERC20 approve) and execute calls under particular conditions.
@@ -1043,7 +1043,7 @@ contract AuthenticatedProxy is TokenRecipient, OwnedUpgradeabilityStorage {
 
 // File: contracts/TaureumProxyRegistry.sol
 
-// SPDX-License-Identifier: UNLICENSED
+// SPDX-License-Identifier: MIT
 /*
 
   << Project Taureum Proxy Registry >>

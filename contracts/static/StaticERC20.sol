@@ -1,4 +1,4 @@
-// SPDX-License-Identifier: UNLICENSED
+// SPDX-License-Identifier: MIT
 /*
 
     StaticERC20 - static calls for ERC20 trades
