@@ -47,7 +47,7 @@ abstract contract Proxy {
 
 // File: contracts/registry/proxy/OwnedUpgradeabilityStorage.sol
 
-// SPDX-License-Identifier: MIT
+
 
 pragma solidity 0.8.4;
 
@@ -82,7 +82,7 @@ contract OwnedUpgradeabilityStorage {
 
 // File: contracts/registry/proxy/OwnedUpgradeabilityProxy.sol
 
-// SPDX-License-Identifier: MIT
+
 
 pragma solidity 0.8.4;
 
@@ -182,7 +182,7 @@ contract OwnedUpgradeabilityProxy is Proxy, OwnedUpgradeabilityStorage {
 
 // File: contracts/registry/OwnableDelegateProxy.sol
 
-// SPDX-License-Identifier: MIT
+
 /*
 
   OwnableDelegateProxy
@@ -209,7 +209,7 @@ contract OwnableDelegateProxy is OwnedUpgradeabilityProxy {
 
 // File: contracts/registry/ProxyRegistryInterface.sol
 
-// SPDX-License-Identifier: MIT
+
 
 /*
 
@@ -234,7 +234,7 @@ interface ProxyRegistryInterface {
 
 // File: contracts/lib/utils/Context.sol
 
-// SPDX-License-Identifier: MIT
+
 
 pragma solidity ^0.8.0;
 
@@ -261,7 +261,7 @@ abstract contract Context {
 
 // File: contracts/lib/access/Ownable.sol
 
-// SPDX-License-Identifier: MIT
+
 
 pragma solidity ^0.8.0;
 
@@ -331,7 +331,7 @@ abstract contract Ownable is Context {
 
 // File: contracts/registry/ProxyRegistry.sol
 
-// SPDX-License-Identifier: MIT
+
 /*
 
   Proxy registry; keeps a mapping of AuthenticatedProxy contracts and mapping of contracts authorized to access them.  
@@ -477,7 +477,7 @@ contract ProxyRegistry is Ownable, ProxyRegistryInterface {
 
 // File: contracts/lib/token/ERC20/IERC20.sol
 
-// SPDX-License-Identifier: MIT
+
 
 pragma solidity ^0.8.0;
 
@@ -557,7 +557,7 @@ interface IERC20 {
 
 // File: contracts/lib/token/ERC20/extensions/IERC20Metadata.sol
 
-// SPDX-License-Identifier: MIT
+
 
 pragma solidity ^0.8.0;
 
@@ -586,7 +586,7 @@ interface IERC20Metadata is IERC20 {
 
 // File: contracts/lib/token/ERC20/ERC20.sol
 
-// SPDX-License-Identifier: MIT
+
 
 pragma solidity ^0.8.0;
 
@@ -892,7 +892,7 @@ contract ERC20 is Context, IERC20, IERC20Metadata {
 
 // File: contracts/registry/TokenTransferProxy.sol
 
-// SPDX-License-Identifier: MIT
+
 
 /*
 
@@ -931,7 +931,7 @@ contract TokenTransferProxy {
 
 // File: contracts/registry/TokenRecipient.sol
 
-// SPDX-License-Identifier: MIT
+
 
 /*
 
@@ -976,7 +976,7 @@ contract TokenRecipient {
 
 // File: contracts/registry/AuthenticatedProxy.sol
 
-// SPDX-License-Identifier: MIT
+
 /*
 
   Proxy contract to hold access to assets on behalf of a user (e.g. ERC20 approve) and execute calls under particular conditions.
@@ -1082,7 +1082,7 @@ contract AuthenticatedProxy is TokenRecipient, OwnedUpgradeabilityStorage {
 
 // File: contracts/lib/ex/ArrayUtils.sol
 
-// SPDX-License-Identifier: MIT
+
 
 /*
 
@@ -1400,7 +1400,7 @@ library ArrayUtils {
 
 // File: contracts/lib/ex/ReentrancyGuarded.sol
 
-// SPDX-License-Identifier: MIT
+
 
 /*
 
@@ -1430,7 +1430,7 @@ contract ReentrancyGuarded {
 
 // File: contracts/exchange/SaleKindInterface.sol
 
-// SPDX-License-Identifier: MIT
+
 
 /*
 
@@ -1521,7 +1521,7 @@ library SaleKindInterface {
 
 // File: contracts/lib/security/Pausable.sol
 
-// SPDX-License-Identifier: MIT
+
 
 pragma solidity ^0.8.0;
 
@@ -1613,7 +1613,7 @@ abstract contract Pausable is Context {
 
 // File: contracts/exchange/ExchangeCore.sol
 
-// SPDX-License-Identifier: MIT
+
 
 /*
 
@@ -2404,7 +2404,7 @@ contract ExchangeCore is ReentrancyGuarded, Ownable, Pausable {
 
 // File: contracts/exchange/Exchange.sol
 
-// SPDX-License-Identifier: MIT
+
 
 /*
   
@@ -2641,7 +2641,7 @@ contract Exchange is ExchangeCore {
 
 // File: contracts/TaureumExchange.sol
 
-// SPDX-License-Identifier: MIT
+
 /*
 
   << Taureum Exchange >>
