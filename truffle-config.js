@@ -1,9 +1,16 @@
 const HDWalletProvider = require('@truffle/hdwallet-provider');
 const fs = require('fs');
-const privateKey = fs.readFileSync(".secret").toString().trim();
 
-const testnetBSCProvider = new HDWalletProvider(privateKey, `https://data-seed-prebsc-1-s2.binance.org:8545/`, 0, 1)
-const mainnetBSCProvider = new HDWalletProvider(privateKey, `https://bsc-dataseed.binance.org/`, 0, 1)
+let testnetBSCProvider, mainnetBSCProvider
+
+try {
+  const privateKey = fs.readFileSync(".secret").toString().trim();
+  testnetBSCProvider = new HDWalletProvider(privateKey, `https://data-seed-prebsc-1-s2.binance.org:8545/`, 0, 1)
+  mainnetBSCProvider = new HDWalletProvider(privateKey, `https://bsc-dataseed.binance.org/`, 0, 1)
+} catch (e) {
+  console.log(e)
+}
+
 
 module.exports = {
   plugins: ["truffle-contract-size"],
