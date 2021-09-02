@@ -1,8 +1,8 @@
 /* global artifacts: false */
 
-const TaureumExchange = artifacts.require('./TaureumExchange.sol')
-const TaureumProxyRegistry = artifacts.require('./TaureumProxyRegistry.sol')
-const TaureumTokenTransferProxy = artifacts.require('./TaureumTokenTransferProxy.sol')
+const TaureumExchange = artifacts.require('TaureumExchange')
+const TaureumProxyRegistry = artifacts.require('TaureumProxyRegistry')
+const TaureumTokenTransferProxy = artifacts.require('TaureumTokenTransferProxy')
 
 const {getConfigByNetwork, setConfig} = require('./config.js')
 

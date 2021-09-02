@@ -1,7 +1,7 @@
 /* global artifacts: false */
 
-const TestToken = artifacts.require('./TestToken.sol')
-const TestStatic = artifacts.require('./TestStatic.sol')
+const TestToken = artifacts.require('TestToken')
+const TestStatic = artifacts.require('TestStatic')
 
 const { setConfig } = require('./config.js')
 

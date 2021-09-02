@@ -1,6 +1,6 @@
 /* global artifacts: false */
 
-const TaureumProxyRegistry = artifacts.require('./TaureumProxyRegistry.sol')
+const TaureumProxyRegistry = artifacts.require('TaureumProxyRegistry')
 
 const {getConfigByNetwork} = require('./config.js')
 
