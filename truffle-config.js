@@ -7,7 +7,7 @@ try {
   const privateKey = fs.readFileSync(".secret").toString().trim();
   testnetBSCProvider = new HDWalletProvider(privateKey, `https://data-seed-prebsc-1-s2.binance.org:8545/`, 0, 1)
   mainnetBSCProvider = new HDWalletProvider(privateKey, `https://bsc-dataseed.binance.org/`, 0, 1)
-  kovanProvider = new HDWalletProvider(privateKey, 'https://kovan.poa.network/')
+  kovanProvider = new HDWalletProvider(privateKey, `wss://kovan.infura.io/ws/v3/0172f183d22c4d279b7d6fe18fee2b55`, 0, 1)
 } catch (e) {
   console.log(e)
 }
@@ -33,12 +33,13 @@ module.exports = {
   //   },
     kovan: {
       provider: kovanProvider,
-      gas: 5000000,
       gasPrice: 25000000000,
       network_id: 42,
       confirmations: 2,
-      // skipDryRun: true,
+      skipDryRun: true,
       gasLimit: 100000000,
+      allowUnlimitedContractSize: true,
+      networkCheckTimeout: 1000000,
     },
   //   mainnet: {
   //     networkCheckTimeout: 100000,
