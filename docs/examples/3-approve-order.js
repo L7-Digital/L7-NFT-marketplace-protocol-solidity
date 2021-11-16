@@ -5,7 +5,7 @@ const {makeOrder} = require('./utils/order');
 /**
  * This function will have the Exchange approve an Order created by the `walletAddress`.
  *
- * The following example actually invoke method `approveOrder_()` in the `TaureumExchange` contract.
+ * The following example actually invoke method `approveOrder_()` in the `L7Exchange` contract.
  */
 (async () => {
     try {

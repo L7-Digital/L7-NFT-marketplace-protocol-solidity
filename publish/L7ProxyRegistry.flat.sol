@@ -1041,12 +1041,12 @@ contract AuthenticatedProxy is TokenRecipient, OwnedUpgradeabilityStorage {
 
 }
 
-// File: contracts/TaureumProxyRegistry.sol
+// File: contracts/L7ProxyRegistry.sol
 
 
 /*
 
-  << Project Taureum Proxy Registry >>
+  << Project L7 Proxy Registry >>
 
 */
 
@@ -1055,12 +1055,12 @@ pragma solidity 0.8.4;
 
 
 /**
- * @title TaureumProxyRegistry
- * @author Project Taureum Developers
+ * @title L7ProxyRegistry
+ * @author Project L7 Developers
  */
-contract TaureumProxyRegistry is ProxyRegistry {
+contract L7ProxyRegistry is ProxyRegistry {
 
-    string public constant name = "Project Taureum Proxy Registry";
+    string public constant name = "Project L7 Proxy Registry";
 
     /* Whether the initial auth address has been set. */
     bool public initialAddressSet = false;

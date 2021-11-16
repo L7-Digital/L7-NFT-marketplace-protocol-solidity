@@ -1,7 +1,7 @@
 /* global artifacts:false, it:false, contract:false, assert:false */
 
-const TaureumProxyRegistry = artifacts.require('TaureumProxyRegistry')
-const TaureumTokenTransferProxy = artifacts.require('TaureumTokenTransferProxy')
+const L7ProxyRegistry = artifacts.require('L7ProxyRegistry')
+const L7TokenTransferProxy = artifacts.require('L7TokenTransferProxy')
 const OwnableDelegateProxy = artifacts.require('OwnableDelegateProxy')
 const TestToken = artifacts.require('TestToken')
 const AuthenticatedProxy = artifacts.require('AuthenticatedProxy')
@@ -20,9 +20,9 @@ const increaseTime = (addSeconds, callback) => {
   }, callback)
 }
 
-contract('TaureumTokenTransferProxy', (accounts) => {
+contract('L7TokenTransferProxy', (accounts) => {
   it('should not allow transfer from unauthenticated contract', () => {
-    return TaureumTokenTransferProxy
+    return L7TokenTransferProxy
       .deployed()
       .then(tokenTransferProxyInstance => {
         return TestToken
@@ -38,9 +38,9 @@ contract('TaureumTokenTransferProxy', (accounts) => {
   })
 })
 
-contract('TaureumProxyRegistry', (accounts) => {
+contract('L7ProxyRegistry', (accounts) => {
   it('should not allow initial authentication twice', () => {
-    return TaureumProxyRegistry
+    return L7ProxyRegistry
       .deployed()
       .then(registryInstance => {
         return registryInstance.grantInitialAuthentication(accounts[0]).then(() => {
@@ -52,7 +52,7 @@ contract('TaureumProxyRegistry', (accounts) => {
   })
 
   it('should have a delegateproxyimpl', () => {
-    return TaureumProxyRegistry
+    return L7ProxyRegistry
       .deployed()
       .then(registryInstance => {
         return registryInstance.delegateProxyImplementation().then(ret => {
@@ -62,7 +62,7 @@ contract('TaureumProxyRegistry', (accounts) => {
   })
 
   it('should allow proxy creation', () => {
-    return TaureumProxyRegistry
+    return L7ProxyRegistry
       .deployed()
       .then(registryInstance => {
         return registryInstance.registerProxy()
@@ -76,7 +76,7 @@ contract('TaureumProxyRegistry', (accounts) => {
   })
 
   it('should allow proxy update', () => {
-    return TaureumProxyRegistry
+    return L7ProxyRegistry
       .deployed()
       .then(registryInstance => {
         return registryInstance.proxies(accounts[0])
@@ -93,7 +93,7 @@ contract('TaureumProxyRegistry', (accounts) => {
   })
 
   it('should not allow proxy upgrade to same implementation', () => {
-    return TaureumProxyRegistry
+    return L7ProxyRegistry
       .deployed()
       .then(registryInstance => {
         return registryInstance.proxies(accounts[0])
@@ -111,7 +111,7 @@ contract('TaureumProxyRegistry', (accounts) => {
   })
 
   it('should allow upgradeAndCall', () => {
-    return TaureumProxyRegistry
+    return L7ProxyRegistry
       .deployed()
       .then(registryInstance => {
         return registryInstance.proxies(accounts[0])
@@ -138,7 +138,7 @@ contract('TaureumProxyRegistry', (accounts) => {
   })
 
   it('should return proxy type', () => {
-    return TaureumProxyRegistry
+    return L7ProxyRegistry
       .deployed()
       .then(registryInstance => {
         return registryInstance.proxies(accounts[0])
@@ -152,7 +152,7 @@ contract('TaureumProxyRegistry', (accounts) => {
   })
 
   it('should allow ownership transfer', () => {
-    return TaureumProxyRegistry
+    return L7ProxyRegistry
       .deployed()
       .then(registryInstance => {
         return registryInstance.proxies(accounts[0])
@@ -175,7 +175,7 @@ contract('TaureumProxyRegistry', (accounts) => {
   })
 
   it('should not allow proxy update from another account', () => {
-    return TaureumProxyRegistry
+    return L7ProxyRegistry
       .deployed()
       .then(registryInstance => {
         return registryInstance.proxies(accounts[0])
@@ -191,7 +191,7 @@ contract('TaureumProxyRegistry', (accounts) => {
   })
 
   it('should not allow proxy transfer to a nonexistent account', () => {
-    return TaureumProxyRegistry
+    return L7ProxyRegistry
       .deployed()
       .then(registryInstance => {
         return registryInstance.proxies(accounts[0])
@@ -207,7 +207,7 @@ contract('TaureumProxyRegistry', (accounts) => {
   })
 
   it('should not allow reinitialization', () => {
-    return TaureumProxyRegistry
+    return L7ProxyRegistry
       .deployed()
       .then(registryInstance => {
         return registryInstance.proxies(accounts[0])
@@ -223,7 +223,7 @@ contract('TaureumProxyRegistry', (accounts) => {
   })
 
   it('should allow start but not end of authentication process', () => {
-    return TaureumProxyRegistry
+    return L7ProxyRegistry
       .deployed()
       .then(registryInstance => {
         return registryInstance.startGrantAuthentication(accounts[0]).then(() => {
@@ -240,7 +240,7 @@ contract('TaureumProxyRegistry', (accounts) => {
   })
 
   it('should not allow start twice', () => {
-    return TaureumProxyRegistry
+    return L7ProxyRegistry
       .deployed()
       .then(registryInstance => {
         return registryInstance.startGrantAuthentication(accounts[0]).then(() => {
@@ -252,7 +252,7 @@ contract('TaureumProxyRegistry', (accounts) => {
   })
 
   it('should not allow end without start', () => {
-    return TaureumProxyRegistry
+    return L7ProxyRegistry
       .deployed()
       .then(registryInstance => {
         return registryInstance.endGrantAuthentication(accounts[1]).then(() => {
@@ -264,7 +264,7 @@ contract('TaureumProxyRegistry', (accounts) => {
   })
 
   it('should allow end after time has passed', () => {
-    return TaureumProxyRegistry
+    return L7ProxyRegistry
      .deployed()
      .then(registryInstance => {
        return increaseTime(86400 * 7 * 3, () => {
@@ -283,7 +283,7 @@ contract('TaureumProxyRegistry', (accounts) => {
   })
 
   it('should not allow duplicate proxy creation', () => {
-    return TaureumProxyRegistry
+    return L7ProxyRegistry
       .deployed()
       .then(registryInstance => {
         return registryInstance.registerProxy()
@@ -297,7 +297,7 @@ contract('TaureumProxyRegistry', (accounts) => {
 
   it('should allow sending tokens through proxy', () => {
     const amount = new BN(10).pow(25).multipliedBy(2)
-    return TaureumProxyRegistry
+    return L7ProxyRegistry
       .deployed()
       .then(registryInstance => {
         return TestToken
@@ -320,7 +320,7 @@ contract('TaureumProxyRegistry', (accounts) => {
   })
 
   it('should allow delegatecall', () => {
-    return TaureumProxyRegistry
+    return L7ProxyRegistry
       .deployed()
       .then(registryInstance => {
         return registryInstance.proxies(accounts[0])
@@ -333,7 +333,7 @@ contract('TaureumProxyRegistry', (accounts) => {
   })
 
   it('should allow revoke', () => {
-    return TaureumProxyRegistry
+    return L7ProxyRegistry
       .deployed()
       .then(registryInstance => {
         return registryInstance.proxies(accounts[0]).then(proxy => {
@@ -354,7 +354,7 @@ contract('TaureumProxyRegistry', (accounts) => {
   })
 
   it('should not allow revoke from another account', () => {
-    return TaureumProxyRegistry
+    return L7ProxyRegistry
       .deployed()
       .then(registryInstance => {
         return registryInstance.proxies(accounts[0]).then(proxy => {

@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: MIT
 /*
 
-  << Project Taureum Proxy Registry >>
+  << Project L7 Proxy Registry >>
 
 */
 
@@ -11,12 +11,12 @@ import "./registry/ProxyRegistry.sol";
 import "./registry/AuthenticatedProxy.sol";
 
 /**
- * @title TaureumProxyRegistry
- * @author Project Taureum Developers
+ * @title L7ProxyRegistry
+ * @author Project L7 Developers
  */
-contract TaureumProxyRegistry is ProxyRegistry {
+contract L7ProxyRegistry is ProxyRegistry {
 
-    string public constant name = "Project Taureum Proxy Registry";
+    string public constant name = "Project L7 Proxy Registry";
 
     /* Whether the initial auth address has been set. */
     bool public initialAddressSet = false;

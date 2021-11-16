@@ -1,6 +1,6 @@
 /* global artifacts:false, it:false, contract:false, assert:false */
 
-const TaureumExchange = artifacts.require('TaureumExchange')
+const L7Exchange = artifacts.require('L7Exchange')
 
 const arrays = [
   '0x1234',
@@ -14,10 +14,10 @@ const arrays = [
   '0x111234123498732341234987312341234987323412349873219823421234111234123498732341234987312341234987323412349873219823421234'
 ]
 
-contract('TaureumExchange', (accounts) => {
+contract('L7Exchange', (accounts) => {
   arrays.map(arr => {
     it('should copy array ' + arr, () => {
-      return TaureumExchange
+      return L7Exchange
         .deployed()
         .then(exchangeInstance => {
           return exchangeInstance.testCopy.call(arr).then(ret => {
@@ -29,7 +29,7 @@ contract('TaureumExchange', (accounts) => {
 
   accounts.map(acc => {
     it('should copy address ' + acc, () => {
-      return TaureumExchange
+      return L7Exchange
         .deployed()
         .then(exchangeInstance => {
           return exchangeInstance.testCopyAddress.call(acc).then(ret => {

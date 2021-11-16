@@ -4,7 +4,7 @@ const {keys, exchange, exchangeAddress, ERC721ContractAddress, web3} = require('
 /**
  * This function will have the Exchange approve an Order created by the `walletAddress`. The `msg.sender` must be the order creator.
  *
- * The following example actually invoke method `cancelOrder_()` in the `TaureumExchange` contract.
+ * The following example actually invoke method `cancelOrder_()` in the `L7Exchange` contract.
  */
 (async () => {
     try {

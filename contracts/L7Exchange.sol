@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: MIT
 /*
 
-  << Taureum Exchange >>
+  << L7 Exchange >>
 
 */
 
@@ -10,16 +10,16 @@ pragma solidity 0.8.4;
 import "./exchange/Exchange.sol";
 
 /**
- * @title TaureumExchange
- * @author Taureum Protocol Developers
+ * @title L7Exchange
+ * @author L7 Protocol Developers
  */
-contract TaureumExchange is Exchange {
+contract L7Exchange is Exchange {
 
-    string public constant name = "Taureum Exchange";
+    string public constant name = "L7 Exchange";
   
     string public constant version = "0.1";
 
-    string public constant codename = "TaureumBeta";
+    string public constant codename = "L7Beta";
 
     /**
      * @dev Initialize a WyvernExchange instance

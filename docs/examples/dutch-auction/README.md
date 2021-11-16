@@ -14,6 +14,6 @@ Dutch Auction
 
 # Sequence diagram
 
-- See the [sequence diagram](./DutchAuction.png) for overview. ([Link to online diagram editor](https://online.visual-paradigm.com/community/share/taureum-diagram-n9ebhlvip))
+- See the [sequence diagram](./DutchAuction.png) for overview. ([Link to online diagram editor](https://online.visual-paradigm.com/community/share/l7-diagram-n9ebhlvip))
 - The flow of auction is explained in the comment section in each js code.
 - The party who calls `atomicMatch_` should be the buyer.

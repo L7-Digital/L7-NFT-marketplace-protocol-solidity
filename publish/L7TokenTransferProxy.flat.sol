@@ -929,19 +929,19 @@ contract TokenTransferProxy {
 
 }
 
-// File: contracts/TaureumTokenTransferProxy.sol
+// File: contracts/L7TokenTransferProxy.sol
 
 
 /*
 
-  << Project Taureum Token Transfer Proxy >.
+  << Project L7 Token Transfer Proxy >.
 
 */
 
 pragma solidity 0.8.4;
 
 
-contract TaureumTokenTransferProxy is TokenTransferProxy {
+contract L7TokenTransferProxy is TokenTransferProxy {
 
     constructor (ProxyRegistry registryAddr) {
         registry = registryAddr;

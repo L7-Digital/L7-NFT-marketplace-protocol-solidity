@@ -1,8 +1,8 @@
 /* global artifacts:false, it:false, contract:false, assert:false */
 
-const TaureumExchange = artifacts.require('TaureumExchange')
-const TaureumProxyRegistry = artifacts.require('TaureumProxyRegistry')
-const TaureumTokenTransferProxy = artifacts.require('TaureumTokenTransferProxy')
+const L7Exchange = artifacts.require('L7Exchange')
+const L7ProxyRegistry = artifacts.require('L7ProxyRegistry')
+const L7TokenTransferProxy = artifacts.require('L7TokenTransferProxy')
 const OwnableDelegateProxy = artifacts.require('OwnableDelegateProxy')
 const TestToken = artifacts.require('TestToken')
 const TestStatic = artifacts.require('TestStatic')
@@ -100,9 +100,9 @@ const hashToSign = (order) => {
   ).toString('hex')
 }
 
-contract('TaureumExchange', (accounts) => {
+contract('L7Exchange', (accounts) => {
   it('should allow simple array replacement', () => {
-    return TaureumExchange
+    return L7Exchange
       .deployed()
       .then(exchangeInstance => {
         return exchangeInstance.guardedArrayReplace.call('0xff', '0x00', '0xff').then(res => {
@@ -115,7 +115,7 @@ contract('TaureumExchange', (accounts) => {
   })
 
   it('should disallow array replacement', () => {
-    return TaureumExchange
+    return L7Exchange
       .deployed()
       .then(exchangeInstance => {
         return exchangeInstance.guardedArrayReplace.call('0xff', '0x00', '0x00').then(res => {
@@ -128,7 +128,7 @@ contract('TaureumExchange', (accounts) => {
   })
 
   it('should allow complex array replacment', () => {
-    return TaureumExchange
+    return L7Exchange
       .deployed()
       .then(exchangeInstance => {
         return exchangeInstance.guardedArrayReplace.call('0x0000000000000000', '0xffffffffffffffff', '0x00ff00ff00ff00ff').then(res => {
@@ -141,7 +141,7 @@ contract('TaureumExchange', (accounts) => {
   })
 
   it('should allow trivial array replacement', () => {
-    return TaureumExchange
+    return L7Exchange
       .deployed()
       .then(exchangeInstance => {
         return exchangeInstance.guardedArrayReplace.call('0x00', '0x11', '0xff').then(res => {
@@ -151,7 +151,7 @@ contract('TaureumExchange', (accounts) => {
   })
 
   it('should allow trivial array replacement 2', () => {
-    return TaureumExchange
+    return L7Exchange
       .deployed()
       .then(exchangeInstance => {
         return exchangeInstance.guardedArrayReplace.call('0xff', '0x00', '0xff').then(res => {
@@ -161,7 +161,7 @@ contract('TaureumExchange', (accounts) => {
   })
 
   it('should allow basic array replacement A', () => {
-    return TaureumExchange
+    return L7Exchange
       .deployed()
       .then(exchangeInstance => {
         return exchangeInstance.guardedArrayReplace.call(
@@ -174,7 +174,7 @@ contract('TaureumExchange', (accounts) => {
   })
 
   it('should allow basic array replacement B', () => {
-    return TaureumExchange
+    return L7Exchange
       .deployed()
       .then(exchangeInstance => {
         return exchangeInstance.guardedArrayReplace.call(
@@ -187,7 +187,7 @@ contract('TaureumExchange', (accounts) => {
   })
 
   it('should allow basic array replacement C', () => {
-    return TaureumExchange
+    return L7Exchange
       .deployed()
       .then(exchangeInstance => {
         return exchangeInstance.guardedArrayReplace.call(
@@ -200,7 +200,7 @@ contract('TaureumExchange', (accounts) => {
   })
 
   it('should allow large complex array replacment', () => {
-    return TaureumExchange
+    return L7Exchange
       .deployed()
       .then(exchangeInstance => {
         return exchangeInstance.guardedArrayReplace.call('0x0000000000000000000000000000000000000000000000000000000000000000', '0xffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff', '0x00ff00ff00ff00ff00ff00ff00ff00ff00ff00ff00ff00ff00ff00ff00ff00ff').then(res => {
@@ -215,7 +215,7 @@ contract('TaureumExchange', (accounts) => {
   return
 
   it('should allow simple calldata match', () => {
-    return TaureumExchange
+    return L7Exchange
       .deployed()
       .then(exchangeInstance => {
         return exchangeInstance.orderCalldataCanMatch.call('0x00', '0xff', '0xff', '0x00').then(res => {
@@ -228,7 +228,7 @@ contract('TaureumExchange', (accounts) => {
   })
 
   it('should allow flexible calldata match', () => {
-    return TaureumExchange
+    return L7Exchange
       .deployed()
       .then(exchangeInstance => {
         return exchangeInstance.orderCalldataCanMatch.call('0x00', '0xff', '0xff', '0xff').then(res => {
@@ -241,7 +241,7 @@ contract('TaureumExchange', (accounts) => {
   })
 
   it('should allow complex calldata match', () => {
-    return TaureumExchange
+    return L7Exchange
       .deployed()
       .then(exchangeInstance => {
         return exchangeInstance.orderCalldataCanMatch.call('0x0000000000000000', '0x00ff00ff00ff00ff', '0x00ff00ff00ff00ff', '0x0000000000000000').then(res => {
@@ -254,7 +254,7 @@ contract('TaureumExchange', (accounts) => {
   })
 
   it('should allow complex large calldata match', () => {
-    return TaureumExchange
+    return L7Exchange
       .deployed()
       .then(exchangeInstance => {
         return exchangeInstance.orderCalldataCanMatch.call('0x0000000000000000000000000000000000000000000000000000000000000000', '0x00ff00ff00ff00ff00ff00ff00ff00ff00ff00ff00ff00ff00ff00ff00ff00ff', '0x00ff00ff00ff00ff00ff00ff00ff00ff00ff00ff00ff00ff00ff00ff00ff00ff', '0x0000000000000000000000000000000000000000000000000000000000000000').then(res => {
@@ -267,7 +267,7 @@ contract('TaureumExchange', (accounts) => {
   })
 
   it('should disallow false complex calldata match', () => {
-    return TaureumExchange
+    return L7Exchange
       .deployed()
       .then(exchangeInstance => {
         return exchangeInstance.orderCalldataCanMatch.call('0x0000000000000000', '0x0000000000000000', '0x00ff00ff00ff00ff', '0x0000000000000000').then(res => {
@@ -277,7 +277,7 @@ contract('TaureumExchange', (accounts) => {
   })
 
   it('should revert on different bytecode size', () => {
-    return TaureumExchange
+    return L7Exchange
       .deployed()
       .then(exchangeInstance => {
         return exchangeInstance.orderCalldataCanMatch.call('0x0000000000000000', '0x0000000000000000', '0x00ff00ff00ff00', '0x0000000000000000').then(() => {
@@ -289,7 +289,7 @@ contract('TaureumExchange', (accounts) => {
   })
 
   it('should revert on insufficient replacementPattern size', () => {
-    return TaureumExchange
+    return L7Exchange
       .deployed()
       .then(exchangeInstance => {
         return exchangeInstance.orderCalldataCanMatch.call('0x00000000000000000000000000000000', '0x00', '0x00ff00ff00ff00ff0000000000000000', '0x00').then(() => {
@@ -301,7 +301,7 @@ contract('TaureumExchange', (accounts) => {
   })
 
   it('should allow changing minimum maker protocol fee', () => {
-    return TaureumExchange
+    return L7Exchange
       .deployed()
       .then(exchangeInstance => {
         return exchangeInstance.changeMinimumMakerProtocolFee(1).then(res => {
@@ -315,7 +315,7 @@ contract('TaureumExchange', (accounts) => {
   })
 
   it('should allow changing minimum taker protocol fee', () => {
-    return TaureumExchange
+    return L7Exchange
       .deployed()
       .then(exchangeInstance => {
         return exchangeInstance.changeMinimumTakerProtocolFee(1).then(res => {
@@ -329,7 +329,7 @@ contract('TaureumExchange', (accounts) => {
   })
 
   it('should allow changing protocol fee recipient', () => {
-    return TaureumExchange
+    return L7Exchange
       .deployed()
       .then(exchangeInstance => {
         return exchangeInstance.changeProtocolFeeRecipient(accounts[1]).then(res => {
@@ -345,7 +345,7 @@ contract('TaureumExchange', (accounts) => {
   var proxy
 
   it('should allow proxy creation', () => {
-    return TaureumProxyRegistry
+    return L7ProxyRegistry
       .deployed()
       .then(registryInstance => {
         return registryInstance.registerProxy()
@@ -387,7 +387,7 @@ contract('TaureumExchange', (accounts) => {
   })
 
   it('should match order hash', () => {
-    return TaureumExchange
+    return L7Exchange
       .deployed()
       .then(exchangeInstance => {
         const order = makeOrder(exchangeInstance.address)
@@ -408,7 +408,7 @@ contract('TaureumExchange', (accounts) => {
   })
 
   it('should match order hash to sign', () => {
-    return TaureumExchange
+    return L7Exchange
       .deployed()
       .then(exchangeInstance => {
         const order = makeOrder(exchangeInstance.address)
@@ -429,7 +429,7 @@ contract('TaureumExchange', (accounts) => {
   })
 
   it('should validate order', () => {
-    return TaureumExchange
+    return L7Exchange
       .deployed()
       .then(exchangeInstance => {
         const order = makeOrder(exchangeInstance.address, true)
@@ -468,7 +468,7 @@ contract('TaureumExchange', (accounts) => {
   })
 
   it('should not validate order with invalid saleKind / expiration', () => {
-    return TaureumExchange
+    return L7Exchange
       .deployed()
       .then(exchangeInstance => {
         const order = makeOrder(exchangeInstance.address)
@@ -498,7 +498,7 @@ contract('TaureumExchange', (accounts) => {
   })
 
   it('should not validate order with invalid exchange', () => {
-    return TaureumExchange
+    return L7Exchange
       .deployed()
       .then(exchangeInstance => {
         const order = makeOrder(exchangeInstance.address)
@@ -528,7 +528,7 @@ contract('TaureumExchange', (accounts) => {
   })
 
   it('should not validate order with invalid maker protocol fees', () => {
-    return TaureumExchange
+    return L7Exchange
       .deployed()
       .then(exchangeInstance => {
         return exchangeInstance.changeMinimumMakerProtocolFee(1).then(() => {
@@ -562,7 +562,7 @@ contract('TaureumExchange', (accounts) => {
   })
 
   it('should not validate order with invalid taker protocol fees', () => {
-    return TaureumExchange
+    return L7Exchange
       .deployed()
       .then(exchangeInstance => {
         return exchangeInstance.changeMinimumTakerProtocolFee(1).then(() => {
@@ -606,7 +606,7 @@ contract('TaureumExchange', (accounts) => {
   }
 
   it('should have correct prices for dutch auctions', () => {
-    return TaureumExchange
+    return L7Exchange
       .deployed()
       .then(async exchangeInstance => {
         const time = await promisify(getTime)
@@ -629,7 +629,7 @@ contract('TaureumExchange', (accounts) => {
   })
 
   it('should not validate order from different address', () => {
-    return TaureumExchange
+    return L7Exchange
       .deployed()
       .then(exchangeInstance => {
         const order = makeOrder(exchangeInstance.address)
@@ -652,7 +652,7 @@ contract('TaureumExchange', (accounts) => {
   })
 
   it('should not allow order approval from different address', () => {
-    return TaureumExchange
+    return L7Exchange
       .deployed()
       .then(exchangeInstance => {
         const order = makeOrder(exchangeInstance.address)
@@ -677,7 +677,7 @@ contract('TaureumExchange', (accounts) => {
   })
 
   it('should allow order approval, then cancellation', () => {
-    return TaureumExchange
+    return L7Exchange
       .deployed()
       .then(exchangeInstance => {
         const order = makeOrder(exchangeInstance.address)
@@ -754,10 +754,10 @@ contract('TaureumExchange', (accounts) => {
   })
 
   it('should have correct auth', () => {
-    return TaureumProxyRegistry
+    return L7ProxyRegistry
       .deployed()
       .then(registryInstance => {
-        return TaureumExchange
+        return L7Exchange
           .deployed().then(exchangeInstance => {
             return registryInstance.contracts.call(exchangeInstance.address).then(ret => {
               assert.equal(ret, true, 'Proxy registry did not have Exchange authenticated!')
@@ -767,7 +767,7 @@ contract('TaureumExchange', (accounts) => {
   })
 
   const matchOrder = (buy, sell, thenFunc, catchFunc, value) => {
-    return TaureumExchange
+    return L7Exchange
       .deployed()
       .then(exchangeInstance => {
         const buyHash = hashOrder(buy)
@@ -881,7 +881,7 @@ contract('TaureumExchange', (accounts) => {
   }
 
   it('should allow approval', () => {
-    return TaureumTokenTransferProxy
+    return L7TokenTransferProxy
       .deployed()
       .then(tokenTransferProxyInstance => {
         return TestToken
@@ -893,7 +893,7 @@ contract('TaureumExchange', (accounts) => {
   })
 
   it('should allow simple order matching', () => {
-    return TaureumExchange
+    return L7Exchange
       .deployed()
       .then(exchangeInstance => {
         var buy = makeOrder(exchangeInstance.address, true)
@@ -906,7 +906,7 @@ contract('TaureumExchange', (accounts) => {
   })
 
   it('should not allow match with mismatched calldata', () => {
-    return TaureumExchange
+    return L7Exchange
       .deployed()
       .then(exchangeInstance => {
         var buy = makeOrder(exchangeInstance.address, true)
@@ -925,7 +925,7 @@ contract('TaureumExchange', (accounts) => {
   })
 
   it('should not allow match with mismatched calldata, flipped sides', () => {
-    return TaureumExchange
+    return L7Exchange
       .deployed()
       .then(exchangeInstance => {
         var buy = makeOrder(exchangeInstance.address, true)
@@ -944,7 +944,7 @@ contract('TaureumExchange', (accounts) => {
   })
 
   it('should allow simple order matching with special-case Ether', () => {
-    return TaureumExchange
+    return L7Exchange
       .deployed()
       .then(exchangeInstance => {
         var buy = makeOrder(exchangeInstance.address, true)
@@ -959,7 +959,7 @@ contract('TaureumExchange', (accounts) => {
   })
 
   it('should allow simple order matching with special-case Ether, nonzero price', () => {
-    return TaureumExchange
+    return L7Exchange
       .deployed()
       .then(exchangeInstance => {
         var buy = makeOrder(exchangeInstance.address, true)
@@ -976,7 +976,7 @@ contract('TaureumExchange', (accounts) => {
   })
 
   it('should allow simple order matching with special-case Ether, nonzero fees, new fee method', () => {
-    return TaureumExchange
+    return L7Exchange
       .deployed()
       .then(exchangeInstance => {
         var buy = makeOrder(exchangeInstance.address, false)
@@ -997,7 +997,7 @@ contract('TaureumExchange', (accounts) => {
   })
 
   it('should allow simple order matching with special-case Ether, nonzero fees, new fee method, taker', () => {
-    return TaureumExchange
+    return L7Exchange
       .deployed()
       .then(exchangeInstance => {
         var buy = makeOrder(exchangeInstance.address, false)
@@ -1020,7 +1020,7 @@ contract('TaureumExchange', (accounts) => {
   })
 
   it('should allow simple order matching with special-case Ether, nonzero fees, new fee method, both maker / taker', () => {
-    return TaureumExchange
+    return L7Exchange
       .deployed()
       .then(exchangeInstance => {
         var buy = makeOrder(exchangeInstance.address, false)
@@ -1046,7 +1046,7 @@ contract('TaureumExchange', (accounts) => {
   })
 
   it('should allow simple order matching with special-case Ether, nonzero price, overpayment', () => {
-    return TaureumExchange
+    return L7Exchange
       .deployed()
       .then(exchangeInstance => {
         var buy = makeOrder(exchangeInstance.address, true)
@@ -1063,7 +1063,7 @@ contract('TaureumExchange', (accounts) => {
   })
 
   it('should not allow simple order matching with special-case Ether, nonzero price, wrong value', () => {
-    return TaureumExchange
+    return L7Exchange
       .deployed()
       .then(exchangeInstance => {
         var buy = makeOrder(exchangeInstance.address, true)
@@ -1082,7 +1082,7 @@ contract('TaureumExchange', (accounts) => {
   })
 
   it('should allow simple order matching, second fee method', () => {
-    return TaureumExchange
+    return L7Exchange
       .deployed()
       .then(exchangeInstance => {
         var buy = makeOrder(exchangeInstance.address, true)
@@ -1101,7 +1101,7 @@ contract('TaureumExchange', (accounts) => {
   })
 
   it('should allow simple order matching, second fee method, nonzero price', () => {
-    return TaureumExchange
+    return L7Exchange
       .deployed()
       .then(exchangeInstance => {
         var buy = makeOrder(exchangeInstance.address, true)
@@ -1124,7 +1124,7 @@ contract('TaureumExchange', (accounts) => {
   })
 
   it('should allow simple order matching, second fee method, real taker relayer fees', () => {
-    return TaureumExchange
+    return L7Exchange
       .deployed()
       .then(exchangeInstance => {
         var buy = makeOrder(exchangeInstance.address, true)
@@ -1147,7 +1147,7 @@ contract('TaureumExchange', (accounts) => {
   })
 
   it('should allow simple order matching, second fee method, real taker protocol fees', () => {
-    return TaureumExchange
+    return L7Exchange
       .deployed()
       .then(exchangeInstance => {
         var buy = makeOrder(exchangeInstance.address, true)
@@ -1170,7 +1170,7 @@ contract('TaureumExchange', (accounts) => {
   })
 
   it('should allow simple order matching, second fee method, real maker protocol fees', () => {
-    return TaureumExchange
+    return L7Exchange
       .deployed()
       .then(exchangeInstance => {
         var buy = makeOrder(exchangeInstance.address, true)
@@ -1193,7 +1193,7 @@ contract('TaureumExchange', (accounts) => {
   })
 
   it('should allow simple order matching, second fee method, all fees', () => {
-    return TaureumExchange
+    return L7Exchange
       .deployed()
       .then(exchangeInstance => {
         var buy = makeOrder(exchangeInstance.address, true)
@@ -1222,7 +1222,7 @@ contract('TaureumExchange', (accounts) => {
   })
 
   it('should allow simple order matching, second fee method, all fees, swapped maker/taker', () => {
-    return TaureumExchange
+    return L7Exchange
       .deployed()
       .then(exchangeInstance => {
         var buy = makeOrder(exchangeInstance.address, false)
@@ -1251,7 +1251,7 @@ contract('TaureumExchange', (accounts) => {
   })
 
   it('should not allow order matching twice', () => {
-    return TaureumExchange
+    return L7Exchange
       .deployed()
       .then(exchangeInstance => {
         var buy = makeOrder(exchangeInstance.address, true)
@@ -1266,7 +1266,7 @@ contract('TaureumExchange', (accounts) => {
   })
 
   it('should not allow order match if proxy changes', () => {
-    return TaureumExchange
+    return L7Exchange
       .deployed()
       .then(exchangeInstance => {
         var buy = makeOrder(exchangeInstance.address, true)
@@ -1274,7 +1274,7 @@ contract('TaureumExchange', (accounts) => {
         sell.side = 1
         buy.salt = 123981
         sell.salt = 12381980
-        return TaureumProxyRegistry
+        return L7ProxyRegistry
           .deployed()
           .then(registryInstance => {
             return registryInstance.proxies(accounts[0])
@@ -1297,7 +1297,7 @@ contract('TaureumExchange', (accounts) => {
   })
 
   it('should not allow proxy reentrancy', () => {
-    return TaureumExchange
+    return L7Exchange
       .deployed()
       .then(exchangeInstance => {
         var buy = makeOrder(exchangeInstance.address, true)
@@ -1305,7 +1305,7 @@ contract('TaureumExchange', (accounts) => {
         sell.side = 1
         sell.target = exchangeInstance.address
         buy.target = exchangeInstance.address
-        const contract = new web3.eth.Contract(TaureumExchange.abi, exchangeInstance.address)
+        const contract = new web3.eth.Contract(L7Exchange.abi, exchangeInstance.address)
         const calldata = contract.methods.atomicMatch_(
           [buy.exchange, buy.maker, buy.taker, buy.feeRecipient, buy.target, buy.staticTarget, buy.paymentToken, sell.exchange, sell.maker, sell.taker, sell.feeRecipient, sell.target, sell.staticTarget, sell.paymentToken],
           [buy.makerRelayerFee, buy.takerRelayerFee, buy.makerProtocolFee, buy.takerProtocolFee, buy.basePrice, buy.extra, buy.listingTime, buy.expirationTime, buy.salt, sell.makerRelayerFee, sell.takerRelayerFee, sell.makerProtocolFee, sell.takerProtocolFee, sell.basePrice, sell.extra, sell.listingTime, sell.expirationTime, sell.salt],
@@ -1330,7 +1330,7 @@ contract('TaureumExchange', (accounts) => {
   })
 
   it('should fail with same side', () => {
-    return TaureumExchange
+    return L7Exchange
       .deployed()
       .then(exchangeInstance => {
         var buy = makeOrder(exchangeInstance.address, true)
@@ -1344,7 +1344,7 @@ contract('TaureumExchange', (accounts) => {
   })
 
   it('should fail with different payment token', () => {
-    return TaureumExchange
+    return L7Exchange
       .deployed()
       .then(exchangeInstance => {
         var buy = makeOrder(exchangeInstance.address, true)
@@ -1360,7 +1360,7 @@ contract('TaureumExchange', (accounts) => {
   })
 
   it('should fail with wrong maker/taker', () => {
-    return TaureumExchange
+    return L7Exchange
       .deployed()
       .then(exchangeInstance => {
         var buy = makeOrder(exchangeInstance.address, true)
@@ -1376,7 +1376,7 @@ contract('TaureumExchange', (accounts) => {
   })
 
   it('should succeed with zero-address taker', () => {
-    return TaureumExchange
+    return L7Exchange
       .deployed()
       .then(exchangeInstance => {
         var buy = makeOrder(exchangeInstance.address, true)
@@ -1392,7 +1392,7 @@ contract('TaureumExchange', (accounts) => {
   })
 
   it('should fail with different target', () => {
-    return TaureumExchange
+    return L7Exchange
       .deployed()
       .then(exchangeInstance => {
         var buy = makeOrder(exchangeInstance.address, true)
@@ -1408,7 +1408,7 @@ contract('TaureumExchange', (accounts) => {
   })
 
   it('should fail with different howToCall', () => {
-    return TaureumExchange
+    return L7Exchange
       .deployed()
       .then(exchangeInstance => {
         var buy = makeOrder(exchangeInstance.address, true)
@@ -1424,7 +1424,7 @@ contract('TaureumExchange', (accounts) => {
   })
 
   it('should fail with listing time past now', () => {
-    return TaureumExchange
+    return L7Exchange
       .deployed()
       .then(exchangeInstance => {
         var buy = makeOrder(exchangeInstance.address, true)
@@ -1440,7 +1440,7 @@ contract('TaureumExchange', (accounts) => {
   })
 
   it('should fail with expiration time prior to now', () => {
-    return TaureumExchange
+    return L7Exchange
       .deployed()
       .then(exchangeInstance => {
         var buy = makeOrder(exchangeInstance.address, true)
@@ -1456,7 +1456,7 @@ contract('TaureumExchange', (accounts) => {
   })
 
   it('should succeed with real token transfer', () => {
-    return TaureumExchange
+    return L7Exchange
       .deployed()
       .then(exchangeInstance => {
         return TestToken.deployed().then(tokenInstance => {
@@ -1477,7 +1477,7 @@ contract('TaureumExchange', (accounts) => {
   })
 
   it('should succeed with real fee', () => {
-    return TaureumExchange
+    return L7Exchange
       .deployed()
       .then(exchangeInstance => {
         return TestToken.deployed().then(tokenInstance => {
@@ -1498,7 +1498,7 @@ contract('TaureumExchange', (accounts) => {
   })
 
   it('should succeed with real fee, opposite maker-taker', () => {
-    return TaureumExchange
+    return L7Exchange
       .deployed()
       .then(exchangeInstance => {
         return TestToken.deployed().then(tokenInstance => {
@@ -1519,7 +1519,7 @@ contract('TaureumExchange', (accounts) => {
   })
 
   it('should fail with real fee but insufficient amount', () => {
-    return TaureumExchange
+    return L7Exchange
       .deployed()
       .then(exchangeInstance => {
         return TestToken.deployed().then(tokenInstance => {
@@ -1542,7 +1542,7 @@ contract('TaureumExchange', (accounts) => {
   })
 
   it('should fail with real fee but unmatching fees', () => {
-    return TaureumExchange
+    return L7Exchange
       .deployed()
       .then(exchangeInstance => {
         return TestToken.deployed().then(tokenInstance => {
@@ -1565,7 +1565,7 @@ contract('TaureumExchange', (accounts) => {
   })
 
   it('should fail with real fee but unmatching fees, opposite maker/taker', () => {
-    return TaureumExchange
+    return L7Exchange
       .deployed()
       .then(exchangeInstance => {
         return TestToken.deployed().then(tokenInstance => {
@@ -1588,7 +1588,7 @@ contract('TaureumExchange', (accounts) => {
   })
 
   it('should succeed with successful static call', () => {
-    return TaureumExchange
+    return L7Exchange
       .deployed()
       .then(exchangeInstance => {
         return TestToken.deployed().then(tokenInstance => {
@@ -1610,7 +1610,7 @@ contract('TaureumExchange', (accounts) => {
   })
 
   it('should succeed with successful static call sell-side', () => {
-    return TaureumExchange
+    return L7Exchange
       .deployed()
       .then(exchangeInstance => {
         return TestToken.deployed().then(tokenInstance => {
@@ -1632,7 +1632,7 @@ contract('TaureumExchange', (accounts) => {
   })
 
   it('should succeed with successful static call both-side', () => {
-    return TaureumExchange
+    return L7Exchange
       .deployed()
       .then(exchangeInstance => {
         return TestToken.deployed().then(tokenInstance => {
@@ -1656,7 +1656,7 @@ contract('TaureumExchange', (accounts) => {
   })
 
   it('should fail with unsuccessful static call', () => {
-    return TaureumExchange
+    return L7Exchange
       .deployed()
       .then(exchangeInstance => {
         return TestToken.deployed().then(tokenInstance => {
@@ -1680,7 +1680,7 @@ contract('TaureumExchange', (accounts) => {
   })
 
   it('should fail with unsuccessful static call sell-side', () => {
-    return TaureumExchange
+    return L7Exchange
       .deployed()
       .then(exchangeInstance => {
         return TestToken.deployed().then(tokenInstance => {
@@ -1704,14 +1704,14 @@ contract('TaureumExchange', (accounts) => {
   })
 
   it('should fail after proxy revocation', () => {
-    return TaureumProxyRegistry
+    return L7ProxyRegistry
       .deployed()
       .then(registryInstance => {
         return registryInstance.proxies(accounts[0])
           .then(proxy => {
             const proxyInst = new web3.eth.Contract(AuthenticatedProxy.abi, proxy)
             return proxyInst.methods.setRevoke(true).send({from: accounts[0]}).then(() => {
-              return TaureumExchange
+              return L7Exchange
                 .deployed()
                 .then(exchangeInstance => {
                   var buy = makeOrder(exchangeInstance.address, true)

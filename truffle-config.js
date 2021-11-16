@@ -7,6 +7,7 @@ try {
   const privateKey = fs.readFileSync(".secret").toString().trim();
   testnetBSCProvider = new HDWalletProvider(privateKey, `https://data-seed-prebsc-1-s2.binance.org:8545/`, 0, 1)
   mainnetBSCProvider = new HDWalletProvider(privateKey, `https://bsc-dataseed.binance.org/`, 0, 1)
+  kovanProvider = new HDWalletProvider(privateKey, 'https://kovan.poa.network/')
 } catch (e) {
   console.log(e)
 }
@@ -15,29 +16,38 @@ try {
 module.exports = {
   plugins: ["truffle-contract-size"],
   networks: {
-    development: {
-      host: "127.0.0.1",
-      port: 7545,
-      network_id: "*",
-      gasPrice: 0x01,
-      allowUnlimitedContractSize: true
-    },
-    testnet: {
-      networkCheckTimeout: 100000,
-      provider: testnetBSCProvider,
-      network_id: 97,
-      confirmations: 1,
-      timeoutBlocks: 1000000000,
+  //   development: {
+  //     host: "127.0.0.1",
+  //     port: 7545,
+  //     network_id: "*",
+  //     gasPrice: 0x01,
+  //     allowUnlimitedContractSize: true
+  //   },
+  //   testnet: {
+  //     networkCheckTimeout: 100000,
+  //     provider: testnetBSCProvider,
+  //     network_id: 97,
+  //     confirmations: 1,
+  //     timeoutBlocks: 1000000000,
+  //     gasLimit: 100000000,
+  //   },
+    kovan: {
+      provider: kovanProvider,
+      gas: 5000000,
+      gasPrice: 25000000000,
+      network_id: 42,
+      confirmations: 2,
+      // skipDryRun: true,
       gasLimit: 100000000,
     },
-    mainnet: {
-      networkCheckTimeout: 100000,
-      provider: mainnetBSCProvider,
-      network_id: 56,
-      confirmations: 5,
-      timeoutBlocks: 200,
-      skipDryRun: true
-    },
+  //   mainnet: {
+  //     networkCheckTimeout: 100000,
+  //     provider: mainnetBSCProvider,
+  //     network_id: 56,
+  //     confirmations: 5,
+  //     timeoutBlocks: 200,
+  //     skipDryRun: true
+  //   },
   },
   contracts_directory: "./contracts/",
   contracts_build_directory: "./abi/",

@@ -2,13 +2,13 @@
 ```json
 "testnet": {
     "Migrations": "0xeC825FF6EA348a1CE58CC02Da29C196584A39258",
-    "TaureumProxyRegistry": "0xAaF7595B77c0de6511fd3EAD537E9034830ea4Cf",
-    "TaureumTokenTransferProxy": "0xaa5C6B9ddF867f4e5e4bf4402a4369f94f071805",
-    "TaureumExchange": "0xF4Cad33054f83D6f05FF1aDbA789864dF8b3FEc2"
+    "L7ProxyRegistry": "0xAaF7595B77c0de6511fd3EAD537E9034830ea4Cf",
+    "L7TokenTransferProxy": "0xaa5C6B9ddF867f4e5e4bf4402a4369f94f071805",
+    "L7Exchange": "0xF4Cad33054f83D6f05FF1aDbA789864dF8b3FEc2"
 }
 ```
 
-## TaureumRegistry
+## L7Registry
 This contract keeps a mapping of `AuthenticatedProxy` contracts and mapping of contracts authorized to access them. This contract is abstracted away from the `Exchange` (a) to reduce `Exchange` attack surface and (b) so that the `Exchange` contract can be upgraded without users needing to transfer assets to new proxies. Also, a `Proxy` is used to make trades on behalf of the order's maker so that trades can happen when the maker isn't online.
 
 On the first time interacting with the `Exchange` contract (explained below), a user must register an `AuthenticatedProxy` contract. This contract will act on-behalf of the user to transfer assets in a trade. To do this, the user only needs to call the `registerProxy` function to the `ProxyRegister` contract. Here is the flow of this operation.
@@ -19,7 +19,7 @@ On the first time interacting with the `Exchange` contract (explained below), a 
 [1-proxy-register.js](examples/1-proxy-register.js)
 
 ## Orders
-An `Order` on the `TaureumExchange` consists of the following fields.
+An `Order` on the `L7Exchange` consists of the following fields.
 ```solidity
 /* An order on the exchange. */
 struct Order {
@@ -104,7 +104,7 @@ salt | uint256 | Order salt for hash deduplication.
 
 ### Example
 
-## TaureumExchange
+## L7Exchange
 This is the main contract consisting of the whole logic of a decentralized exchange. The main flow of trading assets is depicted in the following figure. Here, we assume the existence of an `OrderBookKeeper`.
 
 Next, we explain some methods provided by the `Exchange` contract.

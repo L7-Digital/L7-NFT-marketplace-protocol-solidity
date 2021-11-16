@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: MIT
 /*
 
-  << Taureum Static >>
+  << L7 Static >>
 
 */
 
@@ -13,11 +13,11 @@ import "./static/StaticERC1155.sol";
 import "./static/StaticUtil.sol";
 
 /**
- * @title TaureumStatic
+ * @title L7Static
  */
-contract TaureumStatic is StaticERC20, StaticERC721, StaticERC1155, StaticUtil {
+contract L7Static is StaticERC20, StaticERC721, StaticERC1155, StaticUtil {
 
-    string public constant name = "Taureum Static";
+    string public constant name = "L7 Static";
 
     constructor (address atomicizerAddress) {
         atomicizer = atomicizerAddress;

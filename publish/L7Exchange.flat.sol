@@ -2639,12 +2639,12 @@ contract Exchange is ExchangeCore {
 
 }
 
-// File: contracts/TaureumExchange.sol
+// File: contracts/L7Exchange.sol
 
 
 /*
 
-  << Taureum Exchange >>
+  << L7 Exchange >>
 
 */
 
@@ -2652,16 +2652,16 @@ pragma solidity 0.8.4;
 
 
 /**
- * @title TaureumExchange
- * @author Taureum Protocol Developers
+ * @title L7Exchange
+ * @author L7 Protocol Developers
  */
-contract TaureumExchange is Exchange {
+contract L7Exchange is Exchange {
 
-    string public constant name = "Taureum Exchange";
+    string public constant name = "L7 Exchange";
   
     string public constant version = "0.1";
 
-    string public constant codename = "TaureumBeta";
+    string public constant codename = "L7Beta";
 
     /**
      * @dev Initialize a WyvernExchange instance

@@ -10,9 +10,9 @@
 pragma solidity 0.8.4;
 
 /**
- * @title TaureumAtomicizer
+ * @title L7Atomicizer
  */
-library TaureumAtomicizer {
+library L7Atomicizer {
 
     function atomicize (address[] calldata addrs, uint[] calldata values, uint[] calldata calldataLengths, bytes calldata calldatas)
         external

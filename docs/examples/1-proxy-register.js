@@ -6,17 +6,17 @@ const {sellerWalletAddress} = require("./utils/keys")
 
 const {getProxies} = require("./utils/proxy")
 
-const TaureumProxyRegistryABI = require('../../abi/TaureumProxyRegistry.json').abi
-const TaureumProxyRegistryAddress = require('../../config.json').deployed.testnet.TaureumProxyRegistry
+const L7ProxyRegistryABI = require('../../abi/L7ProxyRegistry.json').abi
+const L7ProxyRegistryAddress = require('../../config.json').deployed.testnet.L7ProxyRegistry
 
-var TaureumProxyRegistry = new web3.eth.Contract(TaureumProxyRegistryABI, TaureumProxyRegistryAddress);
+var L7ProxyRegistry = new web3.eth.Contract(L7ProxyRegistryABI, L7ProxyRegistryAddress);
 
 
 /**
  * This function will register account `walletAddress` into exchange's proxy. We can only register account from `msg.sender`,
  * and CANNOT register for other accounts from which we have not permission to send transaction.
  *
- * The following example actually invoke method `registerProxy()` in the `TaureumProxyRegistry` contract.
+ * The following example actually invoke method `registerProxy()` in the `L7ProxyRegistry` contract.
  */
 (async () => {
     try {
@@ -26,10 +26,10 @@ var TaureumProxyRegistry = new web3.eth.Contract(TaureumProxyRegistryABI, Taureu
             return
         }
 
-        const gasEstimate = await TaureumProxyRegistry.methods.registerProxy().estimateGas({ from: sellerWalletAddress });
+        const gasEstimate = await L7ProxyRegistry.methods.registerProxy().estimateGas({ from: sellerWalletAddress });
         console.log(`estimatedGas for registerProxy: ${gasEstimate}`)
 
-        TaureumProxyRegistry.methods.registerProxy()
+        L7ProxyRegistry.methods.registerProxy()
             .send({
                 from: sellerWalletAddress,
                 gas: gasEstimate

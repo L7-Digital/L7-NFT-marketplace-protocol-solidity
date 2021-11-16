@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: MIT
 /*
 
-  << Taureum Proxy Registry >>
+  << L7 Proxy Registry >>
 
 */
 
@@ -11,12 +11,12 @@ import "./registry/ProxyRegistry.sol";
 import "./registry/AuthenticatedProxy.sol";
 
 /**
- * @title TaureumRegistry
- * @author Taureum Protocol Developers
+ * @title L7Registry
+ * @author L7 Protocol Developers
  */
-contract TaureumRegistry is ProxyRegistry {
+contract L7Registry is ProxyRegistry {
 
-    string public constant name = "Taureum Protocol Proxy Registry";
+    string public constant name = "L7 Protocol Proxy Registry";
 
     /* Whether the initial auth address has been set. */
     bool public initialAddressSet = false;
@@ -38,7 +38,7 @@ contract TaureumRegistry is ProxyRegistry {
         onlyOwner
         public
     {   
-        require(!initialAddressSet, "Taureum Protocol Proxy Registry initial address already set");
+        require(!initialAddressSet, "L7 Protocol Proxy Registry initial address already set");
         initialAddressSet = true;
         contracts[authAddress] = true;
     }   

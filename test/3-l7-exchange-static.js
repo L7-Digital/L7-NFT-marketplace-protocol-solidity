@@ -1,15 +1,15 @@
 /* global artifacts:false, it:false, contract:false, assert:false */
 
-const TaureumExchange = artifacts.require('TaureumExchange')
+const L7Exchange = artifacts.require('L7Exchange')
 const TestStatic = artifacts.require('TestStatic')
 
 const Web3 = require('web3')
 const provider = new Web3.providers.HttpProvider('http://localhost:7545')
 const web3 = new Web3(provider)
 
-contract('TaureumExchange', (accounts) => {
+contract('L7Exchange', (accounts) => {
   it('should succeed with successful static call', () => {
-    return TaureumExchange
+    return L7Exchange
       .deployed()
       .then(exchangeInstance => {
         return TestStatic.deployed().then(staticInstance => {
@@ -24,7 +24,7 @@ contract('TaureumExchange', (accounts) => {
   })
 
   it('should fail with failing static call', () => {
-    return TaureumExchange
+    return L7Exchange
       .deployed()
       .then(exchangeInstance => {
         return TestStatic.deployed().then(staticInstance => {
@@ -39,7 +39,7 @@ contract('TaureumExchange', (accounts) => {
   })
 
   it('should succeed with successful minimum length static call', () => {
-    return TaureumExchange
+    return L7Exchange
       .deployed()
       .then(exchangeInstance => {
         return TestStatic.deployed().then(staticInstance => {
@@ -55,7 +55,7 @@ contract('TaureumExchange', (accounts) => {
   })
 
   it('should fail with failing minimum length static call', () => {
-    return TaureumExchange
+    return L7Exchange
       .deployed()
       .then(exchangeInstance => {
         return TestStatic.deployed().then(staticInstance => {

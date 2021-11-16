@@ -1,11 +1,11 @@
-const {TaureumProxyRegistry, keys} = require("./config");
+const {L7ProxyRegistry, keys} = require("./config");
 
 const getProxies = async(address) => {
-    let gasEstimate = await TaureumProxyRegistry.methods.proxies(
+    let gasEstimate = await L7ProxyRegistry.methods.proxies(
         address
     ).estimateGas({ from: keys.walletAddress });
 
-    let res = await TaureumProxyRegistry.methods.proxies(
+    let res = await L7ProxyRegistry.methods.proxies(
         address
     ).call({
         from: keys.walletAddress,
@@ -16,10 +16,10 @@ const getProxies = async(address) => {
 }
 
 const registerProxy = async(address) => {
-    let gasEstimate = await TaureumProxyRegistry.methods.registerProxy().estimateGas({ from: address });
+    let gasEstimate = await L7ProxyRegistry.methods.registerProxy().estimateGas({ from: address });
     console.log(`estimatedGas for registerProxy: ${gasEstimate}`)
 
-    await TaureumProxyRegistry.methods.registerProxy()
+    await L7ProxyRegistry.methods.registerProxy()
         .send({
             from: address,
             gas: gasEstimate

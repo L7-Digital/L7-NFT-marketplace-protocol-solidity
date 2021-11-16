@@ -1,12 +1,12 @@
 /* global artifacts: false */
 
-const TaureumProxyRegistry = artifacts.require('TaureumProxyRegistry')
+const L7ProxyRegistry = artifacts.require('L7ProxyRegistry')
 
 const {setConfig} = require('./config.js')
 
 module.exports = (deployer, network) => {
-    return deployer.deploy(TaureumProxyRegistry)
+    return deployer.deploy(L7ProxyRegistry)
         .then(() => {
-            setConfig('deployed.' + network + '.TaureumProxyRegistry', TaureumProxyRegistry.address)
+            setConfig('deployed.' + network + '.L7ProxyRegistry', L7ProxyRegistry.address)
         })
 }
