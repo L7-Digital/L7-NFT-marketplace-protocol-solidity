@@ -1,4 +1,4 @@
-# Taudreum-NFT-Exchange
+# L7-NFT-Exchange
 
 ## Dependencies
 * `node`: 14.17
@@ -19,8 +19,8 @@ $ truffle compile
 ```
 3. Deploy the project
 ```shell
-$ truffle migrate --network NET_WORK_NAME --compile-none
+$ truffle migrate --network NETWORK_NAME --compile-none
 ```
-In this case, `NET_WORK_NAME` could be one of the following: *mainnet*, *testnet*, *development*.
+In this case, `NETWORK_NAME` could be one of the following: *mainnet*, *testnet*, *development*.
 
 Modify the scripts in the folder [migrations](./migrations) to favoured contracts.
